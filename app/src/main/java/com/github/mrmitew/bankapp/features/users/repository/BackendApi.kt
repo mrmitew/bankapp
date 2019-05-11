@@ -1,5 +1,6 @@
 package com.github.mrmitew.bankapp.features.users.repository
 
+import com.github.mrmitew.bankapp.features.transactions.dto.TransactionDTO
 import com.github.mrmitew.bankapp.features.users.dto.UserDTO
 
 /**
@@ -10,4 +11,6 @@ import com.github.mrmitew.bankapp.features.users.dto.UserDTO
 interface BackendApi {
     fun getUserToken(username: String): String
     fun getPerson(token: String): UserDTO
+    fun getTransactions(userAccessToken: String, accountId: Int): List<TransactionDTO>
+    suspend fun addTransaction(userAccessToken: String, transaction: TransactionDTO)
 }

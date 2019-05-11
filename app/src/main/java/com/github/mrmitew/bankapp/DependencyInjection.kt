@@ -6,8 +6,16 @@ import com.github.mrmitew.bankapp.features.accounts.repository.internal.FakeRemo
 import com.github.mrmitew.bankapp.features.accounts.repository.internal.LocalAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.ui.AccountListViewModel
 import com.github.mrmitew.bankapp.features.accounts.usecase.RefreshUserAccountsUseCase
+import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.common.database.AppDatabase
 import com.github.mrmitew.bankapp.features.login.ui.LoginViewModel
+import com.github.mrmitew.bankapp.features.transactions.repository.LocalTransactionsRepository
+import com.github.mrmitew.bankapp.features.transactions.repository.RemoteTransactionsRepository
+import com.github.mrmitew.bankapp.features.transactions.repository.internal.FakeRemoteTransactionsRepository
+import com.github.mrmitew.bankapp.features.transactions.repository.internal.RoomTransactionsRepository
+import com.github.mrmitew.bankapp.features.transactions.ui.GetAccountBalanceUseCase
+import com.github.mrmitew.bankapp.features.transactions.ui.RefreshAccountTransactionsUseCase
+import com.github.mrmitew.bankapp.features.transactions.ui.TransactionsViewModel
 import com.github.mrmitew.bankapp.features.users.repository.AuthService
 import com.github.mrmitew.bankapp.features.users.repository.BackendApi
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
@@ -23,6 +31,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import java.util.*
 
 // FIXME: User input should either be propagated to the open helper factory, or we should
 // try opening the database with the user pin before we construct the factory.
@@ -33,6 +42,8 @@ import org.koin.dsl.module
 // dynamic analysis.
 // Don't judge for the hardcoded pin, please! :)
 val USER_PIN = charArrayOf('0', '0', '0', '0')
+// Some app secret that we shouldn't normally keep in the app and definitely not hard coded in the code :)
+val APP_TOKEN = UUID.randomUUID().toString()
 
 // TODO: Split into multiple modules for each feature
 private val appModule = module {
@@ -49,6 +60,13 @@ private val appModule = module {
     single { LocalAccountsRepository(get()) }
     single { get<AppDatabase>().accountDao() }
 
+    // Transactions
+    viewModel { (account: Account) -> TransactionsViewModel(get(), get(), account) } // Assisted injection
+    single { RoomTransactionsRepository(get()) as LocalTransactionsRepository }
+    single { FakeRemoteTransactionsRepository(get(), get()) as RemoteTransactionsRepository }
+    single { get<AppDatabase>().transactionDao() }
+    single { RefreshAccountTransactionsUseCase(get(), get()) }
+
     // Users
     viewModel { LoginViewModel(get()) }
     single { LogInUserUseCase(get(), get(), get()) }
@@ -59,6 +77,7 @@ private val appModule = module {
     single { FakeBackendImpl() as BackendApi }
 
     // Common
+    single { GetAccountBalanceUseCase(get()) }
 
     // Storage
     single { AppDatabase.getInstance(androidContext(), get()) }

@@ -10,6 +10,8 @@ import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.github.mrmitew.bankapp.features.accounts.entity.AccountEntity
 import com.github.mrmitew.bankapp.features.accounts.repository.AccountDao
 import com.github.mrmitew.bankapp.features.common.database.AppDatabase.Companion.DATABASE_VERSION
+import com.github.mrmitew.bankapp.features.transactions.entity.TransactionEntity
+import com.github.mrmitew.bankapp.features.transactions.repository.internal.TransactionDao
 import com.github.mrmitew.bankapp.features.users.entity.UserEntity
 import com.github.mrmitew.bankapp.features.users.repository.UserDao
 
@@ -18,13 +20,18 @@ import com.github.mrmitew.bankapp.features.users.repository.UserDao
  */
 
 @Database(
-    entities = [UserEntity::class, AccountEntity::class],
+    entities = [
+        UserEntity::class,
+        AccountEntity::class,
+        TransactionEntity::class
+    ],
     version = DATABASE_VERSION,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun accountDao(): AccountDao
+    abstract fun transactionDao(): TransactionDao
 
     companion object {
         internal const val DATABASE_VERSION = 2

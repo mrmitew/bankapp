@@ -8,6 +8,7 @@ import com.github.mrmitew.bankapp.features.accounts.repository.AccountsRepositor
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.common.util.distinctUntilChanged
 import com.github.mrmitew.bankapp.features.users.vo.User
+import java.math.BigDecimal
 
 class LocalAccountsRepository(private val accountDao: AccountDao) :
     AccountsRepository {
@@ -40,5 +41,9 @@ class LocalAccountsRepository(private val accountDao: AccountDao) :
 
     override suspend fun deleteAccounts(user: User) {
         accountDao.deleteAccounts(user.id)
+    }
+
+    override suspend fun getAccountBalance(accountId: Int): LiveData<BigDecimal> {
+        throw UnsupportedOperationException()
     }
 }

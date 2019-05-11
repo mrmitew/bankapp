@@ -22,17 +22,17 @@ class AccountListFragment : Fragment(),
         val view = inflater.inflate(R.layout.fragment_accounts, container, false)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rv_accounts)
-        val projectsAdapter = AccountsAdapter()
+        val accountsAdapter = AccountsAdapter()
 
-        projectsAdapter.listener = this
-        recyclerView.adapter = projectsAdapter
+        accountsAdapter.listener = this
+        recyclerView.adapter = accountsAdapter
         recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
         // FYI, Database will emit using [distinctUntilChanged], so after refresh if accounts have not
         // been modified since last emission, the observer wouldn't be called
         viewModel.getAccountItemList().observe(viewLifecycleOwner, Observer {
             println("Received: $it")
-            projectsAdapter.submitList(it)
+            accountsAdapter.submitList(it)
         })
 
         setHasOptionsMenu(true)
@@ -42,11 +42,7 @@ class AccountListFragment : Fragment(),
 
     override fun onAccountClick(account: Account) {
         // Request navigation
-        findNavController().navigate(
-            AccountListFragmentDirections.actionTransactionDetails(
-                account
-            )
-        )
+        findNavController().navigate(AccountListFragmentDirections.actionTransactionsOverview(account))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
