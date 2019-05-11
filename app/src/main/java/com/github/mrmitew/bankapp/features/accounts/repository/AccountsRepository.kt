@@ -11,4 +11,5 @@ import com.github.mrmitew.bankapp.features.users.vo.User
 interface AccountsRepository {
     suspend fun getAccounts(user: User): LiveData<List<Account>>
     suspend fun storeAccounts(user: User, accounts: List<Account>)
+    suspend fun deleteAccounts(user: User)
 }

@@ -18,4 +18,7 @@ interface AccountDao {
 
     @Query("SELECT * FROM ${AccountEntity.TABLE_NAME} WHERE userId=:userId")
     fun getAccounts(userId: Int): LiveData<List<AccountEntity>>
+
+    @Query("DELETE FROM ${AccountEntity.TABLE_NAME} WHERE userId=:userId")
+    suspend fun deleteAccounts(userId: Int)
 }

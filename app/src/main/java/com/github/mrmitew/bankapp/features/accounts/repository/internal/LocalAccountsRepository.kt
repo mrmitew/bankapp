@@ -37,4 +37,8 @@ class LocalAccountsRepository(private val accountDao: AccountDao) :
             )
         })
     }
+
+    override suspend fun deleteAccounts(user: User) {
+        accountDao.deleteAccounts(user.id)
+    }
 }

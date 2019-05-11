@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.mrmitew.bankapp.features.accounts.repository.AccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.repository.internal.FakeRemoteAccountsRepository
-import com.github.mrmitew.bankapp.features.accounts.usecase.GetUserAccountsUseCase
+import com.github.mrmitew.bankapp.features.accounts.usecase.RefreshUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.users.entity.UserEntity
 import com.github.mrmitew.bankapp.features.users.repository.UserDao
@@ -26,7 +26,7 @@ import org.junit.Test
  */
 
 @ExperimentalCoroutinesApi
-class GetUserAccountsUseCaseTest {
+class RefreshUserAccountsUseCaseTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
@@ -46,7 +46,7 @@ class GetUserAccountsUseCaseTest {
 
     @Test
     fun `get from local repo and refresh it with a fetch from a remote repo`() = testScope.runBlockingTest {
-        val getUserProjectsUseCase = GetUserAccountsUseCase(
+        val getUserProjectsUseCase = RefreshUserAccountsUseCase(
             LocalUsersRepositoryImpl(object : UserDao {
                 override suspend fun createUser(user: UserEntity) {
                 }
