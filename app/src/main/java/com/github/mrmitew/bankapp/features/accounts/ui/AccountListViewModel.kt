@@ -16,9 +16,7 @@ class AccountListViewModel(private val refreshUserAccountUseCase: RefreshUserAcc
         // Query the business logic to get user bank accounts
         // And then map them to something that the UI can render
         accountItemListStream = liveData {
-            refreshUserAccountUseCase()!!.getOrNull()?.let { liveDataSource ->
-                emitSource(liveDataSource.map { it.toUiModel() })
-            }
+            emitSource(refreshUserAccountUseCase()!!.map { it.toUiModel() })
         }
     }
 

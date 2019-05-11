@@ -20,6 +20,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.math.BigDecimal
 
 /**
  * Created by Stefan Mitev on 4-5-19.
@@ -59,7 +60,7 @@ class RefreshUserAccountsUseCaseTest {
             TestLocalAccountsRepository(),
             FakeRemoteAccountsRepository()
         )
-        val livedata = getUserProjectsUseCase(Unit).getOrThrow()
+        val livedata = getUserProjectsUseCase(Unit)
         assertEquals(null, livedata.value)
         advanceTimeBy(5000)
         assertTrue(livedata.value?.isNotEmpty() == true)
@@ -73,5 +74,13 @@ private class TestLocalAccountsRepository : AccountsRepository {
 
     override suspend fun storeAccounts(user: User, accounts: List<Account>) {
         accountsStream.value = accounts
+    }
+
+    override suspend fun deleteAccounts(user: User) {
+        throw UnsupportedOperationException()
+    }
+
+    override suspend fun getAccountBalance(accountId: Int): LiveData<BigDecimal> {
+        throw UnsupportedOperationException()
     }
 }

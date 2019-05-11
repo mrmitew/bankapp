@@ -26,5 +26,10 @@ class TransactionsViewModel(
     val accountBalanceStream = liveData<String> {
         emitSource(getAccountBalanceUseCase(account.id).map { it.toPlainString() })
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        refreshAccountTransactionsUseCase.cancel()
+    }
 }
 

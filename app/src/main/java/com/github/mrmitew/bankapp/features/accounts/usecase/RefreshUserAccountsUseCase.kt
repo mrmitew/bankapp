@@ -3,14 +3,15 @@ package com.github.mrmitew.bankapp.features.accounts.usecase
 import androidx.lifecycle.LiveData
 import com.github.mrmitew.bankapp.features.accounts.repository.AccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
+import com.github.mrmitew.bankapp.features.common.usecase.Cancellable
 import com.github.mrmitew.bankapp.features.common.usecase.UseCase
-import com.github.mrmitew.bankapp.features.common.vo.Result
+import com.github.mrmitew.bankapp.features.common.usecase.UseCaseContextScope
 import com.github.mrmitew.bankapp.features.common.vo.catchResult
 import com.github.mrmitew.bankapp.features.common.vo.onFailure
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.io.Closeable
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Use case that will return a stream with user's bank accounts taken from a local repository.
@@ -26,14 +27,19 @@ class RefreshUserAccountsUseCase(
     private val localUsersRepository: LocalUsersRepository,
     private val localAccountsRepository: AccountsRepository,
     private val remoteAccountsRepository: AccountsRepository
-) : UseCase<Unit, Result<LiveData<List<Account>>>>, CoroutineScope by MainScope() {
-    override suspend fun invoke(param: Unit) = catchResult {
+) : UseCase<Unit, LiveData<List<Account>>>, Cancellable {
+    private val internalScope
+        get() = // Normally, it should be .IO since we'll be doing disk operations,
+            // but I haven't made mechanism to mock it in tests
+            UseCaseContextScope(SupervisorJob() + Dispatchers.Main)
+
+    override suspend fun invoke(param: Unit): LiveData<List<Account>> {
         val user = localUsersRepository.getLoggedInUser()!!
 
         // Do a fetch and store locally in background
         // We expect that the database will notify us when it has changed
 
-        launch {
+        internalScope.launch {
             catchResult {
                 // Fetch from network
                 val projects = remoteAccountsRepository.getAccounts(user)
@@ -52,6 +58,10 @@ class RefreshUserAccountsUseCase(
         }
 
         // Always return from local database
-        return@catchResult localAccountsRepository.getAccounts(user)
+        return localAccountsRepository.getAccounts(user)
+    }
+
+    override fun cancel() {
+        internalScope.cancel()
     }
 }
