@@ -1,6 +1,6 @@
 package com.github.mrmitew.bankapp.features.users.repository
 
-import com.github.mrmitew.bankapp.features.transactions.vo.TransactionDTO
+import com.github.mrmitew.bankapp.features.transactions.dto.TransactionDTO
 import com.github.mrmitew.bankapp.features.users.dto.UserDTO
 
 /**

@@ -5,8 +5,8 @@ import androidx.lifecycle.liveData
 import com.github.mrmitew.bankapp.APP_TOKEN
 import com.github.mrmitew.bankapp.features.transactions.repository.RemoteTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
-import com.github.mrmitew.bankapp.features.transactions.vo.toDTO
-import com.github.mrmitew.bankapp.features.transactions.vo.toDomainModel
+import com.github.mrmitew.bankapp.features.transactions.dto.toDTO
+import com.github.mrmitew.bankapp.features.transactions.dto.toDomainModel
 import com.github.mrmitew.bankapp.features.users.repository.AuthService
 import com.github.mrmitew.bankapp.features.users.repository.BackendApi
 
