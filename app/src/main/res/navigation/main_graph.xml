@@ -21,11 +21,9 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_account_overview"
-            app:destination="@id/accountList" />
+            app:destination="@id/accountList"
+            app:popUpToInclusive="false" />
     </fragment>
-    <action
-        android:id="@+id/action_global_loginFragment"
-        app:destination="@id/login" />
     <fragment
         android:id="@+id/transactionsOverviewFragment"
         android:name="com.github.mrmitew.bankapp.features.transactions.ui.TransactionsOverviewFragment"

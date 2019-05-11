@@ -21,7 +21,7 @@ class FakeRemoteAccountsRepository : AccountsRepository {
     override suspend fun getAccounts(user: User): LiveData<List<Account>> {
         val mutableLiveData =
             MutableLiveData<List<Account>>()
-        mutableLiveData.value = fetchAccounts()
+        mutableLiveData.postValue(fetchAccounts())
         println("Fetched ${mutableLiveData.value}")
         return mutableLiveData
     }
