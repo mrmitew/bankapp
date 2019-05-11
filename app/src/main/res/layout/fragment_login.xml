@@ -1,30 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".features.login.ui.LoginFragment">
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".features.login.ui.LoginFragment">
+
+
+        <EditText
+            android:id="@+id/et_pincode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="####"
+            android:inputType="numberPassword"
+            android:maxLength="4"
+            android:text="0000"
+            android:textSize="48sp" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome!" />
-
-    <EditText
-        android:id="@+id/et_pincode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0000"
-        android:inputType="numberPassword"
-        android:maxLength="4"
-        android:hint="username" />
-
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login" />
-
-</LinearLayout>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="Welcome!"
+        android:textSize="48sp" />
+</FrameLayout>
