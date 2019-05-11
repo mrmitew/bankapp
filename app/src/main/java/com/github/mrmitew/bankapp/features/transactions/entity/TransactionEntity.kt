@@ -21,6 +21,8 @@ import java.math.BigDecimal
 )
 @TypeConverters(BigDecimalConverter::class)
 data class TransactionEntity(
+    @PrimaryKey
+    val id: Int = 0,
     val accountId: Int,
     val name: String,
     val description: String?,
@@ -35,12 +37,10 @@ data class TransactionEntity(
         // We cannot use "transaction" as a table name since its a special keyword
         internal const val TABLE_NAME = "transaction_entity"
     }
-
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
 }
 
 fun TransactionEntity.toDomainModel() = Transaction(
+    id,
     accountId,
     name,
     description,
@@ -54,6 +54,7 @@ fun TransactionEntity.toDomainModel() = Transaction(
 
 fun Transaction.toEntity() = TransactionEntity(
     id,
+    accountId,
     name,
     description,
     comment,

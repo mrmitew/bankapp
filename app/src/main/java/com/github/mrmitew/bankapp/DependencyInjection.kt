@@ -6,12 +6,16 @@ import com.github.mrmitew.bankapp.features.accounts.repository.internal.FakeRemo
 import com.github.mrmitew.bankapp.features.accounts.repository.internal.LocalAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.ui.AccountListViewModel
 import com.github.mrmitew.bankapp.features.accounts.usecase.RefreshUserAccountsUseCase
+import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.common.database.AppDatabase
 import com.github.mrmitew.bankapp.features.login.ui.LoginViewModel
 import com.github.mrmitew.bankapp.features.transactions.repository.LocalTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.repository.RemoteTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.repository.internal.FakeRemoteTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.repository.internal.RoomTransactionsRepository
+import com.github.mrmitew.bankapp.features.transactions.ui.GetAccountBalanceUseCase
+import com.github.mrmitew.bankapp.features.transactions.ui.RefreshAccountTransactionsUseCase
+import com.github.mrmitew.bankapp.features.transactions.ui.TransactionsViewModel
 import com.github.mrmitew.bankapp.features.users.repository.AuthService
 import com.github.mrmitew.bankapp.features.users.repository.BackendApi
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
@@ -57,9 +61,11 @@ private val appModule = module {
     single { get<AppDatabase>().accountDao() }
 
     // Transactions
+    viewModel { (account: Account) -> TransactionsViewModel(get(), get(), account) } // Assisted injection
     single { RoomTransactionsRepository(get()) as LocalTransactionsRepository }
     single { FakeRemoteTransactionsRepository(get(), get()) as RemoteTransactionsRepository }
     single { get<AppDatabase>().transactionDao() }
+    single { RefreshAccountTransactionsUseCase(get(), get()) }
 
     // Users
     viewModel { LoginViewModel(get()) }
@@ -71,6 +77,7 @@ private val appModule = module {
     single { FakeBackendImpl() as BackendApi }
 
     // Common
+    single { GetAccountBalanceUseCase(get()) }
 
     // Storage
     single { AppDatabase.getInstance(androidContext(), get()) }

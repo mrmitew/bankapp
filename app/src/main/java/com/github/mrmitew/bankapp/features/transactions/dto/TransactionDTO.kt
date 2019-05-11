@@ -5,6 +5,7 @@ import java.math.BigDecimal
 
 data class TransactionDTO(
     val id: Int,
+    val accountId: Int,
     val name: String,
     val description: String?,
     val comment: String?,
@@ -18,6 +19,7 @@ data class TransactionDTO(
 fun TransactionDTO.toDomainModel() =
     Transaction(
         id,
+        accountId,
         name,
         description,
         comment,
@@ -31,6 +33,7 @@ fun TransactionDTO.toDomainModel() =
 fun Transaction.toDTO() =
     TransactionDTO(
         id,
+        accountId,
         name,
         description,
         comment,
