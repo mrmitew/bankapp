@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import com.github.mrmitew.bankapp.features.accounts.repository.AccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.common.usecase.UseCase
+import com.github.mrmitew.bankapp.features.common.vo.Result
+import com.github.mrmitew.bankapp.features.common.vo.catchResult
+import com.github.mrmitew.bankapp.features.common.vo.onFailure
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -14,14 +17,14 @@ class GetUserAccountsUseCase(
     private val localAccountsRepository: AccountsRepository,
     private val remoteAccountsRepository: AccountsRepository
 ) : UseCase<Unit, Result<LiveData<List<Account>>>>, CoroutineScope by MainScope() {
-    override suspend fun invoke(param: Unit) = runCatching {
+    override suspend fun invoke(param: Unit) = catchResult {
         val user = localUsersRepository.getLoggedInUser()!!
 
         // Do a fetch and store locally in background
         // We expect that the database will notify us when it has changed
 
         launch {
-            runCatching {
+            catchResult {
                 // Fetch from network
                 val projects = remoteAccountsRepository.getAccounts(user)
                 if (projects.value!!.isNotEmpty()) {
@@ -35,6 +38,6 @@ class GetUserAccountsUseCase(
         }
 
         // Always return from local database
-        return@runCatching localAccountsRepository.getAccounts(user)
+        return@catchResult localAccountsRepository.getAccounts(user)
     }
 }
