@@ -5,6 +5,8 @@ import kotlinx.coroutines.supervisorScope
 
 /**
  * Created by Stefan Mitev on 16-4-19.
+ *
+ * Inspired by Layercache: https://github.com/appmattus/layercache
  */
 
 /**
