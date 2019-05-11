@@ -1,21 +1,22 @@
 package com.github.mrmitew.bankapp.features.accounts.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.map
-import com.github.mrmitew.bankapp.features.accounts.usecase.GetUserAccountsUseCase
+import androidx.lifecycle.*
+import com.github.mrmitew.bankapp.features.accounts.usecase.RefreshUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.common.usecase.invoke
 import com.github.mrmitew.bankapp.features.common.vo.getOrNull
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
-class AccountListViewModel(private val getUserAccountUseCase: GetUserAccountsUseCase) : ViewModel() {
+class AccountListViewModel(private val refreshUserAccountUseCase: RefreshUserAccountsUseCase) : ViewModel() {
     private val accountItemListStream: LiveData<List<AccountViewItem>>
 
     init {
+        // Create a coroutine live data (https://developer.android.com/topic/libraries/architecture/coroutines)
+        // Query the business logic to get user bank accounts
+        // And then map them to something that the UI can render
         accountItemListStream = liveData {
-            getUserAccountUseCase().getOrNull()?.let { liveDataSource ->
+            refreshUserAccountUseCase()!!.getOrNull()?.let { liveDataSource ->
                 emitSource(liveDataSource.map { it.toUiModel() })
             }
         }
@@ -23,9 +24,16 @@ class AccountListViewModel(private val getUserAccountUseCase: GetUserAccountsUse
 
     fun getAccountItemList() = accountItemListStream
 
+    /**
+     * This will trigger fetch of user bank accounts and will store them into database
+     * We'll do nothing here, because we are already observing a livedata stream from the database
+     * in the init above
+     */
+    fun refreshAccounts() = viewModelScope.launch { refreshUserAccountUseCase() }
+
     override fun onCleared() {
         super.onCleared()
-        getUserAccountUseCase.cancel()
+        refreshUserAccountUseCase.cancel()
     }
 
     private fun List<Account>.toUiModel(): List<AccountViewItem> {

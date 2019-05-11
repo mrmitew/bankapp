@@ -1,9 +1,7 @@
 package com.github.mrmitew.bankapp.features.accounts.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -30,10 +28,14 @@ class AccountListFragment : Fragment(),
         recyclerView.adapter = projectsAdapter
         recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
+        // FYI, Database will emit using [distinctUntilChanged], so after refresh if accounts have not
+        // been modified since last emission, the observer wouldn't be called
         viewModel.getAccountItemList().observe(viewLifecycleOwner, Observer {
-            projectsAdapter.submitList(it)
             println("Received: $it")
+            projectsAdapter.submitList(it)
         })
+
+        setHasOptionsMenu(true)
 
         return view
     }
@@ -45,5 +47,14 @@ class AccountListFragment : Fragment(),
                 account
             )
         )
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.account_menu, menu)
+        menu.findItem(R.id.refresh).setOnMenuItemClickListener {
+            viewModel.refreshAccounts()
+            true
+        }
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

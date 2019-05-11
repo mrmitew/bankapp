@@ -5,7 +5,7 @@ import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.github.mrmitew.bankapp.features.accounts.repository.internal.FakeRemoteAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.repository.internal.LocalAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.ui.AccountListViewModel
-import com.github.mrmitew.bankapp.features.accounts.usecase.GetUserAccountsUseCase
+import com.github.mrmitew.bankapp.features.accounts.usecase.RefreshUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.common.database.AppDatabase
 import com.github.mrmitew.bankapp.features.login.ui.LoginViewModel
 import com.github.mrmitew.bankapp.features.users.repository.AuthService
@@ -22,7 +22,6 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
-import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 // FIXME: User input should either be propagated to the open helper factory, or we should
@@ -40,7 +39,7 @@ private val appModule = module {
     // Accounts
     viewModel { AccountListViewModel(get()) }
     single {
-        GetUserAccountsUseCase(
+        RefreshUserAccountsUseCase(
             get(),
             get<LocalAccountsRepository>(),
             get<FakeRemoteAccountsRepository>()

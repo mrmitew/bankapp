@@ -12,7 +12,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
-class GetUserAccountsUseCase(
+/**
+ * Use case that will return a stream with user's bank accounts taken from a local repository.
+ * Meanwhile it will fetch accounts from a remote repository (backend) and it will update the local repository.
+ * If the local repository changes, it will emit, so we don't need to do anything in addition.
+ * We have a single source of truth, that is the local database. In a real example with a banking app, we wouldn't
+ * be storing this kind of data on disk.
+ *
+ * Note that the class that can be unit tested as it has no Android related classes.
+ * LiveData can still be unit tested under the JVM. See the test folder for an example.
+ */
+class RefreshUserAccountsUseCase(
     private val localUsersRepository: LocalUsersRepository,
     private val localAccountsRepository: AccountsRepository,
     private val remoteAccountsRepository: AccountsRepository
@@ -29,7 +39,11 @@ class GetUserAccountsUseCase(
                 val projects = remoteAccountsRepository.getAccounts(user)
                 if (projects.value!!.isNotEmpty()) {
                     // Store to disk
+                    // TODO: We should make a diff and remove the accounts that have been deleted on the server
+                    // This of course won't happen in our example since everything is deterministic.
                     localAccountsRepository.storeAccounts(user, projects.value!!)
+                } else {
+                    localAccountsRepository.deleteAccounts(user)
                 }
             }.onFailure {
                 // Log

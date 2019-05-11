@@ -29,4 +29,8 @@ class FakeRemoteAccountsRepository : AccountsRepository {
     override suspend fun storeAccounts(user: User, accounts: List<Account>) {
         // no-op
     }
+
+    override suspend fun deleteAccounts(user: User) {
+        // no-op
+    }
 }
