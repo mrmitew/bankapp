@@ -38,7 +38,7 @@ import java.util.*
 // dynamic analysis.
 // Don't judge for the hardcoded pin, please! :)
 val USER_PIN = charArrayOf('0', '0', '0', '0')
-// Normally would be derived from backend when user authenticates and it will be only kept in memory
+// Some app secret that we shouldn't normally keep in the app and definitely not hard coded in the code :)
 val APP_TOKEN = UUID.randomUUID().toString()
 
 // TODO: Split into multiple modules for each feature
