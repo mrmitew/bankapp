@@ -1,12 +1,12 @@
 package com.github.mrmitew.bankapp.features.users.usecase
 
+import com.github.mrmitew.bankapp.APP_TOKEN
 import com.github.mrmitew.bankapp.USER_PIN
 import com.github.mrmitew.bankapp.features.common.usecase.UseCase
 import com.github.mrmitew.bankapp.features.users.repository.AuthService
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
 import com.github.mrmitew.bankapp.features.users.repository.RemoteUserRepository
 import com.github.mrmitew.bankapp.features.users.vo.User
-import java.util.*
 
 typealias PinCode = CharArray
 
@@ -22,7 +22,7 @@ class LogInUserUseCase(
             if (!tryOpenEncryptedDatabaseWith(param)) {
                 throw WrongPasswordException()
             }
-            val token = authService.getUserToken(UUID.randomUUID().toString())
+            val token = authService.getUserToken(APP_TOKEN)
             val user = remoteUserRepository.getPerson(token)
             localUsersRepository.createUser(user)
             localUsersRepository.login(user)

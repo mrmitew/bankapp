@@ -1,0 +1,3 @@
+package com.github.mrmitew.bankapp.features.transactions.repository
+
+interface RemoteTransactionsRepository : TransactionRepository

@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.github.mrmitew.bankapp.features.accounts.entity.AccountEntity
+import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 import java.math.BigDecimal
 
 /**
@@ -30,9 +31,34 @@ data class TransactionEntity(
     val targetAccount: String
 ) {
     companion object {
-        internal const val TABLE_NAME = "transaction"
+        // We cannot use "transaction" as a table name since its a special keyword
+        internal const val TABLE_NAME = "transaction_entity"
     }
 
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 }
+
+fun TransactionEntity.toDomainModel() = Transaction(
+    accountId,
+    name,
+    description,
+    comment,
+    date,
+    mutationType,
+    amount,
+    targetName,
+    targetAccount
+)
+
+fun Transaction.toEntity() = TransactionEntity(
+    id,
+    name,
+    description,
+    comment,
+    date,
+    mutationType,
+    amount,
+    targetName,
+    targetAccount
+)

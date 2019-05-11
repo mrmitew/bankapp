@@ -11,7 +11,7 @@
         android:label="Account list"
         tools:layout="@layout/fragment_accounts">
         <action
-            android:id="@+id/action_transaction_details"
+            android:id="@+id/account_overview"
             app:destination="@id/accountOverview" />
     </fragment>
     <fragment

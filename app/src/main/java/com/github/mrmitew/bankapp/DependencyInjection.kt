@@ -8,6 +8,10 @@ import com.github.mrmitew.bankapp.features.accounts.ui.AccountListViewModel
 import com.github.mrmitew.bankapp.features.accounts.usecase.RefreshUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.common.database.AppDatabase
 import com.github.mrmitew.bankapp.features.login.ui.LoginViewModel
+import com.github.mrmitew.bankapp.features.transactions.repository.LocalTransactionsRepository
+import com.github.mrmitew.bankapp.features.transactions.repository.RemoteTransactionsRepository
+import com.github.mrmitew.bankapp.features.transactions.repository.internal.FakeRemoteTransactionsRepository
+import com.github.mrmitew.bankapp.features.transactions.repository.internal.RoomTransactionsRepository
 import com.github.mrmitew.bankapp.features.users.repository.AuthService
 import com.github.mrmitew.bankapp.features.users.repository.BackendApi
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
@@ -23,6 +27,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import java.util.*
 
 // FIXME: User input should either be propagated to the open helper factory, or we should
 // try opening the database with the user pin before we construct the factory.
@@ -33,6 +38,8 @@ import org.koin.dsl.module
 // dynamic analysis.
 // Don't judge for the hardcoded pin, please! :)
 val USER_PIN = charArrayOf('0', '0', '0', '0')
+// Normally would be derived from backend when user authenticates and it will be only kept in memory
+val APP_TOKEN = UUID.randomUUID().toString()
 
 // TODO: Split into multiple modules for each feature
 private val appModule = module {
@@ -48,6 +55,11 @@ private val appModule = module {
     single { FakeRemoteAccountsRepository() }
     single { LocalAccountsRepository(get()) }
     single { get<AppDatabase>().accountDao() }
+
+    // Transactions
+    single { RoomTransactionsRepository(get()) as LocalTransactionsRepository }
+    single { FakeRemoteTransactionsRepository(get(), get()) as RemoteTransactionsRepository }
+    single { get<AppDatabase>().transactionDao() }
 
     // Users
     viewModel { LoginViewModel(get()) }
