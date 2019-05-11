@@ -45,9 +45,9 @@ val USER_PIN = charArrayOf('0', '0', '0', '0')
 // Some app secret that we shouldn't normally keep in the app and definitely not hard coded in the code :)
 val APP_TOKEN = UUID.randomUUID().toString()
 
-// TODO: Split into multiple modules for each feature
-private val appModule = module {
-    // Accounts
+// TODO: Split each feature in a separate gradle module
+
+private val accountsModule = module {
     viewModel { AccountListViewModel(get()) }
     single {
         RefreshUserAccountsUseCase(
@@ -59,15 +59,17 @@ private val appModule = module {
     single { FakeRemoteAccountsRepository() }
     single { LocalAccountsRepository(get()) }
     single { get<AppDatabase>().accountDao() }
+}
 
-    // Transactions
+private val transactionsModule = module {
     viewModel { (account: Account) -> TransactionsViewModel(get(), get(), account) } // Assisted injection
     single { RoomTransactionsRepository(get()) as LocalTransactionsRepository }
     single { FakeRemoteTransactionsRepository(get(), get()) as RemoteTransactionsRepository }
     single { get<AppDatabase>().transactionDao() }
     single { RefreshAccountTransactionsUseCase(get(), get()) }
+}
 
-    // Users
+private val usersModule = module {
     viewModel { LoginViewModel(get()) }
     single { LogInUserUseCase(get(), get(), get()) }
     single { LogOutUserUseCase(get()) }
@@ -75,17 +77,20 @@ private val appModule = module {
     single { FakeRemoteUserRepository(get()) as RemoteUserRepository }
     single { LocalUsersRepositoryImpl(get()) as LocalUsersRepository }
     single { FakeBackendImpl() as BackendApi }
+}
 
+private val storageModule = module {
+    single { AppDatabase.getInstance(androidContext(), get()) }
+    single { SafeHelperFactory(USER_PIN) } // TODO: Assisted injection
+}
+
+private val authModule = module {
+    single { AuthServiceImpl(get()) as AuthService }
+}
+
+private val commonModule = module {
     // Common
     single { GetAccountBalanceUseCase(get()) }
-
-    // Storage
-    single { AppDatabase.getInstance(androidContext(), get()) }
-//    single { (userPin: CharArray) -> SafeHelperFactory(userPin) }
-    single { SafeHelperFactory(USER_PIN) }
-
-    // Auth
-    single { AuthServiceImpl(get()) as AuthService }
 }
 
 object DependencyInjection {
@@ -93,7 +98,14 @@ object DependencyInjection {
         startKoin {
             androidLogger()
             androidContext(applicationContext)
-            modules(appModule)
+            modules(
+                accountsModule,
+                transactionsModule,
+                usersModule,
+                storageModule,
+                authModule,
+                commonModule
+            )
         }
     }
 }
