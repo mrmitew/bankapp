@@ -8,7 +8,7 @@ import java.util.*
  * This is our backend. It is running on a remote machine. *wink*
  */
 class FakeBackendImpl : BackendApi {
-    override fun getToken(username: String): String = "HELLOWORLD"
+    override fun getUserToken(username: String): String = "HELLOWORLD"
     override fun getPerson(token: String): UserDTO {
         return when (token) {
             "HELLOWORLD" -> UserDTO(

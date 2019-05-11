@@ -9,6 +9,6 @@ import com.github.mrmitew.bankapp.features.users.vo.User
  * domain models.
  */
 interface RemoteUserRepository {
-    suspend fun getToken(username: String): String
+    suspend fun getUserToken(appToken: String): String
     suspend fun getPerson(token: String): User
 }

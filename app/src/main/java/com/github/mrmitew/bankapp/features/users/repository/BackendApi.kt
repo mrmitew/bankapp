@@ -8,6 +8,6 @@ import com.github.mrmitew.bankapp.features.users.dto.UserDTO
  * Notice that we expose DTOs here like [UserDTO].
  */
 interface BackendApi {
-    fun getToken(username: String): String
+    fun getUserToken(username: String): String
     fun getPerson(token: String): UserDTO
 }

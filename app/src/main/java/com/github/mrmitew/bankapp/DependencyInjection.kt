@@ -25,9 +25,15 @@ import org.koin.core.context.startKoin
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
-// FIXME: User input should be propagated to the open helper factory.
+// FIXME: User input should either be propagated to the open helper factory, or we should
+// try opening the database with the user pin before we construct the factory.
 // Now it is hardcoded, just to make things a little simpler.
-private val USER_PIN = charArrayOf('0', '0', '0', '0')
+// We should never hardcode secrets in the app, even if they are cleverly obfuscated
+// (like using DexGuard to encrypt parts of the secret, constructing the secret from multiple places,
+// utilizing reflection, JNI calls etc) If static analysis fails, there is always room for
+// dynamic analysis.
+// Don't judge for the hardcoded pin, please! :)
+val USER_PIN = charArrayOf('0', '0', '0', '0')
 
 // TODO: Split into multiple modules for each feature
 private val appModule = module {

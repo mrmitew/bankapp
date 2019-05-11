@@ -13,10 +13,12 @@
         android:text="Welcome!" />
 
     <EditText
-        android:id="@+id/et_username"
+        android:id="@+id/et_pincode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="mrmitew"
+        android:text="0000"
+        android:inputType="numberPassword"
+        android:maxLength="4"
         android:hint="username" />
 
     <Button

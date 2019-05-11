@@ -6,5 +6,5 @@ package com.github.mrmitew.bankapp.features.users.repository
  * fetching a new one and also refreshing.
  */
 interface AuthService {
-    suspend fun getToken(username: String): String
+    suspend fun getUserToken(appToken: String): String
 }
