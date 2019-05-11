@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.github.mrmitew.bankapp.features.accounts.entity.AccountEntity
 import com.github.mrmitew.bankapp.features.accounts.repository.AccountDao
 import com.github.mrmitew.bankapp.features.common.database.AppDatabase.Companion.DATABASE_VERSION
@@ -37,18 +38,16 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase =
+        fun getInstance(context: Context, safeHelperFactory: SafeHelperFactory): AppDatabase =
             INSTANCE ?: synchronized(this) {
                 INSTANCE
-                    ?: buildDatabase(context).also { INSTANCE = it }
+                    ?: buildDatabase(context, safeHelperFactory).also { INSTANCE = it }
             }
 
-        private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(
-                context.applicationContext,
-                AppDatabase::class.java,
-                DATABASE_NAME
-            ).addMigrations(MIGRATION_OLD_NEW)
+        private fun buildDatabase(context: Context, safeHelperFactory: SafeHelperFactory) =
+            Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+                .openHelperFactory(safeHelperFactory)
+                .addMigrations(MIGRATION_OLD_NEW)
                 .build()
     }
 }

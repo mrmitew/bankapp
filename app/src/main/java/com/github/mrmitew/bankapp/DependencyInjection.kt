@@ -1,6 +1,7 @@
 package com.github.mrmitew.bankapp
 
 import android.content.Context
+import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.github.mrmitew.bankapp.features.accounts.repository.internal.FakeRemoteAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.repository.internal.LocalAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.ui.AccountListViewModel
@@ -21,7 +22,12 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
+
+// FIXME: User input should be propagated to the open helper factory.
+// Now it is hardcoded, just to make things a little simpler.
+private val USER_PIN = charArrayOf('0', '0', '0', '0')
 
 // TODO: Split into multiple modules for each feature
 private val appModule = module {
@@ -50,7 +56,9 @@ private val appModule = module {
     // Common
 
     // Storage
-    single { AppDatabase.getInstance(androidContext()) }
+    single { AppDatabase.getInstance(androidContext(), get()) }
+//    single { (userPin: CharArray) -> SafeHelperFactory(userPin) }
+    single { SafeHelperFactory(USER_PIN) }
 
     // Auth
     single { AuthServiceImpl(get()) as AuthService }
