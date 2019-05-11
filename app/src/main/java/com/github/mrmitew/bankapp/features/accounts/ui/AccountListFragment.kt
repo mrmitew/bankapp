@@ -42,7 +42,7 @@ class AccountListFragment : Fragment(),
 
     override fun onAccountClick(account: Account) {
         // Request navigation
-        findNavController().navigate(AccountListFragmentDirections.accountOverview(account))
+        findNavController().navigate(AccountListFragmentDirections.actionTransactionsOverview(account))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

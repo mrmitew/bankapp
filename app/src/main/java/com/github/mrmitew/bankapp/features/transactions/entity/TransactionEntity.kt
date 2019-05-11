@@ -1,9 +1,6 @@
 package com.github.mrmitew.bankapp.features.transactions.entity
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
+import androidx.room.*
 import com.github.mrmitew.bankapp.features.accounts.entity.AccountEntity
 import com.github.mrmitew.bankapp.features.transactions.converter.BigDecimalConverter
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
@@ -14,6 +11,7 @@ import java.math.BigDecimal
  */
 @Entity(
     tableName = TransactionEntity.TABLE_NAME,
+    indices = [Index("accountId")],
     foreignKeys = [
         ForeignKey(
             entity = AccountEntity::class,
