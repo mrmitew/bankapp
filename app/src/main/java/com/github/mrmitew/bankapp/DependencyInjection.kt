@@ -81,7 +81,9 @@ private val usersModule = module {
 
 private val storageModule = module {
     single { AppDatabase.getInstance(androidContext(), get()) }
-    single { SafeHelperFactory(USER_PIN) } // TODO: Assisted injection
+    // TODO: Assisted injection. We copy it here, because the array will be cleared out.
+    //  If user goes back to login it wouldn't work second time around.
+    single { SafeHelperFactory(USER_PIN.copyOf()) }
 }
 
 private val authModule = module {

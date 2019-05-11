@@ -4,4 +4,6 @@
     <string name="settings">Settings</string>
     <string name="logout">Logout</string>
     <string name="refresh">Refresh</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
 </resources>

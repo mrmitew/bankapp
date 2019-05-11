@@ -12,8 +12,9 @@
         tools:layout="@layout/fragment_accounts">
         <action
             android:id="@+id/action_transactions_overview"
-            app:destination="@id/transactionsOverviewFragment" />
+            app:destination="@id/transactionsOverviewFragment"/>
     </fragment>
+
     <fragment
         android:id="@+id/login"
         android:name="com.github.mrmitew.bankapp.features.login.ui.LoginFragment"
@@ -21,9 +22,9 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_account_overview"
-            app:destination="@id/accountList"
-            app:popUpToInclusive="false" />
+            app:destination="@id/accountList" />
     </fragment>
+
     <fragment
         android:id="@+id/transactionsOverviewFragment"
         android:name="com.github.mrmitew.bankapp.features.transactions.ui.TransactionsOverviewFragment"
