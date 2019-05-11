@@ -9,8 +9,8 @@ import kotlinx.coroutines.delay
 
 class FakeRemoteAccountsRepository : AccountsRepository {
     private val accounts = listOf(
-        Account(1, "Stefan Mitev", "123", "Payment", "EUR"),
-        Account(2, "Stefan Mitev", "456", "Savings", "EUR")
+        Account(1, "Stefan Mitev", "123", Account.TYPE_PAYMENT, "EUR"),
+        Account(2, "Stefan Mitev", "456", Account.TYPE_SAVINGS, "EUR")
     )
 
     override suspend fun getAccounts(user: User): LiveData<List<Account>> {

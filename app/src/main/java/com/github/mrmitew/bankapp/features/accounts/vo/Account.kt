@@ -12,6 +12,10 @@ data class Account(
     val currency: String
 ): java.io.Serializable {
     companion object {
+        // We could use an enum or a sealed class as well, but just keeping things simple.
+        const val TYPE_PAYMENT = "payment"
+        const val TYPE_SAVINGS = "savings"
+
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Account>() {
             override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean =
                 oldItem == newItem
