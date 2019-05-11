@@ -94,7 +94,7 @@ private val commonModule = module {
 }
 
 object DependencyInjection {
-    fun init(applicationContext: Context) {
+    fun with(applicationContext: Context) {
         startKoin {
             androidLogger()
             androidContext(applicationContext)
