@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/login">
+
+    <fragment
+        android:id="@+id/accountList"
+        android:name="com.github.mrmitew.bankapp.features.accounts.ui.AccountListFragment"
+        android:label="Account list"
+        tools:layout="@layout/fragment_accounts">
+        <action
+            android:id="@+id/action_transaction_details"
+            app:destination="@id/accountOverview" />
+    </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="com.github.mrmitew.bankapp.features.login.ui.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_account_overview"
+            app:destination="@id/accountList" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountOverview"
+        android:name="com.github.mrmitew.bankapp.features.accounts.ui.AccountOverviewFragment"
+        android:label="Account overview"
+        tools:layout="@layout/fragment_account_overview">
+        <argument
+            android:name="account"
+            app:argType="com.github.mrmitew.bankapp.features.accounts.vo.Account" />
+        <action
+            android:id="@+id/action_accountOverview_to_transactionsOverviewFragment2"
+            app:destination="@id/transactionsOverviewFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/login" />
+    <fragment
+        android:id="@+id/transactionsOverviewFragment"
+        android:name="com.github.mrmitew.bankapp.features.transactions.ui.TransactionsOverviewFragment"
+        android:label="fragment_transactions_overview"
+        tools:layout="@layout/fragment_transactions_overview">
+        <argument
+            android:name="transaction"
+            app:argType="com.github.mrmitew.bankapp.features.transactions.vo.Transaction" />
+    </fragment>
+</navigation>
