@@ -8,7 +8,7 @@ import android.app.Application
 
 
 /**
- * A dummy "banking" app that aims to demonstrate a clean software architecture,
+ * A dummy "banking" app that actually uses encryption and aims to demonstrate a clean software architecture,
  * utilizing the latest of what the Android Architecture components has to offer,
  * Kotlin Coroutines and other modern libraries.
  *
@@ -75,6 +75,12 @@ import android.app.Application
  * We should never ever put secrets in the app, especially hardcode in plain text. I know! :)
  * - Navigation drawer items do not do anything useful..besides the "Log out" which makes the user back
  * out of the app.
+ * - I know that using a database for this kind of app is not a good idea. I made it just to demonstrate
+ * working with multiple data sources at the same time..specially when one is an actual database.
+ * - There are a couple of tests that test the multiple cache source mechanism as well as inflight request caching,
+ * and few other.
+ * - Backend is completely faked. This also serve as an example how easy is to mock a backend functionality, but
+ * at the same time allow for plugging a different backend implementation..which can be an actual retrofit instance.
  */
 class AndroidApplication : Application() {
     override fun onCreate() {
