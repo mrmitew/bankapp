@@ -16,4 +16,6 @@
     <string name="from">From</string>
     <string name="submit">Submit</string>
     <string name="to">To</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="unknown_error">An error occurred</string>
 </resources>

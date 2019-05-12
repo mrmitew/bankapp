@@ -4,6 +4,18 @@ package com.github.mrmitew.bankapp.features.common.vo
  * Created by Stefan Mitev on 11-5-19.
  */
 
+/**
+ * A little "re-creation" of [kotlin.Result] just because we cannot
+ * use it as a return type. The authors did that to prevent breaking
+ * other people's apps when/if they change their internal APIs.
+ *
+ * We can also opt-in with:
+ *
+ * kotlinOptions {
+ *  freeCompilerArgs = ["-Xallow-result-return-type"]
+ * }
+ */
+
 sealed class Result<T> {
     class Success<T>(val value: T) : Result<T>()
     class Failure<T>(val throwable: Throwable) : Result<T>()

@@ -8,6 +8,20 @@ import kotlinx.coroutines.*
  * Created by Stefan Mitev on 16-4-19.
  */
 
+/**
+ * A [UseCase] decorator that will execute a decorated [UseCase] asynchronously and
+ * it will cache the deferred result until execution completes.
+ *
+ * This will prevent multiple callers to trigger the same business logic,
+ * while the result is being computed. They, instead, will hook in-flight for the pending operation and
+ * will suspend until result is ready.
+ *
+ * If a caller executes the use case after a completion of a previous operation, then the use case
+ * will be executed once again.
+ *
+ * Great for prevention of fetching multiple user tokens if multiple network requests are fired
+ * when a user token has been invalidated.
+ */
 class ReuseInflightUseCase<I : Any, O : Any>(private val useCase: UseCase<I, O>) :
     UseCase<I, O> {
     init {

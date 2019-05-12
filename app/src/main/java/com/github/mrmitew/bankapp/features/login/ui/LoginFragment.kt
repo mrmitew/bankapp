@@ -18,7 +18,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
     private val viewModel: LoginViewModel by viewModel()
-    private lateinit var pinCode: CharArray
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,9 +29,11 @@ class LoginFragment : Fragment() {
 
         view.findViewById<Button>(R.id.btn_login)
             // We use a coroutine actor to prevent accidental multiple taps while we are trying to login
+            // If fragment is destroyed, all coroutines in this scope will be cancelled, including the login,
+            // triggered in the view model
             .onClick(viewLifecycleOwner) {
-                pinCode = pincodeView.text.toString().toCharArray()
-                if (pincodeView.text.isNotEmpty()) {
+                val pinCode = pincodeView.text.toString().toCharArray()
+                if (pinCode.isNotEmpty()) {
                     doLoginWith(pinCode)
                 }
             }
@@ -45,11 +46,13 @@ class LoginFragment : Fragment() {
             findNavController().navigate(LoginFragmentDirections.actionAccountOverview())
             Unit
         }, { e ->
-            if (e is WrongPasswordException) {
-                Toast.makeText(this@LoginFragment.context, "Wrong password", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this@LoginFragment.context, "An error occurred", Toast.LENGTH_SHORT).show()
-            }
+            // The view model instead give us the error via stream or just return a more suitable data structure
+            // that will represent the state of the ui
+            val errorMessage =
+                if (e is WrongPasswordException) getString(R.string.wrong_password)
+                else getString(R.string.unknown_error)
+
+            Toast.makeText(this@LoginFragment.context, errorMessage, Toast.LENGTH_SHORT).show()
         })
     }
 

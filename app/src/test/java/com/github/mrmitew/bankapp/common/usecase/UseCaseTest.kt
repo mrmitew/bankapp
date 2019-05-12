@@ -1,4 +1,4 @@
-package com.github.mrmitew.bankapp.common
+package com.github.mrmitew.bankapp.common.usecase
 
 import com.github.mrmitew.bankapp.features.common.usecase.UseCase
 import kotlinx.coroutines.runBlocking
