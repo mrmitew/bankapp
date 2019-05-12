@@ -5,7 +5,6 @@ import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.map
 import com.github.mrmitew.bankapp.features.accounts.entity.toDomainModel
 import com.github.mrmitew.bankapp.features.accounts.entity.toEntity
-import com.github.mrmitew.bankapp.features.accounts.repository.AccountDao
 import com.github.mrmitew.bankapp.features.accounts.repository.LocalAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.users.vo.User

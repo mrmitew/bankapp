@@ -9,6 +9,15 @@ import com.github.mrmitew.bankapp.features.backend.BackendApi
 import com.github.mrmitew.bankapp.features.users.vo.User
 import java.math.BigDecimal
 
+/**
+ * Accounts repository that works with a remote data source.
+ * [backendApi] can be a Retrofit instance here.. but it isn't.
+ * We faked it.. Though its just an interface.. only the dependency
+ * injection framework knows the actual implementation
+ *
+ * Every call requires a user token, so we'll use the [authService] to get a valid token.
+ * That could be cached (if valid) or will fetch a new one. Please see how that actually works.
+ */
 class RemoteAccountsRepositoryImpl(
     private val backendApi: BackendApi,
     private val authService: AuthService

@@ -1,4 +1,4 @@
-package com.github.mrmitew.bankapp.features.accounts.repository
+package com.github.mrmitew.bankapp.features.accounts.repository.internal
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

@@ -6,6 +6,11 @@ import com.github.mrmitew.bankapp.features.common.cache.Fetcher
 import com.github.mrmitew.bankapp.features.common.cache.plus
 import com.github.mrmitew.bankapp.features.users.repository.RemoteUserRepository
 
+/**
+ * A [Cache] facade that hides the implementation of how a [Token] is being retrieved.
+ * If it is available in the cache and it isn't expired, we'll use that one. If, however,
+ * a token doesn't exist or it already expired, we'll fetch a new one, utilizing the [RemoteUserRepository].
+ */
 internal class TokenCacheFacade(private val remoteUserRepository: RemoteUserRepository) {
     // TODO: To implement using [android.util.LruCache]
     private val memoryCache = object : Cache<String, Token> {
@@ -44,5 +49,9 @@ internal class TokenCacheFacade(private val remoteUserRepository: RemoteUserRepo
         return (System.currentTimeMillis() > token.expireDate)
     }
 
+    /**
+     * Composing the memory cache and the network fetcher (which is also sort of a cache)
+     * and exposing a single [Cache] as a public API to work with.
+     */
     val cache = memoryCache + networkFetcher
 }
