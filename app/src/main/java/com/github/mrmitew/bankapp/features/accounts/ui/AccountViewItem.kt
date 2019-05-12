@@ -7,6 +7,9 @@ import com.github.mrmitew.bankapp.features.accounts.vo.Account
  * Created by Stefan Mitev on 11-5-19.
  */
 
+/**
+ * Data structure that represents an account or header item in a RecyclerView
+ */
 sealed class AccountViewItem {
     data class HeaderViewItem(val title: String, val currency: String) : AccountViewItem()
     data class AccountDecoratedViewItem(val account: Account) : AccountViewItem()

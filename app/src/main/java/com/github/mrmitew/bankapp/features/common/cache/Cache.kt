@@ -6,7 +6,7 @@ package com.github.mrmitew.bankapp.features.common.cache
 
 /**
  * Representation of a cache.
- * A cache can be memory, disk or a network source.
+ * A cache can be memory, disk, network source or whatever you can think of.
  */
 interface Cache<Key : Any, Value : Any> {
     suspend fun get(key: Key): Value?

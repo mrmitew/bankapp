@@ -49,6 +49,9 @@ class AddTransactionFragment : Fragment() {
         view.findViewById<TextView>(R.id.tv_balance).text =
             String.format(Locale.getDefault(), "%s", args.account.balance)
 
+        // Use the lifecycleScope that was released after Google I/O 2019.
+        // Allows us to scope a coroutine within the lifecyle of the fragment,
+        // which will cancel all coroutines if the fragment stops
         lifecycleScope.launch {
             val accounts = viewModel.getAvailableAccountsForTransaction()
             val adapter = AccountsSpinnerAdapter(accounts)
@@ -59,6 +62,10 @@ class AddTransactionFragment : Fragment() {
 
         view.findViewById<Button>(R.id.btn_submit)
             .onClick(viewLifecycleOwner) {
+                // Since we are going to perform a fragment transaction, we must be sure to
+                // execute it only after the fragment has gone through its "STARTED' state.
+                // Though.. it shouldn't be a problem even if we are using the "launch" builder
+                // since we are creating the coroutine in [onCreateView] already.
                 lifecycleScope.launchWhenStarted {
                     catchResult {
                         viewModel.performTransaction(

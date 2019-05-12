@@ -10,7 +10,14 @@ import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.users.vo.User
 import java.math.BigDecimal
 
-class RoomAccountsRepository(private val accountDao: AccountDao) :
+/**
+ * Implementation of a [LocalAccountsRepository] that uses Room database to manage
+ * bank accounts.
+ *
+ * Entities are being mapped to domain models, so that we can mock or provide a fake
+ * in tests (or in debug builds).
+ */
+class LocalAccountsRepositoryImpl(private val accountDao: AccountDao) :
     LocalAccountsRepository {
     override suspend fun getAccountsRefreshing(user: User): LiveData<List<Account>> {
         return accountDao.getAccountsRefreshing(user.id).distinctUntilChanged().map { entities ->

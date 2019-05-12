@@ -10,7 +10,8 @@ import java.math.BigDecimal
  */
 
 /**
- * Repository that works with local data source
+ * Repository that works with local data source.
+ * It can be mocked or faked in tests or debug builds.
  */
 interface LocalAccountsRepository {
     suspend fun getAccounts(user: User): List<Account>

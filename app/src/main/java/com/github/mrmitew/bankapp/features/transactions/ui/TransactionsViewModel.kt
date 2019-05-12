@@ -31,6 +31,8 @@ class TransactionsViewModel(
 
     override fun onCleared() {
         super.onCleared()
+        // Since we are using an internal coroutine scope in this use case,
+        // we have to make sure we cancel the pending jobs (if any)
         refreshAccountTransactionsUseCase.cancel()
     }
 }

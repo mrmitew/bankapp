@@ -5,7 +5,8 @@ import com.github.mrmitew.bankapp.features.users.vo.User
 import java.math.BigDecimal
 
 /**
- * Repository that works with remote data source
+ * Repository that works with remote data source.
+ * It can be mocked or faked in tests or debug builds.
  */
 interface RemoteAccountsRepository {
     suspend fun fetchAccounts(user: User): List<Account>

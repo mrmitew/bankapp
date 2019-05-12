@@ -5,6 +5,9 @@ import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.common.usecase.UseCase
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
 
+/**
+ * Returns bank accounts other than the currently selected one
+ */
 class GetAvailableAccountsForTransactionUseCase(
     private val usersRepository: LocalUsersRepository,
     private val localAccountsRepository: LocalAccountsRepository

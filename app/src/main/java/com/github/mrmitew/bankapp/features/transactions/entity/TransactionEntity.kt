@@ -38,6 +38,10 @@ data class TransactionEntity(
     }
 }
 
+/**
+ * Mappers for the other layers of the app
+ */
+
 fun TransactionEntity.toDomainModel() = Transaction(
     transactionId,
     accountId,

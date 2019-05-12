@@ -12,6 +12,17 @@ import com.github.mrmitew.bankapp.features.transactions.repository.RemoteTransac
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 import kotlinx.coroutines.*
 
+/**
+ * A Use Case that will fetch transactions from local database and emit them
+ * immediately.
+ * In the meantime it will fetch transactions from the network and add them to the database.
+ * Since we are already observing the database, we'll be able to emit the new transactions as well.
+ *
+ * This Use Case works in sort-of reverse order compared to
+ * [com.github.mrmitew.bankapp.features.accounts.usecase.FetchUserAccountsUseCase] just so it can
+ * demonstrate another way of doing get/fetch/refresh. For a banking app, we would always be
+ * fetching data from network and we'll even not have a database.
+ */
 class RefreshAccountTransactionsUseCase(
     private val localTransactionsRepository: LocalTransactionsRepository,
     private val remoteTransactionsRepository: RemoteTransactionsRepository

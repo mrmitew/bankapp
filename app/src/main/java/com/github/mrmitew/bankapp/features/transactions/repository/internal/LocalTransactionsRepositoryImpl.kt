@@ -8,7 +8,11 @@ import com.github.mrmitew.bankapp.features.transactions.entity.toEntity
 import com.github.mrmitew.bankapp.features.transactions.repository.LocalTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 
-class RoomTransactionsRepository(private val transactionDao: TransactionDao) :
+/**
+ * Implementation of a repository that uses a local data source to work with
+ * account transactions.
+ */
+class LocalTransactionsRepositoryImpl(private val transactionDao: TransactionDao) :
     LocalTransactionsRepository {
 
     override fun getTransactions(accountId: Int): LiveData<List<Transaction>> {

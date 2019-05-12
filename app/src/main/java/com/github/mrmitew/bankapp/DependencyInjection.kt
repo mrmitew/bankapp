@@ -5,7 +5,7 @@ import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.github.mrmitew.bankapp.features.accounts.repository.LocalAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.repository.RemoteAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.repository.internal.RemoteAccountsRepositoryImpl
-import com.github.mrmitew.bankapp.features.accounts.repository.internal.RoomAccountsRepository
+import com.github.mrmitew.bankapp.features.accounts.repository.internal.LocalAccountsRepositoryImpl
 import com.github.mrmitew.bankapp.features.accounts.ui.AccountListViewModel
 import com.github.mrmitew.bankapp.features.accounts.usecase.FetchUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.accounts.usecase.RefreshUserAccountsUseCase
@@ -15,7 +15,7 @@ import com.github.mrmitew.bankapp.features.login.ui.LoginViewModel
 import com.github.mrmitew.bankapp.features.transactions.repository.LocalTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.repository.RemoteTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.repository.internal.RemoteTransactionsRepositoryImpl
-import com.github.mrmitew.bankapp.features.transactions.repository.internal.RoomTransactionsRepository
+import com.github.mrmitew.bankapp.features.transactions.repository.internal.LocalTransactionsRepositoryImpl
 import com.github.mrmitew.bankapp.features.transactions.ui.AddTransactionUseCase
 import com.github.mrmitew.bankapp.features.transactions.ui.AddTransactionViewModel
 import com.github.mrmitew.bankapp.features.transactions.ui.GetAvailableAccountsForTransactionUseCase
@@ -58,14 +58,14 @@ private val accountsModule = module {
     single { RefreshUserAccountsUseCase(get(), get(), get()) }
     single { FetchUserAccountsUseCase(get(), get(), get()) }
     single { RemoteAccountsRepositoryImpl(get(), get()) as RemoteAccountsRepository }
-    single { RoomAccountsRepository(get()) as LocalAccountsRepository }
+    single { LocalAccountsRepositoryImpl(get()) as LocalAccountsRepository }
     single { get<AppDatabase>().accountDao() }
 }
 
 private val transactionsModule = module {
     viewModel { (account: Account) -> TransactionsViewModel(get(), get(), account) } // Assisted injection
     viewModel { (account: Account) -> AddTransactionViewModel(account, get(), get()) } // Assisted injection
-    single { RoomTransactionsRepository(get()) as LocalTransactionsRepository }
+    single { LocalTransactionsRepositoryImpl(get()) as LocalTransactionsRepository }
     single { RemoteTransactionsRepositoryImpl(get(), get()) as RemoteTransactionsRepository }
     single { get<AppDatabase>().transactionDao() }
     single {

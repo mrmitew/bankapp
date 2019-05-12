@@ -3,6 +3,10 @@ package com.github.mrmitew.bankapp.features.transactions.dto
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 import java.math.BigDecimal
 
+/**
+ * Data-Access-Object that represents the object we'll have to use when
+ * working with our (fake) backend.
+ */
 data class TransactionDTO(
     val id: String,
     val accountId: Int,
@@ -15,6 +19,10 @@ data class TransactionDTO(
     val targetName: String,
     val targetAccount: String
 )
+
+/**
+ * Mappers for the other layers of the app
+ */
 
 fun TransactionDTO.toDomainModel() =
     Transaction(

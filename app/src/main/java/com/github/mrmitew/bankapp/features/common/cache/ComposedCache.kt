@@ -43,7 +43,11 @@ fun <Key : Any, Value : Any> ComposedCache<Key, Value>.hasLoop(): Boolean {
 }
 
 /**
- * Composing one cache with another by chaining caches together
+ * Composing one cache with another by chaining caches together.
+ * This allows us to use the first cache source in our chain that can provide us with a non-null value.
+ * If a cache source returns a null, then we'll try with next cache in the chain..all the way until the last one.
+ *
+ * For instance, we can have memory+disk+network caches.
  */
 fun <Key : Any, Value : Any> Cache<Key, Value>.compose(b: Cache<Key, Value>): Cache<Key, Value> {
     return object : ComposedCache<Key, Value> {

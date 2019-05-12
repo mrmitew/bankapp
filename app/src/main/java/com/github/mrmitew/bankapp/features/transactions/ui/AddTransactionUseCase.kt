@@ -12,7 +12,13 @@ import com.github.mrmitew.bankapp.features.transactions.repository.RemoteTransac
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 import java.util.*
 
+/**
+ * Use case that will perform a transaction between two accounts.
+ * Normally, we would request only one and the backend will do the other one,
+ * but since this is a demo app, don't judge please :)
+ */
 class AddTransactionUseCase(
+    // Injecting the strings, instead of a context, so that we can unit test it.
     private val depositString: String,
     private val withdrawString: String,
     private val localTransactionsRepository: LocalTransactionsRepository,

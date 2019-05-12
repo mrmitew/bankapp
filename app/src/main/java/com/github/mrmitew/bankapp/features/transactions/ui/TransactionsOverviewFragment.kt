@@ -12,11 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mrmitew.bankapp.R
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
-import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -93,25 +91,3 @@ open class TransactionsOverviewFragment : Fragment() {
     }
 }
 
-class TransactionsAdapter :
-    ListAdapter<Transaction, TransactionsAdapter.TransactionViewHolder>(Transaction.DIFF_CALLBACK) {
-
-    class TransactionViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        fun bindTo(item: Transaction) {
-            view.findViewById<TextView>(R.id.tv_target).text = item.targetName
-            view.findViewById<TextView>(R.id.tv_balance).text = item.amount.toPlainString()
-            view.findViewById<TextView>(R.id.tv_description).text =
-                if (item.comment != null && item.comment.isNotEmpty()) item.comment else item.description
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder =
-        TransactionViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_transaction, parent, false)
-        )
-
-    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        holder.bindTo(getItem(position))
-    }
-}

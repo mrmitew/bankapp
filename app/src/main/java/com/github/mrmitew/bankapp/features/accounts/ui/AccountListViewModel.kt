@@ -44,7 +44,7 @@ class AccountListViewModel(
     /**
      * This will trigger fetch of user bank accounts and will store them into database
      * We'll do nothing here, because we are already observing a livedata stream from the local store/repostiory
-     * in the init above
+     * in the init block above
      */
     fun refreshAccounts() = viewModelScope.launch {
         emitRefreshing(hasCompleted = false)
@@ -58,6 +58,10 @@ class AccountListViewModel(
     private fun emitRefreshing(hasCompleted: Boolean) =
         (loadingStateStream as MutableLiveData).postValue(loadingStateStream.value!!.copy(isRefreshing = !hasCompleted))
 
+    /**
+     * Convert the list of [Account] to a UI model that can be directly rendered by the View.
+     * In this case, it will be used by a RecyclerView adapter.
+     */
     private fun List<Account>.toUiModel(): List<AccountViewItem> {
         // We can write this function much smarter, but didn't want to complicate things.
 
