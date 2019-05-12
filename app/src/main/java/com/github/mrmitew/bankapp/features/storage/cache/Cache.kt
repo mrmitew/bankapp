@@ -1,4 +1,4 @@
-package com.github.mrmitew.bankapp.features.common.cache
+package com.github.mrmitew.bankapp.features.storage.cache
 
 /**
  * Created by Stefan Mitev on 16-4-19.

@@ -8,7 +8,7 @@ import com.github.mrmitew.bankapp.features.users.repository.RemoteUserRepository
 import com.github.mrmitew.bankapp.features.users.vo.User
 
 /**
- * All calls to our (fake) backend are done here. The [backend] can be an Retrofit instance instead.
+ * All calls to our (fake) backend are done here. The [backend] can be a Retrofit instance.
  */
 class RemoteUserRepositoryImpl(private val backend: BackendApi) : RemoteUserRepository,
     AuthService {

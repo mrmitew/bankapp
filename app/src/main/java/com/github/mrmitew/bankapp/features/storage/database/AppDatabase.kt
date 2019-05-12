@@ -1,4 +1,4 @@
-package com.github.mrmitew.bankapp.features.common.database
+package com.github.mrmitew.bankapp.features.storage.database
 
 import android.content.Context
 import androidx.room.Database
@@ -10,12 +10,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.github.mrmitew.bankapp.features.accounts.entity.AccountEntity
 import com.github.mrmitew.bankapp.features.accounts.repository.internal.AccountDao
-import com.github.mrmitew.bankapp.features.common.database.AppDatabase.Companion.DATABASE_VERSION
+import com.github.mrmitew.bankapp.features.storage.database.AppDatabase.Companion.DATABASE_VERSION
 import com.github.mrmitew.bankapp.features.transactions.converter.BigDecimalConverter
 import com.github.mrmitew.bankapp.features.transactions.entity.TransactionEntity
 import com.github.mrmitew.bankapp.features.transactions.repository.internal.TransactionDao
 import com.github.mrmitew.bankapp.features.users.entity.UserEntity
-import com.github.mrmitew.bankapp.features.users.repository.UserDao
+import com.github.mrmitew.bankapp.features.users.repository.internal.UserDao
 
 /**
  * Created by Stefan Mitev on 4-5-19.

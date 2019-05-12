@@ -1,18 +1,21 @@
 package com.github.mrmitew.bankapp.features.users.usecase
 
-import com.github.mrmitew.bankapp.APP_TOKEN
-import com.github.mrmitew.bankapp.USER_PIN
 import com.github.mrmitew.bankapp.features.common.usecase.UseCase
 import com.github.mrmitew.bankapp.features.common.vo.catchResult
 import com.github.mrmitew.bankapp.features.common.vo.Result
 import com.github.mrmitew.bankapp.features.common.vo.onFailure
 import com.github.mrmitew.bankapp.features.auth.AuthService
+import com.github.mrmitew.bankapp.features.auth.di.APP_TOKEN
+import com.github.mrmitew.bankapp.features.auth.di.USER_PIN
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
 import com.github.mrmitew.bankapp.features.users.repository.RemoteUserRepository
 import com.github.mrmitew.bankapp.features.users.vo.User
 
 typealias PinCode = CharArray
 
+/**
+ * Use case that attempts to log user in
+ */
 class LogInUserUseCase(
     private val localUsersRepository: LocalUsersRepository,
     private val remoteUserRepository: RemoteUserRepository,

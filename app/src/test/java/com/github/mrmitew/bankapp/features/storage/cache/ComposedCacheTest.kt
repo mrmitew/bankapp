@@ -1,4 +1,4 @@
-package com.github.mrmitew.bankapp.features.common.cache
+package com.github.mrmitew.bankapp.features.storage.cache
 
 import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking

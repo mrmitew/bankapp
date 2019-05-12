@@ -1,9 +1,9 @@
 package com.github.mrmitew.bankapp.features.auth.internal
 
 import com.github.mrmitew.bankapp.features.auth.vo.Token
-import com.github.mrmitew.bankapp.features.common.cache.Cache
-import com.github.mrmitew.bankapp.features.common.cache.Fetcher
-import com.github.mrmitew.bankapp.features.common.cache.plus
+import com.github.mrmitew.bankapp.features.storage.cache.Cache
+import com.github.mrmitew.bankapp.features.storage.cache.Fetcher
+import com.github.mrmitew.bankapp.features.storage.cache.plus
 import com.github.mrmitew.bankapp.features.users.repository.RemoteUserRepository
 
 /**

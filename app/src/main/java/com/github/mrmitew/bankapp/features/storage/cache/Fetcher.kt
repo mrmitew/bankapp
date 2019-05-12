@@ -1,4 +1,4 @@
-package com.github.mrmitew.bankapp.features.common.cache
+package com.github.mrmitew.bankapp.features.storage.cache
 
 /**
  * Fetcher is type of [Cache] which does not support evicting or setting

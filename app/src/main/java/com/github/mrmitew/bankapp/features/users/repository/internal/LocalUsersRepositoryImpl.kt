@@ -1,12 +1,11 @@
 package com.github.mrmitew.bankapp.features.users.repository.internal
 
 import com.github.mrmitew.bankapp.features.users.vo.User
-import com.github.mrmitew.bankapp.features.users.repository.UserDao
 import com.github.mrmitew.bankapp.features.users.entity.toEntity
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
 
 /**
- * Class that wraps a Room DAO and exposes application-wide objects.
+ * Class that wraps a Room DAO and exposes application-wide (domain) objects.
  * If we migrate from Room, then we won't need to modify the rest of the system, but only
  * create a new mapping in this layer of the app.
  */

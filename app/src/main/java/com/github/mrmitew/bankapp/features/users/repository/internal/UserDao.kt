@@ -1,4 +1,4 @@
-package com.github.mrmitew.bankapp.features.users.repository
+package com.github.mrmitew.bankapp.features.users.repository.internal
 
 import androidx.room.*
 import com.github.mrmitew.bankapp.features.users.entity.UserEntity

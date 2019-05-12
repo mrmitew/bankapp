@@ -1,4 +1,4 @@
-package com.github.mrmitew.bankapp.features.common.cache
+package com.github.mrmitew.bankapp.features.storage.cache
 
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope

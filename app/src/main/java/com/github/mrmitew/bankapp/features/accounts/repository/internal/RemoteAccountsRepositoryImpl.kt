@@ -1,10 +1,10 @@
 package com.github.mrmitew.bankapp.features.accounts.repository.internal
 
-import com.github.mrmitew.bankapp.APP_TOKEN
 import com.github.mrmitew.bankapp.features.accounts.dto.toDomainModel
 import com.github.mrmitew.bankapp.features.accounts.repository.RemoteAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.auth.AuthService
+import com.github.mrmitew.bankapp.features.auth.di.APP_TOKEN
 import com.github.mrmitew.bankapp.features.backend.BackendApi
 import com.github.mrmitew.bankapp.features.users.vo.User
 import java.math.BigDecimal
