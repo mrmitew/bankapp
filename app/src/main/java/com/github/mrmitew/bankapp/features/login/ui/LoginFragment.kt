@@ -28,12 +28,14 @@ class LoginFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
         val pincodeView = view.findViewById<EditText>(R.id.et_pincode)
 
-        view.findViewById<Button>(R.id.btn_login).onClick(viewLifecycleOwner) {
-            pinCode = pincodeView.text.toString().toCharArray()
-            if (pincodeView.text.isNotEmpty()) {
-                doLoginWith(pinCode)
+        view.findViewById<Button>(R.id.btn_login)
+            // We use a coroutine actor to prevent accidental multiple taps while we are trying to login
+            .onClick(viewLifecycleOwner) {
+                pinCode = pincodeView.text.toString().toCharArray()
+                if (pincodeView.text.isNotEmpty()) {
+                    doLoginWith(pinCode)
+                }
             }
-        }
 
         return view
     }

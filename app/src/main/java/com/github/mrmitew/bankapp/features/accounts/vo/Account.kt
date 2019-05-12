@@ -9,13 +9,14 @@ data class Account(
     val id: Int,
     val name: String,
     val iban: String,
+    // TODO: We can have a sealed class instead of a field. SavingsAccount and PaymentAccount
     val type: String,
     val currency: String,
     @Serializable(with = BigDecimalSerializer::class)
     val balance: BigDecimal
 ): java.io.Serializable {
     companion object {
-        // We could use an enum or a sealed class as well, but just keeping things simple.
+        // TODO We can have a sealed class. SavingsAccount and PaymentAccount
         const val TYPE_PAYMENT = "payment"
         const val TYPE_SAVINGS = "savings"
     }

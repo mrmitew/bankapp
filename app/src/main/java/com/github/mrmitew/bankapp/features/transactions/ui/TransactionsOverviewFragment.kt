@@ -1,6 +1,7 @@
 package com.github.mrmitew.bankapp.features.transactions.ui
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,20 +14,57 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mrmitew.bankapp.R
+import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import java.math.BigDecimal
 
 
-class TransactionsOverviewFragment : Fragment() {
-    private val args: TransactionsOverviewFragmentArgs by navArgs()
-    private val viewModel: TransactionsViewModel by viewModel { parametersOf(args.account) }
+/**
+ * Transactions overview for Savings accounts
+ */
+class SavingsAccountTransactionsOverviewFragment : TransactionsOverviewFragment() {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        // Make sure the account is a savings account
+        require(args.account.type == Account.TYPE_SAVINGS)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+
+        val withdrawButton = view.findViewById<TextView>(R.id.btn_left)
+        val depositButton = view.findViewById<TextView>(R.id.btn_right)
+
+        // We could also just inflate a different layout..but keeping it simple
+        withdrawButton.text = getString(R.string.withdraw)
+        depositButton.text = getString(R.string.deposit)
+
+        withdrawButton.setOnClickListener {
+            // TODO
+//            findNavController().navigate()
+        }
+
+        depositButton.setOnClickListener {
+            // TODO
+//            findNavController().navigate()
+        }
+
+        return view
+    }
+}
+
+/**
+ * Transactions overview for Payment accounts
+ */
+open class TransactionsOverviewFragment : Fragment() {
+    protected val args: TransactionsOverviewFragmentArgs by navArgs()
+    protected val viewModel: TransactionsViewModel by viewModel { parametersOf(args.account) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = inflater.inflate(R.layout.fragment_transactions_overview, container, false)
 
         view.findViewById<TextView>(R.id.tv_name).text = args.account.name

@@ -8,4 +8,6 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="transfer">Transfer</string>
     <string name="request">Request</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="deposit">Deposit</string>
 </resources>

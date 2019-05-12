@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_accounts">
         <action
             android:id="@+id/action_transactions_overview"
-            app:destination="@id/transactionsOverviewFragment"
+            app:destination="@id/transactionsOverview"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_savings_account_transactions_overview"
+            app:destination="@id/savingsAccountTransactionsOverview"
             app:popUpToInclusive="false" />
     </fragment>
 
@@ -29,8 +33,17 @@
     </fragment>
 
     <fragment
-        android:id="@+id/transactionsOverviewFragment"
+        android:id="@+id/transactionsOverview"
         android:name="com.github.mrmitew.bankapp.features.transactions.ui.TransactionsOverviewFragment"
+        android:label="Transactions overview"
+        tools:layout="@layout/fragment_transactions_overview">
+        <argument
+            android:name="account"
+            app:argType="com.github.mrmitew.bankapp.features.accounts.vo.Account" />
+    </fragment>
+    <fragment
+        android:id="@+id/savingsAccountTransactionsOverview"
+        android:name="com.github.mrmitew.bankapp.features.transactions.ui.SavingsAccountTransactionsOverviewFragment"
         android:label="Transactions overview"
         tools:layout="@layout/fragment_transactions_overview">
         <argument

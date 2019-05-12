@@ -29,7 +29,7 @@ class AccountListFragment : Fragment(),
         val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.vg_swipeToRefresh)
 
         viewModel.loadingStateStream.observe(viewLifecycleOwner, Observer {
-            // Keep the loading
+            // Keep the loading if we haven't completely finished fetching data
             swipeRefreshLayout.isRefreshing = it.isRefreshing || it.isInitialLoading
         })
 
@@ -59,7 +59,7 @@ class AccountListFragment : Fragment(),
             when (account.type) {
                 Account.TYPE_PAYMENT -> AccountListFragmentDirections.actionTransactionsOverview(account)
                 // TODO: Navigate to a different fragment
-                Account.TYPE_SAVINGS -> AccountListFragmentDirections.actionTransactionsOverview(account)
+                Account.TYPE_SAVINGS -> AccountListFragmentDirections.actionSavingsAccountTransactionsOverview(account)
                 else -> throw IllegalArgumentException()
             }
         }
