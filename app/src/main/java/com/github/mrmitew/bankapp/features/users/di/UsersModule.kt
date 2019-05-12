@@ -1,16 +1,10 @@
 package com.github.mrmitew.bankapp.features.users.di
 
-import com.github.mrmitew.bankapp.features.backend.BackendApi
-import com.github.mrmitew.bankapp.features.backend.internal.FakeBackendImpl
 import com.github.mrmitew.bankapp.features.storage.database.AppDatabase
-import com.github.mrmitew.bankapp.features.login.ui.LoginViewModel
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
 import com.github.mrmitew.bankapp.features.users.repository.RemoteUserRepository
 import com.github.mrmitew.bankapp.features.users.repository.internal.LocalUsersRepositoryImpl
 import com.github.mrmitew.bankapp.features.users.repository.internal.RemoteUserRepositoryImpl
-import com.github.mrmitew.bankapp.features.users.usecase.LogInUserUseCase
-import com.github.mrmitew.bankapp.features.users.usecase.LogOutUserUseCase
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 /**
@@ -18,11 +12,7 @@ import org.koin.dsl.module
  */
 
 val usersModule = module {
-    viewModel { LoginViewModel(get()) }
-    single { LogInUserUseCase(get(), get(), get()) }
-    single { LogOutUserUseCase(get()) }
     single { get<AppDatabase>().userDao() }
     single { RemoteUserRepositoryImpl(get()) as RemoteUserRepository }
     single { LocalUsersRepositoryImpl(get()) as LocalUsersRepository }
-    single { FakeBackendImpl() as BackendApi }
 }
