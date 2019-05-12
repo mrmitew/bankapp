@@ -8,14 +8,14 @@ import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 import com.github.mrmitew.bankapp.features.users.repository.AuthService
 import com.github.mrmitew.bankapp.features.users.repository.BackendApi
 
-class FakeRemoteTransactionsRepository(
+class RemoteTransactionsRepositoryImpl(
     private val backend: BackendApi,
     private val authService: AuthService
 ) :
     RemoteTransactionsRepository {
 
     override suspend fun getTransactions(accountId: Int): List<Transaction> =
-        backend.getTransactions(authService.getUserToken(APP_TOKEN), accountId)
+        backend.fetchTransactions(authService.getUserToken(APP_TOKEN), accountId)
             .map { it.toDomainModel() }
 
 

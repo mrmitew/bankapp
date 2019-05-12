@@ -32,16 +32,16 @@ class FetchUserAccountsUseCase(
         return liveData {
             catchResult {
                 // Fetch from network
-                val accounts = remoteAccountsRepository.getAccounts(user)
+                val accounts = remoteAccountsRepository.fetchAccounts(user)
 
                 // Emit right away, so that whoever is interested will get fresh data
-                emitSource(accounts)
+                emit(accounts)
 
-                if (accounts.value!!.isNotEmpty()) {
+                if (accounts.isNotEmpty()) {
                     // Store to disk
                     // TODO: We should make a diff and remove the accounts that have been deleted on the server
                     // This of course won't happen in our example since everything is deterministic.
-                    localAccountsRepository.storeAccounts(user, accounts.value!!)
+                    localAccountsRepository.storeAccounts(user, accounts)
                 } else {
                     localAccountsRepository.deleteAccounts(user)
                 }
@@ -54,7 +54,7 @@ class FetchUserAccountsUseCase(
             // We can subscribe to the local database and emit from there from now on
             // When database changes from an another use case (or for any reason), this use case
             // would always emit the latest data.
-            emitSource(localAccountsRepository.getAccounts(user))
+            emitSource(localAccountsRepository.getAccountsRefreshing(user))
         }
     }
 }

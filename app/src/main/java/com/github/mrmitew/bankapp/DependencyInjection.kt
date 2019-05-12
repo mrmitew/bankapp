@@ -4,7 +4,7 @@ import android.content.Context
 import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.github.mrmitew.bankapp.features.accounts.repository.LocalAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.repository.RemoteAccountsRepository
-import com.github.mrmitew.bankapp.features.accounts.repository.internal.FakeRemoteAccountsRepository
+import com.github.mrmitew.bankapp.features.accounts.repository.internal.RemoteAccountsRepositoryImpl
 import com.github.mrmitew.bankapp.features.accounts.repository.internal.RoomAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.ui.AccountListViewModel
 import com.github.mrmitew.bankapp.features.accounts.usecase.FetchUserAccountsUseCase
@@ -14,19 +14,22 @@ import com.github.mrmitew.bankapp.features.common.database.AppDatabase
 import com.github.mrmitew.bankapp.features.login.ui.LoginViewModel
 import com.github.mrmitew.bankapp.features.transactions.repository.LocalTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.repository.RemoteTransactionsRepository
-import com.github.mrmitew.bankapp.features.transactions.repository.internal.FakeRemoteTransactionsRepository
+import com.github.mrmitew.bankapp.features.transactions.repository.internal.RemoteTransactionsRepositoryImpl
 import com.github.mrmitew.bankapp.features.transactions.repository.internal.RoomTransactionsRepository
-import com.github.mrmitew.bankapp.features.transactions.ui.GetAccountBalanceUseCase
-import com.github.mrmitew.bankapp.features.transactions.ui.RefreshAccountTransactionsUseCase
+import com.github.mrmitew.bankapp.features.transactions.ui.AddTransactionUseCase
+import com.github.mrmitew.bankapp.features.transactions.ui.AddTransactionViewModel
+import com.github.mrmitew.bankapp.features.transactions.ui.GetAvailableAccountsForTransactionUseCase
 import com.github.mrmitew.bankapp.features.transactions.ui.TransactionsViewModel
+import com.github.mrmitew.bankapp.features.transactions.usecase.GetAccountBalanceUseCase
+import com.github.mrmitew.bankapp.features.transactions.usecase.RefreshAccountTransactionsUseCase
 import com.github.mrmitew.bankapp.features.users.repository.AuthService
 import com.github.mrmitew.bankapp.features.users.repository.BackendApi
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
 import com.github.mrmitew.bankapp.features.users.repository.RemoteUserRepository
 import com.github.mrmitew.bankapp.features.users.repository.internal.AuthServiceImpl
 import com.github.mrmitew.bankapp.features.users.repository.internal.FakeBackendImpl
-import com.github.mrmitew.bankapp.features.users.repository.internal.FakeRemoteUserRepository
 import com.github.mrmitew.bankapp.features.users.repository.internal.LocalUsersRepositoryImpl
+import com.github.mrmitew.bankapp.features.users.repository.internal.RemoteUserRepositoryImpl
 import com.github.mrmitew.bankapp.features.users.usecase.LogInUserUseCase
 import com.github.mrmitew.bankapp.features.users.usecase.LogOutUserUseCase
 import org.koin.android.ext.koin.androidContext
@@ -54,17 +57,29 @@ private val accountsModule = module {
     viewModel { AccountListViewModel(get(), get()) }
     single { RefreshUserAccountsUseCase(get(), get(), get()) }
     single { FetchUserAccountsUseCase(get(), get(), get()) }
-    single { FakeRemoteAccountsRepository() as RemoteAccountsRepository }
+    single { RemoteAccountsRepositoryImpl(get()) as RemoteAccountsRepository }
     single { RoomAccountsRepository(get()) as LocalAccountsRepository }
     single { get<AppDatabase>().accountDao() }
 }
 
 private val transactionsModule = module {
     viewModel { (account: Account) -> TransactionsViewModel(get(), get(), account) } // Assisted injection
+    viewModel { (account: Account) -> AddTransactionViewModel(account, get(), get()) } // Assisted injection
     single { RoomTransactionsRepository(get()) as LocalTransactionsRepository }
-    single { FakeRemoteTransactionsRepository(get(), get()) as RemoteTransactionsRepository }
+    single { RemoteTransactionsRepositoryImpl(get(), get()) as RemoteTransactionsRepository }
     single { get<AppDatabase>().transactionDao() }
+    single {
+        AddTransactionUseCase(
+            androidContext().getString(R.string.deposit),
+            androidContext().getString(R.string.withdraw),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
     factory { RefreshAccountTransactionsUseCase(get(), get()) }
+    factory { GetAvailableAccountsForTransactionUseCase(get(), get()) }
 }
 
 private val usersModule = module {
@@ -72,7 +87,7 @@ private val usersModule = module {
     single { LogInUserUseCase(get(), get(), get()) }
     single { LogOutUserUseCase(get()) }
     single { get<AppDatabase>().userDao() }
-    single { FakeRemoteUserRepository(get()) as RemoteUserRepository }
+    single { RemoteUserRepositoryImpl(get()) as RemoteUserRepository }
     single { LocalUsersRepositoryImpl(get()) as LocalUsersRepository }
     single { FakeBackendImpl() as BackendApi }
 }

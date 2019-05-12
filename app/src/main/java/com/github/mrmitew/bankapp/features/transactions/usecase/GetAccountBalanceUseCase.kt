@@ -1,4 +1,4 @@
-package com.github.mrmitew.bankapp.features.transactions.ui
+package com.github.mrmitew.bankapp.features.transactions.usecase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData

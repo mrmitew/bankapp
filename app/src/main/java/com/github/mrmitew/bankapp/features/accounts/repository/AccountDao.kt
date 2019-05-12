@@ -18,7 +18,10 @@ interface AccountDao {
     suspend fun addAccounts(accounts: List<AccountEntity>)
 
     @Query("SELECT * FROM ${AccountEntity.TABLE_NAME} WHERE userId=:userId")
-    fun getAccounts(userId: Int): LiveData<List<AccountEntity>>
+    fun getAccountsRefreshing(userId: Int): LiveData<List<AccountEntity>>
+
+    @Query("SELECT * FROM ${AccountEntity.TABLE_NAME} WHERE userId=:userId")
+    suspend fun getAccounts(userId: Int): List<AccountEntity>
 
     @Query("SELECT balance FROM ${AccountEntity.TABLE_NAME} WHERE id=:accountId")
     fun getAccountBalanceRefreshing(accountId: Int): LiveData<BigDecimal>

@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.mrmitew.bankapp.features.accounts.repository.AccountsRepository
-import com.github.mrmitew.bankapp.features.accounts.repository.internal.FakeRemoteAccountsRepository
+import com.github.mrmitew.bankapp.features.accounts.repository.internal.RemoteAccountsRepositoryImpl
 import com.github.mrmitew.bankapp.features.accounts.usecase.RefreshUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.users.entity.UserEntity
@@ -58,7 +58,7 @@ class RefreshUserAccountsUseCaseTest {
                 login(User(0, "Stefan", "Mitev"))
             },
             TestLocalAccountsRepository(),
-            FakeRemoteAccountsRepository()
+            RemoteAccountsRepositoryImpl()
         )
         val livedata = getUserProjectsUseCase(Unit)
         assertEquals(null, livedata.value)
@@ -70,7 +70,7 @@ class RefreshUserAccountsUseCaseTest {
 private class TestLocalAccountsRepository : AccountsRepository {
     private val accountsStream = MutableLiveData<List<Account>>()
 
-    override suspend fun getAccounts(user: User): LiveData<List<Account>> = accountsStream
+    override suspend fun getAccountsRefreshing(user: User): LiveData<List<Account>> = accountsStream
 
     override suspend fun storeAccounts(user: User, accounts: List<Account>) {
         accountsStream.value = accounts

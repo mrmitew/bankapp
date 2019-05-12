@@ -13,8 +13,8 @@ import java.math.BigDecimal
 
 class RoomAccountsRepository(private val accountDao: AccountDao) :
     LocalAccountsRepository {
-    override suspend fun getAccounts(user: User): LiveData<List<Account>> {
-        return accountDao.getAccounts(user.id).distinctUntilChanged().map { entities ->
+    override suspend fun getAccountsRefreshing(user: User): LiveData<List<Account>> {
+        return accountDao.getAccountsRefreshing(user.id).distinctUntilChanged().map { entities ->
             entities.map { it.toDomainModel() }
         }
     }
@@ -34,4 +34,7 @@ class RoomAccountsRepository(private val accountDao: AccountDao) :
     override suspend fun updateAccountBalance(accountId: Int, newBalance: BigDecimal) {
         accountDao.updateAccountBalance(accountId, newBalance)
     }
+
+    override suspend fun getAccounts(user: User): List<Account> =
+        accountDao.getAccounts(user.id).map { it.toDomainModel() }
 }

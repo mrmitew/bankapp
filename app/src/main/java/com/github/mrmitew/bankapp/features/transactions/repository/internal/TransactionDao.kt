@@ -19,7 +19,7 @@ interface TransactionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTransaction(transaction: TransactionEntity)
 
-    @Query("SELECT * FROM ${TransactionEntity.TABLE_NAME} WHERE accountId=:accountId")
+    @Query("SELECT * FROM ${TransactionEntity.TABLE_NAME} WHERE accountId=:accountId ORDER BY date DESC")
     fun getTransactions(accountId: Int): LiveData<List<TransactionEntity>>
 
     @Query("DELETE FROM ${TransactionEntity.TABLE_NAME} WHERE accountId=:accountId")

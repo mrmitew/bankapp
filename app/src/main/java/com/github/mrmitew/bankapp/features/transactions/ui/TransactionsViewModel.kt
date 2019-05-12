@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
+import com.github.mrmitew.bankapp.features.transactions.usecase.GetAccountBalanceUseCase
+import com.github.mrmitew.bankapp.features.transactions.usecase.RefreshAccountTransactionsUseCase
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 
 /**
@@ -16,10 +18,6 @@ class TransactionsViewModel(
     private val getAccountBalanceUseCase: GetAccountBalanceUseCase,
     private val account: Account
 ) : ViewModel() {
-    init {
-        println("[TransactionsViewModel] ${hashCode()}")
-    }
-
     // Create a coroutine live data (https://developer.android.com/topic/libraries/architecture/coroutines)
     // Query the business logic to get user bank accounts
     // And then map them to something that the UI can render

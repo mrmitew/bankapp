@@ -17,8 +17,7 @@ import com.github.mrmitew.bankapp.features.common.vo.onSuccess
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.IllegalArgumentException
 
-class AccountListFragment : Fragment(),
-    AccountsAdapter.OnAccountClickListener {
+class AccountListFragment : Fragment(), OnAccountClickListener {
     private val viewModel: AccountListViewModel by viewModel()
 
     override fun onCreateView(
@@ -58,7 +57,6 @@ class AccountListFragment : Fragment(),
         catchResult {
             when (account.type) {
                 Account.TYPE_PAYMENT -> AccountListFragmentDirections.actionTransactionsOverview(account)
-                // TODO: Navigate to a different fragment
                 Account.TYPE_SAVINGS -> AccountListFragmentDirections.actionSavingsAccountTransactionsOverview(account)
                 else -> throw IllegalArgumentException()
             }

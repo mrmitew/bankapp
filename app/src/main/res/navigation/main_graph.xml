@@ -49,5 +49,20 @@
         <argument
             android:name="account"
             app:argType="com.github.mrmitew.bankapp.features.accounts.vo.Account" />
+        <action
+            android:id="@+id/addTransaction"
+            app:destination="@id/addTransaction" />
+    </fragment>
+    <fragment
+        android:id="@+id/addTransaction"
+        android:name="com.github.mrmitew.bankapp.features.transactions.ui.AddTransactionFragment"
+        android:label="Add transaction"
+        tools:layout="@layout/fragment_add_transaction" >
+        <argument
+            android:name="isDeposit"
+            app:argType="boolean" />
+        <argument
+            android:name="account"
+            app:argType="com.github.mrmitew.bankapp.features.accounts.vo.Account" />
     </fragment>
 </navigation>

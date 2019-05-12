@@ -10,13 +10,13 @@ import com.github.mrmitew.bankapp.R
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import java.util.*
 
+interface OnAccountClickListener {
+    fun onAccountClick(account: Account)
+}
+
 class AccountsAdapter : ListAdapter<AccountViewItem, AccountsAdapter.BaseAccountViewHolder>(
     AccountViewItem.DIFF_CALLBACK
 ) {
-    interface OnAccountClickListener {
-        fun onAccountClick(account: Account)
-    }
-
     abstract class BaseAccountViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         abstract fun bindTo(item: AccountViewItem)
     }
