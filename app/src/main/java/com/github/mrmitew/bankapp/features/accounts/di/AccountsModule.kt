@@ -8,6 +8,7 @@ import com.github.mrmitew.bankapp.features.accounts.ui.AccountListViewModel
 import com.github.mrmitew.bankapp.features.accounts.usecase.FetchUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.accounts.usecase.RefreshUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.storage.database.AppDatabase
+import com.github.mrmitew.bankapp.features.transactions.usecase.GetAccountBalanceUseCase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -22,4 +23,5 @@ val accountsModule = module {
     single { RemoteAccountsRepositoryImpl(get(), get()) as RemoteAccountsRepository }
     single { LocalAccountsRepositoryImpl(get()) as LocalAccountsRepository }
     single { get<AppDatabase>().accountDao() }
+    single { GetAccountBalanceUseCase(get(), get()) }
 }
