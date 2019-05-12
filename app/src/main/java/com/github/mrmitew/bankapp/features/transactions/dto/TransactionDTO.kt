@@ -4,7 +4,7 @@ import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 import java.math.BigDecimal
 
 data class TransactionDTO(
-    val id: Int,
+    val id: String,
     val accountId: Int,
     val name: String,
     val description: String?,

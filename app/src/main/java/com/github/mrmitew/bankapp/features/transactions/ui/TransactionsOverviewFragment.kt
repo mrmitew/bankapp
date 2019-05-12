@@ -16,6 +16,7 @@ import com.github.mrmitew.bankapp.R
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import java.math.BigDecimal
 
 
 class TransactionsOverviewFragment : Fragment() {
@@ -38,7 +39,7 @@ class TransactionsOverviewFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
         viewModel.transactionListStream.observe(viewLifecycleOwner, Observer {
-            println("Submitting: $it")
+            println("Submitting (${it.size}): $it")
             transactionsAdapter.submitList(it)
         })
 
@@ -54,7 +55,7 @@ class TransactionsOverviewFragment : Fragment() {
 class TransactionsAdapter :
     ListAdapter<Transaction, TransactionsAdapter.TransactionViewHolder>(Transaction.DIFF_CALLBACK) {
 
-    inner class TransactionViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    class TransactionViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bindTo(item: Transaction) {
             view.findViewById<TextView>(R.id.tv_target).text = item.targetName
             view.findViewById<TextView>(R.id.tv_balance).text = item.amount.toPlainString()

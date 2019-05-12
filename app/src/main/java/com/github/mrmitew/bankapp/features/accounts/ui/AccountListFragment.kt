@@ -10,7 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.mrmitew.bankapp.R
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
+import com.github.mrmitew.bankapp.features.common.vo.catchResult
+import com.github.mrmitew.bankapp.features.common.vo.getOrNull
+import com.github.mrmitew.bankapp.features.common.vo.onFailure
+import com.github.mrmitew.bankapp.features.common.vo.onSuccess
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.IllegalArgumentException
 
 class AccountListFragment : Fragment(),
     AccountsAdapter.OnAccountClickListener {
@@ -50,8 +55,21 @@ class AccountListFragment : Fragment(),
     }
 
     override fun onAccountClick(account: Account) {
-        // Request navigation
-        findNavController().navigate(AccountListFragmentDirections.actionTransactionsOverview(account))
+        catchResult {
+            when (account.type) {
+                Account.TYPE_PAYMENT -> AccountListFragmentDirections.actionTransactionsOverview(account)
+                // TODO: Navigate to a different fragment
+                Account.TYPE_SAVINGS -> AccountListFragmentDirections.actionTransactionsOverview(account)
+                else -> throw IllegalArgumentException()
+            }
+        }
+            .onFailure {
+                // TODO: Log
+                it.printStackTrace()
+            }
+            .onSuccess {
+                findNavController().navigate(it)
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

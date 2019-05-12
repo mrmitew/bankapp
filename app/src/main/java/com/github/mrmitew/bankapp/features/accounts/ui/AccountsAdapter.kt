@@ -21,7 +21,7 @@ class AccountsAdapter : ListAdapter<AccountViewItem, AccountsAdapter.BaseAccount
         abstract fun bindTo(item: AccountViewItem)
     }
 
-    inner class HeaderViewHolder(private val view: View) : BaseAccountViewHolder(view) {
+    class HeaderViewHolder(private val view: View) : BaseAccountViewHolder(view) {
         override fun bindTo(item: AccountViewItem) {
             val header = item as AccountViewItem.HeaderViewItem
             view.findViewById<TextView>(R.id.tv_name).text = header.title
@@ -37,7 +37,8 @@ class AccountsAdapter : ListAdapter<AccountViewItem, AccountsAdapter.BaseAccount
             }
             view.findViewById<TextView>(R.id.tv_name).text = account.name
             view.findViewById<TextView>(R.id.tv_iban).text = account.iban
-            view.findViewById<TextView>(R.id.tv_balance).text = String.format(Locale.getDefault(), "%s", account.balance)
+            view.findViewById<TextView>(R.id.tv_balance).text =
+                String.format(Locale.getDefault(), "%s", account.balance)
         }
     }
 

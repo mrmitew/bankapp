@@ -2,7 +2,6 @@ package com.github.mrmitew.bankapp.features.transactions.entity
 
 import androidx.room.*
 import com.github.mrmitew.bankapp.features.accounts.entity.AccountEntity
-import com.github.mrmitew.bankapp.features.transactions.converter.BigDecimalConverter
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 import java.math.BigDecimal
 
@@ -11,17 +10,18 @@ import java.math.BigDecimal
  */
 @Entity(
     tableName = TransactionEntity.TABLE_NAME,
-    indices = [Index("accountId")],
+    indices = [Index("accountId"), Index("transactionId")],
     foreignKeys = [
         ForeignKey(
             entity = AccountEntity::class,
-            parentColumns = arrayOf("id"),
-            childColumns = arrayOf("accountId")
-        )]
+            parentColumns = ["id"],
+            childColumns = ["accountId"]
+        )
+    ]
 )
 data class TransactionEntity(
     @PrimaryKey
-    val id: Int = 0,
+    val transactionId: String,
     val accountId: Int,
     val name: String,
     val description: String?,
@@ -39,7 +39,7 @@ data class TransactionEntity(
 }
 
 fun TransactionEntity.toDomainModel() = Transaction(
-    id,
+    transactionId,
     accountId,
     name,
     description,

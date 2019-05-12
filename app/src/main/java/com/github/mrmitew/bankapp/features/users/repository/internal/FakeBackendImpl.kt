@@ -29,31 +29,7 @@ class FakeBackendImpl : BackendApi {
         return when (accountId) {
             1 -> listOf(
                 TransactionDTO(
-                    1,
-                    1,
-                    "Jumbo Utrecht",
-                    "Passvolgnr: 001 10-05-2019 19:00",
-                    null,
-                    "11 May 2019",
-                    "Betaalautomaat",
-                    BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
-                    "Jumbo Utrecht",
-                    "NLXXJUMBO123IBAN"
-                ),
-                TransactionDTO(
-                    2,
-                    1,
-                    "Albert Heijn Amsterdam",
-                    "Passvolgnr: 001 10-05-2019 19:00",
-                    null,
-                    "11 May 2019",
-                    "Betaalautomaat",
-                    BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
-                    "Albert Heijn Amsterdam",
-                    "NLXXAMS123IBAN"
-                ),
-                TransactionDTO(
-                    3,
+                    "2805c74c-cabf-41b3-af3d-96504098b165",
                     1,
                     "Jumbo Utrecht",
                     "Passvolgnr: 001 10-05-2019 19:00",
@@ -65,7 +41,7 @@ class FakeBackendImpl : BackendApi {
                     "NLXXJUMBO123IBAN"
                 ),
                 TransactionDTO(
-                    4,
+                    "6d97a4fe-4dc5-4226-a57e-005f5d466dad",
                     1,
                     "Albert Heijn Amsterdam",
                     "Passvolgnr: 001 10-05-2019 19:00",
@@ -77,7 +53,31 @@ class FakeBackendImpl : BackendApi {
                     "NLXXAMS123IBAN"
                 ),
                 TransactionDTO(
-                    5,
+                    "bc92ed9f-2b67-4660-8d17-615939b00b16",
+                    1,
+                    "Jumbo Utrecht",
+                    "Passvolgnr: 001 10-05-2019 19:00",
+                    null,
+                    "11 May 2019",
+                    "Betaalautomaat",
+                    BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+                    "Jumbo Utrecht",
+                    "NLXXJUMBO123IBAN"
+                ),
+                TransactionDTO(
+                    "9e50ffbf-65d2-43e7-b1eb-bda8ad79095a",
+                    1,
+                    "Albert Heijn Amsterdam",
+                    "Passvolgnr: 001 10-05-2019 19:00",
+                    null,
+                    "11 May 2019",
+                    "Betaalautomaat",
+                    BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+                    "Albert Heijn Amsterdam",
+                    "NLXXAMS123IBAN"
+                ),
+                TransactionDTO(
+                    "871f4a12-b875-4cf6-8d64-9f2633b1548f",
                     1,
                     "Albert Heijn Amsterdam",
                     "Passvolgnr: 001 10-05-2019 19:00",
@@ -92,7 +92,7 @@ class FakeBackendImpl : BackendApi {
             2 ->
                 listOf(
                     TransactionDTO(
-                        1,
+                        "71aec513-49a5-45d9-aa68-81de7f18cc93",
                         2,
                         "Jumbo Utrecht",
                         "Passvolgnr: 001 10-05-2019 19:00",
@@ -104,7 +104,7 @@ class FakeBackendImpl : BackendApi {
                         "NLXXJUMBO123IBAN"
                     ),
                     TransactionDTO(
-                        2,
+                        "4c619838-df62-4c9d-8523-e779c2f65a29",
                         2,
                         "Albert Heijn Amsterdam",
                         "Passvolgnr: 001 10-05-2019 19:00",

@@ -64,7 +64,7 @@ private val transactionsModule = module {
     single { RoomTransactionsRepository(get()) as LocalTransactionsRepository }
     single { FakeRemoteTransactionsRepository(get(), get()) as RemoteTransactionsRepository }
     single { get<AppDatabase>().transactionDao() }
-    single { RefreshAccountTransactionsUseCase(get(), get()) }
+    factory { RefreshAccountTransactionsUseCase(get(), get()) }
 }
 
 private val usersModule = module {
@@ -79,9 +79,8 @@ private val usersModule = module {
 
 private val storageModule = module {
     single { AppDatabase.getInstance(androidContext(), get()) }
-    // TODO: Assisted injection. We copy it here, because the array will be cleared out.
-    //  If user goes back to login it wouldn't work second time around.
-    single { SafeHelperFactory(USER_PIN.copyOf()) }
+    // TODO: Assisted injection.
+    single { SafeHelperFactory(USER_PIN) }
 }
 
 private val authModule = module {

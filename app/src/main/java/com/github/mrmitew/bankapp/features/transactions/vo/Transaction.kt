@@ -14,7 +14,7 @@ import java.math.BigDecimal
  */
 @Serializable
 data class Transaction(
-    val id: Int,
+    val id: String,
     val accountId: Int,
     val name: String,
     val description: String?,

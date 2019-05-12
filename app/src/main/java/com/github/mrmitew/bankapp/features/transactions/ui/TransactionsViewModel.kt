@@ -16,6 +16,10 @@ class TransactionsViewModel(
     private val getAccountBalanceUseCase: GetAccountBalanceUseCase,
     private val account: Account
 ) : ViewModel() {
+    init {
+        println("[TransactionsViewModel] ${hashCode()}")
+    }
+
     // Create a coroutine live data (https://developer.android.com/topic/libraries/architecture/coroutines)
     // Query the business logic to get user bank accounts
     // And then map them to something that the UI can render
