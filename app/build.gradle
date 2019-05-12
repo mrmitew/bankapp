@@ -31,7 +31,6 @@ android {
 
     kotlinOptions {
         freeCompilerArgs = ["-Xallow-result-return-type"]
-
     }
 
     androidExtensions {
@@ -92,7 +91,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     implementation "com.commonsware.cwac:saferoom.x:1.0.2"
 
-    def koin_version = "2.0.0"
+    def koin_version = "2.0.0-GA"
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-androidx-scope:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"

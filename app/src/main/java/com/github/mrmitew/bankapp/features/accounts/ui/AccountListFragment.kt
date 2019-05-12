@@ -1,46 +1,23 @@
 package com.github.mrmitew.bankapp.features.accounts.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.mrmitew.bankapp.R
-import com.github.mrmitew.bankapp.features.accounts.usecase.GetUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
-import com.github.mrmitew.bankapp.features.common.usecase.invoke
-import kotlinx.coroutines.cancel
+import com.github.mrmitew.bankapp.features.common.vo.catchResult
+import com.github.mrmitew.bankapp.features.common.vo.getOrNull
+import com.github.mrmitew.bankapp.features.common.vo.onFailure
+import com.github.mrmitew.bankapp.features.common.vo.onSuccess
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.IllegalArgumentException
 
-
-class AccountListViewModel(private val getUserAccountUseCase: GetUserAccountsUseCase) : ViewModel() {
-    private val accounts: LiveData<List<Account>>
-
-    init {
-        accounts = liveData {
-            emitSource(requireNotNull(getUserAccountUseCase()).getOrThrow())
-        }
-    }
-
-    fun getAccounts() = accounts
-
-    override fun onCleared() {
-        super.onCleared()
-        getUserAccountUseCase.cancel()
-    }
-}
-
-class AccountListFragment : Fragment(),
-    AccountsAdapter.OnAccountClickListener {
+class AccountListFragment : Fragment(), OnAccountClickListener {
     private val viewModel: AccountListViewModel by viewModel()
 
     override fun onCreateView(
@@ -48,54 +25,57 @@ class AccountListFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_accounts, container, false)
+        val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.vg_swipeToRefresh)
+
+        viewModel.loadingStateStream.observe(viewLifecycleOwner, Observer {
+            // Keep the loading if we haven't completely finished fetching data
+            swipeRefreshLayout.isRefreshing = it.isRefreshing || it.isInitialLoading
+        })
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rv_accounts)
-        val projectsAdapter = AccountsAdapter()
+        val accountsAdapter = AccountsAdapter()
 
-        projectsAdapter.listener = this
-        recyclerView.adapter = projectsAdapter
+        accountsAdapter.listener = this
+        recyclerView.adapter = accountsAdapter
         recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
-        viewModel.getAccounts().observe(viewLifecycleOwner, Observer {
-            projectsAdapter.submitList(it)
-            println("Received: $it")
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.refreshAccounts()
+        }
+
+        viewModel.getAccountItemList().observe(viewLifecycleOwner, Observer {
+            println("Received $it")
+            accountsAdapter.submitList(it)
         })
+
+        setHasOptionsMenu(true)
 
         return view
     }
 
     override fun onAccountClick(account: Account) {
-        // Request navigation
-        findNavController().navigate(
-            AccountListFragmentDirections.actionTransactionDetails(
-                account
-            )
-        )
-    }
-}
-
-class AccountsAdapter : ListAdapter<Account, AccountsAdapter.AccountViewHolder>(
-    Account.DIFF_CALLBACK) {
-    interface OnAccountClickListener {
-        fun onAccountClick(account: Account)
-    }
-
-    inner class AccountViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        fun bindTo(item: Account) {
-            view.findViewById<ViewGroup>(R.id.vg_item).setOnClickListener {
-                listener?.onAccountClick(item)
+        catchResult {
+            when (account.type) {
+                Account.TYPE_PAYMENT -> AccountListFragmentDirections.actionTransactionsOverview(account)
+                Account.TYPE_SAVINGS -> AccountListFragmentDirections.actionSavingsAccountTransactionsOverview(account)
+                else -> throw IllegalArgumentException()
             }
-            view.findViewById<TextView>(R.id.tv_name).text = item.name
-            view.findViewById<TextView>(R.id.tv_iban).text = item.iban
         }
+            .onFailure {
+                // TODO: Log
+                it.printStackTrace()
+            }
+            .onSuccess {
+                findNavController().navigate(it)
+            }
     }
 
-    var listener: OnAccountClickListener? = null
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder =
-        AccountViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_account, parent, false))
-
-    override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
-        holder.bindTo(getItem(position))
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.account_menu, menu)
+        menu.findItem(R.id.refresh).setOnMenuItemClickListener {
+            viewModel.refreshAccounts()
+            true
+        }
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

@@ -8,6 +8,9 @@ import java.math.BigDecimal
  * Created by Stefan Mitev on 10-5-19.
  */
 
+/**
+ * Used by Kotlin's [Serializable] to serialize [BigDecimal]
+ */
 @Serializer(forClass = BigDecimal::class)
 class BigDecimalSerializer : KSerializer<BigDecimal> {
     override val descriptor: SerialDescriptor = StringDescriptor

@@ -11,9 +11,15 @@
         android:label="Account list"
         tools:layout="@layout/fragment_accounts">
         <action
-            android:id="@+id/action_transaction_details"
-            app:destination="@id/accountOverview" />
+            android:id="@+id/action_transactions_overview"
+            app:destination="@id/transactionsOverview"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_savings_account_transactions_overview"
+            app:destination="@id/savingsAccountTransactionsOverview"
+            app:popUpToInclusive="false" />
     </fragment>
+
     <fragment
         android:id="@+id/login"
         android:name="com.github.mrmitew.bankapp.features.login.ui.LoginFragment"
@@ -21,30 +27,42 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_account_overview"
-            app:destination="@id/accountList" />
+            app:destination="@id/accountList"
+            app:popUpTo="@+id/login"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/transactionsOverview"
+        android:name="com.github.mrmitew.bankapp.features.transactions.ui.TransactionsOverviewFragment"
+        android:label="Transactions overview"
+        tools:layout="@layout/fragment_transactions_overview">
+        <argument
+            android:name="account"
+            app:argType="com.github.mrmitew.bankapp.features.accounts.vo.Account" />
     </fragment>
     <fragment
-        android:id="@+id/accountOverview"
-        android:name="com.github.mrmitew.bankapp.features.accounts.ui.AccountOverviewFragment"
-        android:label="Account overview"
-        tools:layout="@layout/fragment_account_overview">
+        android:id="@+id/savingsAccountTransactionsOverview"
+        android:name="com.github.mrmitew.bankapp.features.transactions.ui.SavingsAccountTransactionsOverviewFragment"
+        android:label="Transactions overview"
+        tools:layout="@layout/fragment_transactions_overview">
         <argument
             android:name="account"
             app:argType="com.github.mrmitew.bankapp.features.accounts.vo.Account" />
         <action
-            android:id="@+id/action_accountOverview_to_transactionsOverviewFragment2"
-            app:destination="@id/transactionsOverviewFragment" />
+            android:id="@+id/addTransaction"
+            app:destination="@id/addTransaction" />
     </fragment>
-    <action
-        android:id="@+id/action_global_loginFragment"
-        app:destination="@id/login" />
     <fragment
-        android:id="@+id/transactionsOverviewFragment"
-        android:name="com.github.mrmitew.bankapp.features.transactions.ui.TransactionsOverviewFragment"
-        android:label="fragment_transactions_overview"
-        tools:layout="@layout/fragment_transactions_overview">
+        android:id="@+id/addTransaction"
+        android:name="com.github.mrmitew.bankapp.features.transactions.ui.AddTransactionFragment"
+        android:label="Add transaction"
+        tools:layout="@layout/fragment_add_transaction" >
         <argument
-            android:name="transaction"
-            app:argType="com.github.mrmitew.bankapp.features.transactions.vo.Transaction" />
+            android:name="isDeposit"
+            app:argType="boolean" />
+        <argument
+            android:name="account"
+            app:argType="com.github.mrmitew.bankapp.features.accounts.vo.Account" />
     </fragment>
 </navigation>

@@ -1,9 +1,8 @@
 package com.github.mrmitew.bankapp.features.transactions.entity
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.github.mrmitew.bankapp.features.accounts.entity.AccountEntity
+import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 import java.math.BigDecimal
 
 /**
@@ -11,14 +10,18 @@ import java.math.BigDecimal
  */
 @Entity(
     tableName = TransactionEntity.TABLE_NAME,
+    indices = [Index("accountId"), Index("transactionId")],
     foreignKeys = [
         ForeignKey(
             entity = AccountEntity::class,
-            parentColumns = arrayOf("id"),
-            childColumns = arrayOf("accountId")
-        )]
+            parentColumns = ["id"],
+            childColumns = ["accountId"]
+        )
+    ]
 )
 data class TransactionEntity(
+    @PrimaryKey
+    val transactionId: String,
     val accountId: Int,
     val name: String,
     val description: String?,
@@ -30,9 +33,37 @@ data class TransactionEntity(
     val targetAccount: String
 ) {
     companion object {
-        internal const val TABLE_NAME = "transaction"
+        // We cannot use "transaction" as a table name since its a special keyword
+        internal const val TABLE_NAME = "transaction_entity"
     }
-
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
 }
+
+/**
+ * Mappers for the other layers of the app
+ */
+
+fun TransactionEntity.toDomainModel() = Transaction(
+    transactionId,
+    accountId,
+    name,
+    description,
+    comment,
+    date,
+    mutationType,
+    amount,
+    targetName,
+    targetAccount
+)
+
+fun Transaction.toEntity() = TransactionEntity(
+    id,
+    accountId,
+    name,
+    description,
+    comment,
+    date,
+    mutationType,
+    amount,
+    targetName,
+    targetAccount
+)

@@ -2,6 +2,7 @@ package com.github.mrmitew.bankapp.features.transactions.vo
 
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mrmitew.bankapp.features.common.converter.BigDecimalSerializer
+import com.github.mrmitew.bankapp.features.transactions.entity.TransactionEntity
 import kotlinx.serialization.Serializable
 import java.math.BigDecimal
 
@@ -13,7 +14,8 @@ import java.math.BigDecimal
  */
 @Serializable
 data class Transaction(
-    val id: Int,
+    val id: String,
+    val accountId: Int,
     val name: String,
     val description: String?,
     val comment: String?,
