@@ -6,7 +6,7 @@ import com.github.mrmitew.bankapp.features.common.usecase.UseCase
 import com.github.mrmitew.bankapp.features.common.vo.catchResult
 import com.github.mrmitew.bankapp.features.common.vo.Result
 import com.github.mrmitew.bankapp.features.common.vo.onFailure
-import com.github.mrmitew.bankapp.features.users.repository.AuthService
+import com.github.mrmitew.bankapp.features.auth.AuthService
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
 import com.github.mrmitew.bankapp.features.users.repository.RemoteUserRepository
 import com.github.mrmitew.bankapp.features.users.vo.User
@@ -26,7 +26,7 @@ class LogInUserUseCase(
                 throw WrongPasswordException()
             }
             val token = authService.getUserToken(APP_TOKEN)
-            val user = remoteUserRepository.getPerson(token)
+            val user = remoteUserRepository.getPerson(token.accessToken)
             localUsersRepository.createUser(user)
             localUsersRepository.login(user)
             user

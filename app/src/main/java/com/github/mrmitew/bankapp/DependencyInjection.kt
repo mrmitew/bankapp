@@ -22,12 +22,12 @@ import com.github.mrmitew.bankapp.features.transactions.ui.GetAvailableAccountsF
 import com.github.mrmitew.bankapp.features.transactions.ui.TransactionsViewModel
 import com.github.mrmitew.bankapp.features.transactions.usecase.GetAccountBalanceUseCase
 import com.github.mrmitew.bankapp.features.transactions.usecase.RefreshAccountTransactionsUseCase
-import com.github.mrmitew.bankapp.features.users.repository.AuthService
-import com.github.mrmitew.bankapp.features.users.repository.BackendApi
+import com.github.mrmitew.bankapp.features.auth.AuthService
+import com.github.mrmitew.bankapp.features.backend.BackendApi
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
 import com.github.mrmitew.bankapp.features.users.repository.RemoteUserRepository
-import com.github.mrmitew.bankapp.features.users.repository.internal.AuthServiceImpl
-import com.github.mrmitew.bankapp.features.users.repository.internal.FakeBackendImpl
+import com.github.mrmitew.bankapp.features.auth.internal.AuthServiceImpl
+import com.github.mrmitew.bankapp.features.backend.internal.FakeBackendImpl
 import com.github.mrmitew.bankapp.features.users.repository.internal.LocalUsersRepositoryImpl
 import com.github.mrmitew.bankapp.features.users.repository.internal.RemoteUserRepositoryImpl
 import com.github.mrmitew.bankapp.features.users.usecase.LogInUserUseCase
@@ -57,7 +57,7 @@ private val accountsModule = module {
     viewModel { AccountListViewModel(get(), get()) }
     single { RefreshUserAccountsUseCase(get(), get(), get()) }
     single { FetchUserAccountsUseCase(get(), get(), get()) }
-    single { RemoteAccountsRepositoryImpl(get()) as RemoteAccountsRepository }
+    single { RemoteAccountsRepositoryImpl(get(), get()) as RemoteAccountsRepository }
     single { RoomAccountsRepository(get()) as LocalAccountsRepository }
     single { get<AppDatabase>().accountDao() }
 }

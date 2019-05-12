@@ -1,4 +1,6 @@
-package com.github.mrmitew.bankapp.features.users.repository
+package com.github.mrmitew.bankapp.features.auth
+
+import com.github.mrmitew.bankapp.features.auth.vo.Token
 
 /**
  * Service that knows how to get us a token.
@@ -6,5 +8,5 @@ package com.github.mrmitew.bankapp.features.users.repository
  * fetching a new one and also refreshing.
  */
 interface AuthService {
-    suspend fun getUserToken(appToken: String): String
+    suspend fun getUserToken(appToken: String): Token
 }

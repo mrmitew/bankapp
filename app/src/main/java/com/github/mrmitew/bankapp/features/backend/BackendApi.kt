@@ -1,7 +1,8 @@
-package com.github.mrmitew.bankapp.features.users.repository
+package com.github.mrmitew.bankapp.features.backend
 
 import com.github.mrmitew.bankapp.features.accounts.dto.AccountDTO
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
+import com.github.mrmitew.bankapp.features.auth.vo.Token
 import com.github.mrmitew.bankapp.features.transactions.dto.TransactionDTO
 import com.github.mrmitew.bankapp.features.users.dto.UserDTO
 import com.github.mrmitew.bankapp.features.users.vo.User
@@ -13,11 +14,11 @@ import java.math.BigDecimal
  * Notice that we expose DTOs here like [UserDTO].
  */
 interface BackendApi {
-    suspend fun fetchUserToken(username: String): String
+    suspend fun fetchUserToken(username: String): Token
     suspend fun fetchPerson(token: String): UserDTO
     suspend fun fetchTransactions(userAccessToken: String, accountId: Int): List<TransactionDTO>
     suspend fun addTransaction(userAccessToken: String, transaction: TransactionDTO)
-    suspend fun fetchAccounts(user: User): List<AccountDTO>
-    suspend fun fetchAccountBalance(accountId: Int): BigDecimal
-    suspend fun updateAccountBalance(accountId: Int, newBalance: BigDecimal)
+    suspend fun fetchAccounts(userAccessToken: String, user: User): List<AccountDTO>
+    suspend fun fetchAccountBalance(userAccessToken: String, accountId: Int): BigDecimal
+    suspend fun updateAccountBalance(userAccessToken: String, accountId: Int, newBalance: BigDecimal)
 }

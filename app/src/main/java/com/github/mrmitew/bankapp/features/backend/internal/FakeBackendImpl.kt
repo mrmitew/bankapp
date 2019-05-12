@@ -1,10 +1,11 @@
-package com.github.mrmitew.bankapp.features.users.repository.internal
+package com.github.mrmitew.bankapp.features.backend.internal
 
 import com.github.mrmitew.bankapp.features.accounts.dto.AccountDTO
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
+import com.github.mrmitew.bankapp.features.auth.vo.Token
 import com.github.mrmitew.bankapp.features.transactions.dto.TransactionDTO
 import com.github.mrmitew.bankapp.features.users.dto.UserDTO
-import com.github.mrmitew.bankapp.features.users.repository.BackendApi
+import com.github.mrmitew.bankapp.features.backend.BackendApi
 import com.github.mrmitew.bankapp.features.users.vo.User
 import java.math.BigDecimal
 import java.util.*
@@ -108,7 +109,10 @@ class FakeBackendImpl : BackendApi {
         )
     )
 
-    override suspend fun fetchUserToken(username: String): String = "HELLOWORLD"
+    override suspend fun fetchUserToken(username: String): Token = Token(
+        accessToken = UUID.randomUUID().toString(),
+        expireDate = System.currentTimeMillis() + 1000 * 30
+    )
 
     override suspend fun fetchPerson(token: String): UserDTO {
         return when (token) {
@@ -122,7 +126,7 @@ class FakeBackendImpl : BackendApi {
         }
     }
 
-    override suspend fun fetchAccounts(user: User): List<AccountDTO> {
+    override suspend fun fetchAccounts(userAccessToken: String, user: User): List<AccountDTO> {
         return accounts
     }
 
@@ -149,7 +153,7 @@ class FakeBackendImpl : BackendApi {
         }
     }
 
-    override suspend fun updateAccountBalance(accountId: Int, newBalance: BigDecimal) {
+    override suspend fun updateAccountBalance(userAccessToken: String, accountId: Int, newBalance: BigDecimal) {
         when (accountId) {
             1 -> accounts[0] = accounts[0].copy(balance = newBalance)
             2 -> accounts[1] = accounts[1].copy(balance = newBalance)
@@ -157,7 +161,7 @@ class FakeBackendImpl : BackendApi {
         }
     }
 
-    override suspend fun fetchAccountBalance(accountId: Int): BigDecimal {
+    override suspend fun fetchAccountBalance(userAccessToken: String, accountId: Int): BigDecimal {
         return when (accountId) {
             1 -> accounts[0].balance
             2 -> accounts[1].balance
