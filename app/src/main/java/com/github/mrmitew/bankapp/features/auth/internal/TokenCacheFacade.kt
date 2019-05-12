@@ -41,7 +41,7 @@ internal class TokenCacheFacade(private val remoteUserRepository: RemoteUserRepo
 
     private fun isTokenExpired(token: Token?): Boolean {
         if (token == null) return true
-        return (System.currentTimeMillis() < token.expireDate)
+        return (System.currentTimeMillis() > token.expireDate)
     }
 
     val cache = memoryCache + networkFetcher

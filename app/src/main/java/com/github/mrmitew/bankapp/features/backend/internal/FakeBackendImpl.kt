@@ -14,6 +14,8 @@ import java.util.*
  * This is our backend. It is running on a remote machine. *wink*
  */
 class FakeBackendImpl : BackendApi {
+    private var currentUserToken: Token? = null
+
     private val accounts = mutableListOf(
         AccountDTO(1, "Stefan Mitev", "NLXXJUMBO123IBAN", Account.TYPE_PAYMENT, "EUR", BigDecimal(1_992)),
         AccountDTO(2, "Stefan Mitev", "NLXXAMS123IBAN", Account.TYPE_SAVINGS, "EUR", BigDecimal(9_090))
@@ -109,14 +111,18 @@ class FakeBackendImpl : BackendApi {
         )
     )
 
-    override suspend fun fetchUserToken(username: String): Token = Token(
-        accessToken = UUID.randomUUID().toString(),
-        expireDate = System.currentTimeMillis() + 1000 * 30
-    )
+    override suspend fun fetchUserToken(username: String): Token {
+        val token = Token(
+            accessToken = UUID.randomUUID().toString(),
+            expireDate = System.currentTimeMillis() + 1000 * 10
+        )
+        currentUserToken = token
+        return token
+    }
 
     override suspend fun fetchPerson(token: String): UserDTO {
         return when (token) {
-            "HELLOWORLD" -> UserDTO(
+            currentUserToken?.accessToken -> UserDTO(
                 0,
                 "Stefan",
                 "Mitev",

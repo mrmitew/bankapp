@@ -1,6 +1,5 @@
 package com.github.mrmitew.bankapp.features.auth.internal
 
-import com.github.mrmitew.bankapp.features.auth.internal.TokenCacheFacade
 import com.github.mrmitew.bankapp.features.auth.vo.Token
 import com.github.mrmitew.bankapp.features.common.usecase.UseCase
 import com.github.mrmitew.bankapp.features.common.usecase.reuseInflight
