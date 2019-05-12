@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_accounts">
         <action
             android:id="@+id/action_transactions_overview"
-            app:destination="@id/transactionsOverviewFragment"/>
+            app:destination="@id/transactionsOverviewFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -22,7 +23,9 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_account_overview"
-            app:destination="@id/accountList" />
+            app:destination="@id/accountList"
+            app:popUpTo="@+id/login"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

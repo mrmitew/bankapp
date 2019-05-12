@@ -1,19 +1,19 @@
 package com.github.mrmitew.bankapp.features.accounts.repository.internal
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.map
 import com.github.mrmitew.bankapp.features.accounts.entity.AccountEntity
 import com.github.mrmitew.bankapp.features.accounts.repository.AccountDao
-import com.github.mrmitew.bankapp.features.accounts.repository.AccountsRepository
+import com.github.mrmitew.bankapp.features.accounts.repository.LocalAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
-import com.github.mrmitew.bankapp.features.common.util.distinctUntilChanged
 import com.github.mrmitew.bankapp.features.users.vo.User
 import java.math.BigDecimal
 
-class LocalAccountsRepository(private val accountDao: AccountDao) :
-    AccountsRepository {
+class RoomAccountsRepository(private val accountDao: AccountDao) :
+    LocalAccountsRepository {
     override suspend fun getAccounts(user: User): LiveData<List<Account>> {
-        return Transformations.map(accountDao.getAccounts(user.id).distinctUntilChanged()) { entities ->
+        return accountDao.getAccounts(user.id).distinctUntilChanged().map { entities ->
             entities.map {
                 Account(
                     it.id,

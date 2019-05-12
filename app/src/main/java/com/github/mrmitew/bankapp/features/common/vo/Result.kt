@@ -63,15 +63,14 @@ fun <T> Result<T>.mapFailure(transform: (exception: Throwable) -> Throwable): Re
     }
 }
 
-inline fun <T> Result<T>.fold(
-    onSuccess: (T) -> Unit,
-    onFailure: (Throwable) -> Unit
-): Result<T> {
-    when (this) {
+inline fun <T, R> Result<T>.fold(
+    onSuccess: (T) -> R,
+    onFailure: (Throwable) -> R
+): R {
+    return when (this) {
         is Result.Success -> onSuccess(value)
         is Result.Failure -> onFailure(throwable)
     }
-    return this
 }
 
 inline fun <T> Result<T>.onSuccess(action: (T) -> Unit): Result<T> {

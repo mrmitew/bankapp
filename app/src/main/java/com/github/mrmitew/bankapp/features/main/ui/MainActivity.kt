@@ -21,13 +21,14 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.main_content)
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         val appBarConfiguration = AppBarConfiguration(
-            navController.graph,
+            setOf(R.id.login, R.id.home, R.id.settings, R.id.accountList),
             drawerLayout
         )
 
         toolbar.setupWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        setSupportActionBar(toolbar)
+
+//        setSupportActionBar(toolbar)
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.main_content).navigateUp()

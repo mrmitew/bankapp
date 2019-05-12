@@ -2,9 +2,12 @@ package com.github.mrmitew.bankapp
 
 import android.content.Context
 import com.commonsware.cwac.saferoom.SafeHelperFactory
+import com.github.mrmitew.bankapp.features.accounts.repository.LocalAccountsRepository
+import com.github.mrmitew.bankapp.features.accounts.repository.RemoteAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.repository.internal.FakeRemoteAccountsRepository
-import com.github.mrmitew.bankapp.features.accounts.repository.internal.LocalAccountsRepository
+import com.github.mrmitew.bankapp.features.accounts.repository.internal.RoomAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.ui.AccountListViewModel
+import com.github.mrmitew.bankapp.features.accounts.usecase.FetchUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.accounts.usecase.RefreshUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.common.database.AppDatabase
@@ -48,16 +51,11 @@ val APP_TOKEN = UUID.randomUUID().toString()
 // TODO: Split each feature in a separate gradle module
 
 private val accountsModule = module {
-    viewModel { AccountListViewModel(get()) }
-    single {
-        RefreshUserAccountsUseCase(
-            get(),
-            get<LocalAccountsRepository>(),
-            get<FakeRemoteAccountsRepository>()
-        )
-    }
-    single { FakeRemoteAccountsRepository() }
-    single { LocalAccountsRepository(get()) }
+    viewModel { AccountListViewModel(get(), get()) }
+    single { RefreshUserAccountsUseCase(get(), get(), get()) }
+    single { FetchUserAccountsUseCase(get(), get(), get()) }
+    single { FakeRemoteAccountsRepository() as RemoteAccountsRepository }
+    single { RoomAccountsRepository(get()) as LocalAccountsRepository }
     single { get<AppDatabase>().accountDao() }
 }
 

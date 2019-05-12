@@ -2,14 +2,14 @@ package com.github.mrmitew.bankapp.features.accounts.repository.internal
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import com.github.mrmitew.bankapp.features.accounts.repository.AccountsRepository
+import com.github.mrmitew.bankapp.features.accounts.repository.RemoteAccountsRepository
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.users.vo.User
 import kotlinx.coroutines.delay
 import java.math.BigDecimal
 
-class FakeRemoteAccountsRepository : AccountsRepository {
+// TODO: Fake that we are calling a backend, just like with the other FakeRemote*Repositories
+class FakeRemoteAccountsRepository : RemoteAccountsRepository {
     private var accountBalance: BigDecimal = BigDecimal(1_992)
     private val accountBalanceStream = MutableLiveData<BigDecimal>(accountBalance)
 
@@ -20,14 +20,13 @@ class FakeRemoteAccountsRepository : AccountsRepository {
 
     override suspend fun getAccounts(user: User): LiveData<List<Account>> {
         val mutableLiveData =
-            MutableLiveData<List<Account>>()
-        mutableLiveData.postValue(fetchAccounts())
+            MutableLiveData<List<Account>>(fetchAccounts())
         println("Fetched ${mutableLiveData.value}")
         return mutableLiveData
     }
 
     private suspend fun fetchAccounts(): List<Account> {
-        delay(3000)
+        delay(1000)
         return accounts
     }
 

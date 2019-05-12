@@ -15,3 +15,6 @@ interface AccountsRepository {
     suspend fun deleteAccounts(user: User)
     suspend fun getAccountBalance(accountId: Int): LiveData<BigDecimal>
 }
+
+interface LocalAccountsRepository : AccountsRepository
+interface RemoteAccountsRepository : AccountsRepository

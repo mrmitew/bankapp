@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.mrmitew.bankapp.R
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -20,6 +21,12 @@ class AccountListFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_accounts, container, false)
+        val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.vg_swipeToRefresh)
+
+        viewModel.loadingStateStream.observe(viewLifecycleOwner, Observer {
+            // Keep the loading
+            swipeRefreshLayout.isRefreshing = it.isRefreshing || it.isInitialLoading
+        })
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rv_accounts)
         val accountsAdapter = AccountsAdapter()
@@ -28,10 +35,12 @@ class AccountListFragment : Fragment(),
         recyclerView.adapter = accountsAdapter
         recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
-        // FYI, Database will emit using [distinctUntilChanged], so after refresh if accounts have not
-        // been modified since last emission, the observer wouldn't be called
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.refreshAccounts()
+        }
+
         viewModel.getAccountItemList().observe(viewLifecycleOwner, Observer {
-            println("Received: $it")
+            println("Received $it")
             accountsAdapter.submitList(it)
         })
 
