@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,9 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.mrmitew.bankapp.R
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -76,6 +72,7 @@ open class TransactionsOverviewFragment : Fragment() {
 
         view.findViewById<TextView>(R.id.tv_name).text = args.account.name
         view.findViewById<TextView>(R.id.tv_description).text = args.account.iban
+        view.findViewById<TextView>(R.id.tv_currency).text = args.account.currency
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rv_transactions)
         val transactionsAdapter = TransactionsAdapter()
@@ -87,7 +84,6 @@ open class TransactionsOverviewFragment : Fragment() {
             println("Submitting (${it.size}): $it")
             transactionsAdapter.submitList(it)
         })
-
 
         viewModel.accountBalanceStream.observe(viewLifecycleOwner, Observer {
             view.findViewById<TextView>(R.id.tv_balance).text = it
@@ -104,6 +100,8 @@ class TransactionsAdapter :
         fun bindTo(item: Transaction) {
             view.findViewById<TextView>(R.id.tv_target).text = item.targetName
             view.findViewById<TextView>(R.id.tv_balance).text = item.amount.toPlainString()
+            view.findViewById<TextView>(R.id.tv_description).text =
+                if (item.comment != null && item.comment.isNotEmpty()) item.comment else item.description
         }
     }
 

@@ -27,6 +27,19 @@ class MainActivity : AppCompatActivity() {
 
         toolbar.setupWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        // Don't navigate anywhere, just exit the app.
+        // We won't do this in a real app.
+        // We'll make sure to erase user settings and then proceed with exiting
+        // In fact... this listener will override the previous [navView.setupWithNavController(navController)]
+        // But for the demo its fine.
+        navView.setNavigationItemSelectedListener {
+            if (it.itemId == R.id.logout) {
+                onBackPressed()
+            }
+            false
+        }
+
 //        setSupportActionBar(toolbar)
     }
 

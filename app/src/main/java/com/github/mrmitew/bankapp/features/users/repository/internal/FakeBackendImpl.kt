@@ -14,8 +14,8 @@ import java.util.*
  */
 class FakeBackendImpl : BackendApi {
     private val accounts = mutableListOf(
-        AccountDTO(1, "Stefan Mitev", "123", Account.TYPE_PAYMENT, "EUR", BigDecimal(1_992)),
-        AccountDTO(2, "Stefan Mitev", "456", Account.TYPE_SAVINGS, "EUR", BigDecimal(9_090))
+        AccountDTO(1, "Stefan Mitev", "NLXXJUMBO123IBAN", Account.TYPE_PAYMENT, "EUR", BigDecimal(1_992)),
+        AccountDTO(2, "Stefan Mitev", "NLXXAMS123IBAN", Account.TYPE_SAVINGS, "EUR", BigDecimal(9_090))
     )
 
     private val transactionsAccount1 = mutableListOf(
