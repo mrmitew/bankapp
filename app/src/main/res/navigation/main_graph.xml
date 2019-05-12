@@ -31,7 +31,7 @@
     <fragment
         android:id="@+id/transactionsOverviewFragment"
         android:name="com.github.mrmitew.bankapp.features.transactions.ui.TransactionsOverviewFragment"
-        android:label="fragment_transactions_overview"
+        android:label="Transactions overview"
         tools:layout="@layout/fragment_transactions_overview">
         <argument
             android:name="account"

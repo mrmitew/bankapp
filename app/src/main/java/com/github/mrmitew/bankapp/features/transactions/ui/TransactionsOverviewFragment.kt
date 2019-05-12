@@ -44,7 +44,7 @@ class TransactionsOverviewFragment : Fragment() {
 
 
         viewModel.accountBalanceStream.observe(viewLifecycleOwner, Observer {
-            view.findViewById<TextView>(R.id.tv_amount).text = it
+            view.findViewById<TextView>(R.id.tv_balance).text = it
         })
 
         return view
@@ -57,7 +57,7 @@ class TransactionsAdapter :
     inner class TransactionViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bindTo(item: Transaction) {
             view.findViewById<TextView>(R.id.tv_target).text = item.targetName
-            view.findViewById<TextView>(R.id.tv_amount).text = item.amount.toPlainString()
+            view.findViewById<TextView>(R.id.tv_balance).text = item.amount.toPlainString()
         }
     }
 

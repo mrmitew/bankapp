@@ -13,8 +13,14 @@ interface AccountsRepository {
     suspend fun getAccounts(user: User): LiveData<List<Account>>
     suspend fun storeAccounts(user: User, accounts: List<Account>)
     suspend fun deleteAccounts(user: User)
-    suspend fun getAccountBalance(accountId: Int): LiveData<BigDecimal>
 }
 
-interface LocalAccountsRepository : AccountsRepository
-interface RemoteAccountsRepository : AccountsRepository
+interface LocalAccountsRepository : AccountsRepository {
+    suspend fun getAccountBalanceRefreshing(accountId: Int): LiveData<BigDecimal>
+    suspend fun updateAccountBalance(accountId: Int, newBalance: BigDecimal)
+}
+
+interface RemoteAccountsRepository : AccountsRepository {
+    suspend fun fetchAccountBalance(accountId: Int): BigDecimal
+    suspend fun updateAccountBalance(accountId: Int, newBalance: BigDecimal)
+}

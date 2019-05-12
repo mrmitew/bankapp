@@ -10,12 +10,9 @@ import java.math.BigDecimal
 
 // TODO: Fake that we are calling a backend, just like with the other FakeRemote*Repositories
 class FakeRemoteAccountsRepository : RemoteAccountsRepository {
-    private var accountBalance: BigDecimal = BigDecimal(1_992)
-    private val accountBalanceStream = MutableLiveData<BigDecimal>(accountBalance)
-
-    private val accounts = listOf(
-        Account(1, "Stefan Mitev", "123", Account.TYPE_PAYMENT, "EUR"),
-        Account(2, "Stefan Mitev", "456", Account.TYPE_SAVINGS, "EUR")
+    private val accounts = mutableListOf(
+        Account(1, "Stefan Mitev", "123", Account.TYPE_PAYMENT, "EUR", BigDecimal(1_992)),
+        Account(2, "Stefan Mitev", "456", Account.TYPE_SAVINGS, "EUR", BigDecimal(9_090))
     )
 
     override suspend fun getAccounts(user: User): LiveData<List<Account>> {
@@ -38,12 +35,19 @@ class FakeRemoteAccountsRepository : RemoteAccountsRepository {
         // no-op
     }
 
-    override suspend fun getAccountBalance(accountId: Int): LiveData<BigDecimal> {
-        return accountBalanceStream
+    override suspend fun updateAccountBalance(accountId: Int, newBalance: BigDecimal) {
+        when (accountId) {
+            1 -> accounts[0] = accounts[0].copy(balance = newBalance)
+            2 -> accounts[1] = accounts[1].copy(balance = newBalance)
+            else -> throw IllegalArgumentException()
+        }
     }
 
-    internal fun updateAccountBalance(newBalance: BigDecimal) {
-        accountBalance = newBalance
-        accountBalanceStream.value = accountBalance
+    override suspend fun fetchAccountBalance(accountId: Int): BigDecimal {
+        return when (accountId) {
+            1 -> accounts[0].balance
+            2 -> accounts[1].balance
+            else -> throw IllegalArgumentException()
+        }
     }
 }

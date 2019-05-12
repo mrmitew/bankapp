@@ -1,7 +1,8 @@
 package com.github.mrmitew.bankapp.features.accounts.vo
 
-import androidx.recyclerview.widget.DiffUtil
+import com.github.mrmitew.bankapp.features.common.converter.BigDecimalSerializer
 import kotlinx.serialization.Serializable
+import java.math.BigDecimal
 
 @Serializable
 data class Account(
@@ -9,19 +10,13 @@ data class Account(
     val name: String,
     val iban: String,
     val type: String,
-    val currency: String
+    val currency: String,
+    @Serializable(with = BigDecimalSerializer::class)
+    val balance: BigDecimal
 ): java.io.Serializable {
     companion object {
         // We could use an enum or a sealed class as well, but just keeping things simple.
         const val TYPE_PAYMENT = "payment"
         const val TYPE_SAVINGS = "savings"
-
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Account>() {
-            override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean =
-                oldItem == newItem
-
-            override fun areContentsTheSame(oldItem: Account, newItem: Account): Boolean =
-                oldItem.id == newItem.id
-        }
     }
 }

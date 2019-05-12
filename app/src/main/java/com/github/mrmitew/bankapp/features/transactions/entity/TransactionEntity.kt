@@ -19,7 +19,6 @@ import java.math.BigDecimal
             childColumns = arrayOf("accountId")
         )]
 )
-@TypeConverters(BigDecimalConverter::class)
 data class TransactionEntity(
     @PrimaryKey
     val id: Int = 0,

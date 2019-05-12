@@ -80,7 +80,7 @@ private class TestLocalAccountsRepository : AccountsRepository {
         throw UnsupportedOperationException()
     }
 
-    override suspend fun getAccountBalance(accountId: Int): LiveData<BigDecimal> {
+    override suspend fun getAccountBalanceRefreshing(accountId: Int): LiveData<BigDecimal> {
         throw UnsupportedOperationException()
     }
 }

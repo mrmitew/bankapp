@@ -10,6 +10,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_accounts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp" />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mrmitew.bankapp.R
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
+import java.util.*
 
 class AccountsAdapter : ListAdapter<AccountViewItem, AccountsAdapter.BaseAccountViewHolder>(
     AccountViewItem.DIFF_CALLBACK
@@ -36,6 +37,7 @@ class AccountsAdapter : ListAdapter<AccountViewItem, AccountsAdapter.BaseAccount
             }
             view.findViewById<TextView>(R.id.tv_name).text = account.name
             view.findViewById<TextView>(R.id.tv_iban).text = account.iban
+            view.findViewById<TextView>(R.id.tv_balance).text = String.format(Locale.getDefault(), "%s", account.balance)
         }
     }
 

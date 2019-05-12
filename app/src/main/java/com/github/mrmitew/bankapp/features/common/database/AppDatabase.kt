@@ -4,12 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.github.mrmitew.bankapp.features.accounts.entity.AccountEntity
 import com.github.mrmitew.bankapp.features.accounts.repository.AccountDao
 import com.github.mrmitew.bankapp.features.common.database.AppDatabase.Companion.DATABASE_VERSION
+import com.github.mrmitew.bankapp.features.transactions.converter.BigDecimalConverter
 import com.github.mrmitew.bankapp.features.transactions.entity.TransactionEntity
 import com.github.mrmitew.bankapp.features.transactions.repository.internal.TransactionDao
 import com.github.mrmitew.bankapp.features.users.entity.UserEntity
@@ -28,6 +30,7 @@ import com.github.mrmitew.bankapp.features.users.repository.UserDao
     version = DATABASE_VERSION,
     exportSchema = false
 )
+@TypeConverters(BigDecimalConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun accountDao(): AccountDao

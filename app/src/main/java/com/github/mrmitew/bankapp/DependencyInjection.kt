@@ -90,7 +90,7 @@ private val authModule = module {
 
 private val commonModule = module {
     // Common
-    single { GetAccountBalanceUseCase(get()) }
+    single { GetAccountBalanceUseCase(get(), get()) }
 }
 
 object DependencyInjection {
