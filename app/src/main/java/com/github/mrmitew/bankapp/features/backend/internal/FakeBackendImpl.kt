@@ -16,34 +16,48 @@ import java.util.*
 class FakeBackendImpl : BackendApi {
     private var currentUserToken: Token? = null
 
+    // FIXME: Account balance doesn't really match the transactions.. let's say we don't keep old transactions :)
     private val accounts = mutableListOf(
-        AccountDTO(1, "Stefan Mitev", "NLXXJUMBO123IBAN", Account.TYPE_PAYMENT, "EUR", BigDecimal(1_992)),
-        AccountDTO(2, "Stefan Mitev", "NLXXAMS123IBAN", Account.TYPE_SAVINGS, "EUR", BigDecimal(9_090))
+        AccountDTO(1, "Stefan Mitev", "NLXXGIMB123IBAN", Account.TYPE_PAYMENT, "EUR", BigDecimal(1_992)),
+        AccountDTO(2, "Stefan Mitev", "NLXXJFAKE123IBAN", Account.TYPE_PAYMENT, "EUR", BigDecimal(6000)),
+        AccountDTO(3, "Stefan Mitev", "NLXXAMS123IBAN", Account.TYPE_SAVINGS, "EUR", BigDecimal(9_090))
     )
 
     private val transactionsAccount1 = mutableListOf(
         TransactionDTO(
             "2805c74c-cabf-41b3-af3d-96504098b165",
             1,
-            "Jumbo Utrecht",
+            "Samantha",
             "Passvolgnr: 001 10-05-2019 19:00",
-            null,
-            "11 May 2019",
-            "Betaalautomaat",
-            BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
-            "Jumbo Utrecht",
+            "For the bowling yesterday",
+            "10 May 2019",
+            "Internetbankieren",
+            BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            "Stefan Mitev",
             "NLXXJUMBO123IBAN"
         ),
         TransactionDTO(
             "6d97a4fe-4dc5-4226-a57e-005f5d466dad",
             1,
-            "Albert Heijn Amsterdam",
+            "Bowling place",
             "Passvolgnr: 001 10-05-2019 19:00",
             null,
-            "11 May 2019",
-            "Betaalautomaat",
-            BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
-            "Albert Heijn Amsterdam",
+            "9 May 2019",
+            "Betaalautomat",
+            BigDecimal(-20).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            "Bowling place",
+            "NLXXAMS12334IBAN"
+        ),
+        TransactionDTO(
+            "6d97a4fe-4dc5-4226-a57e-005f5d466dad",
+            1,
+            "John Smith",
+            "Passvolgnr: 001 10-05-2019 19:00",
+            null,
+            "8 May 2019",
+            "Internetbankieren",
+            BigDecimal(100).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            "Stefan Mitev",
             "NLXXAMS123IBAN"
         ),
         TransactionDTO(
@@ -52,11 +66,11 @@ class FakeBackendImpl : BackendApi {
             "Jumbo Utrecht",
             "Passvolgnr: 001 10-05-2019 19:00",
             null,
-            "11 May 2019",
+            "8 May 2019",
             "Betaalautomaat",
             BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
             "Jumbo Utrecht",
-            "NLXXJUMBO123IBAN"
+            "NLXXJUMBO126343IBAN"
         ),
         TransactionDTO(
             "9e50ffbf-65d2-43e7-b1eb-bda8ad79095a",
@@ -64,11 +78,11 @@ class FakeBackendImpl : BackendApi {
             "Albert Heijn Amsterdam",
             "Passvolgnr: 001 10-05-2019 19:00",
             null,
-            "11 May 2019",
+            "8 May 2019",
             "Betaalautomaat",
             BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
             "Albert Heijn Amsterdam",
-            "NLXXAMS123IBAN"
+            "NLXXAMS125543IBAN"
         ),
         TransactionDTO(
             "871f4a12-b875-4cf6-8d64-9f2633b1548f",
@@ -76,11 +90,11 @@ class FakeBackendImpl : BackendApi {
             "Albert Heijn Amsterdam",
             "Passvolgnr: 001 10-05-2019 19:00",
             null,
-            "11 May 2019",
+            "7 May 2019",
             "Betaalautomaat",
             BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
             "Albert Heijn Amsterdam",
-            "NLXXAMS123IBAN"
+            "NLXXAMS12323IBAN"
         )
     )
 
@@ -95,7 +109,7 @@ class FakeBackendImpl : BackendApi {
             "Betaalautomaat",
             BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
             "Jumbo Utrecht",
-            "NLXXJUMBO123IBAN"
+            "NLXXJUMBO1213IBAN"
         ),
         TransactionDTO(
             "4c619838-df62-4c9d-8523-e779c2f65a29",
@@ -107,7 +121,34 @@ class FakeBackendImpl : BackendApi {
             "Betaalautomaat",
             BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
             "Albert Heijn Amsterdam",
-            "NLXXAMS123IBAN"
+            "NLXXAMS1236IBAN"
+        )
+    )
+
+    private val transactionsAccount3 = mutableListOf(
+        TransactionDTO(
+            "150536ed-d170-4e7f-b526-17bfda5b1e53",
+            3,
+            "Amsterdam Schiphol",
+            "Passvolgnr: 001 10-05-2019 10:00",
+            null,
+            "12 May 2019",
+            "Betaalautomaat",
+            BigDecimal(-20.15).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            "Jumbo Utrecht",
+            "NLXXJUMBO12345IBAN"
+        ),
+        TransactionDTO(
+            "44538a9f-4818-496b-b66d-f9f49648b84f",
+            3,
+            "Kinepolis Utrecht",
+            "Passvolgnr: 001 10-05-2019 20:00",
+            null,
+            "12 May 2019",
+            "Betaalautomaat",
+            BigDecimal(-20.00).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            "Kinepolis Utrecht",
+            "NLXXAMS1243IBAN"
         )
     )
 
@@ -141,6 +182,7 @@ class FakeBackendImpl : BackendApi {
         return when (accountId) {
             1 -> transactionsAccount1
             2 -> transactionsAccount2
+            3 -> transactionsAccount3
             else -> throw IllegalArgumentException()
         }
     }
@@ -155,6 +197,9 @@ class FakeBackendImpl : BackendApi {
             2 -> transactionsAccount2.add(0, transaction).also {
                 accounts[1] = accounts[1].copy(balance = accounts[1].balance.add(transaction.amount))
             }
+            3 -> transactionsAccount3.add(0, transaction).also {
+                accounts[2] = accounts[2].copy(balance = accounts[2].balance.add(transaction.amount))
+            }
             else -> throw IllegalArgumentException()
         }
     }
@@ -163,6 +208,7 @@ class FakeBackendImpl : BackendApi {
         when (accountId) {
             1 -> accounts[0] = accounts[0].copy(balance = newBalance)
             2 -> accounts[1] = accounts[1].copy(balance = newBalance)
+            3 -> accounts[2] = accounts[2].copy(balance = newBalance)
             else -> throw IllegalArgumentException()
         }
     }
@@ -171,6 +217,7 @@ class FakeBackendImpl : BackendApi {
         return when (accountId) {
             1 -> accounts[0].balance
             2 -> accounts[1].balance
+            3 -> accounts[2].balance
             else -> throw IllegalArgumentException()
         }
     }
