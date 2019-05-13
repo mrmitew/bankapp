@@ -14,17 +14,12 @@ class AccountsSpinnerAdapter(private val accounts: List<Account>) : BaseAdapter(
 
     inner class AccountViewHolder(private val view: View) {
         fun bindTo(account: Account) {
-            view.findViewById<ViewGroup>(R.id.vg_item).setOnClickListener {
-                listener?.onAccountClick(account)
-            }
             view.findViewById<TextView>(R.id.tv_name).text = account.name
             view.findViewById<TextView>(R.id.tv_iban).text = account.iban
             view.findViewById<TextView>(R.id.tv_balance).text =
                 String.format(Locale.getDefault(), "%s", account.balance)
         }
     }
-
-    var listener: OnAccountClickListener? = null
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val account = getItem(position)
@@ -38,12 +33,16 @@ class AccountsSpinnerAdapter(private val accounts: List<Account>) : BaseAdapter(
             viewHolder = AccountViewHolder(view)
             view.tag = viewHolder
         } else {
-            viewHolder = convertView!!.tag as AccountViewHolder
+            viewHolder = view.tag as AccountViewHolder
         }
 
         viewHolder.bindTo(account)
 
         return view!!
+    }
+
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        return getView(position, convertView, parent!!)
     }
 
     override fun getItemId(position: Int): Long = position.toLong()

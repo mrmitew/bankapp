@@ -19,6 +19,8 @@ interface TransactionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTransaction(transaction: TransactionEntity)
 
+    // Since dates are not formatted properly, ordering doesn't really work as it should.
+    // We could use an sql function to parse the date, but didn't want to spend time on this.
     @Query("SELECT * FROM ${TransactionEntity.TABLE_NAME} WHERE accountId=:accountId ORDER BY date DESC")
     fun getTransactions(accountId: Int): LiveData<List<TransactionEntity>>
 

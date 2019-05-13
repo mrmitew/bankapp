@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
@@ -24,6 +25,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.math.BigDecimal
 import java.util.*
+import android.widget.ArrayAdapter
+
 
 
 class AddTransactionFragment : Fragment() {
@@ -42,6 +45,17 @@ class AddTransactionFragment : Fragment() {
         val message = view.findViewById<TextView>(R.id.et_message)
         val amount = view.findViewById<TextView>(R.id.et_amount)
         val spinner = view.findViewById<Spinner>(R.id.sp_target_account)
+
+//        val list = ArrayList<String>()
+//        list.add("list 1")
+//        list.add("list 2")
+//        list.add("list 3")
+//        val dataAdapter = ArrayAdapter<String>(
+//            requireContext(),
+//            android.R.layout.simple_spinner_item, list
+//        )
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//        spinner.adapter = dataAdapter
 
         view.findViewById<TextView>(R.id.tv_from_to).text = fromToLabel
         view.findViewById<TextView>(R.id.tv_name).text = args.account.name

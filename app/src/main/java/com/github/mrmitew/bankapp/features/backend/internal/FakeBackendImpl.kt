@@ -29,7 +29,7 @@ class FakeBackendImpl : BackendApi {
             1,
             "Samantha",
             "Passvolgnr: 001 10-05-2019 19:00",
-            "For the bowling yesterday",
+            "For the bowling that one time",
             "10 May 2019",
             "Internetbankieren",
             BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_DOWN),
@@ -49,7 +49,7 @@ class FakeBackendImpl : BackendApi {
             "NLXXAMS12334IBAN"
         ),
         TransactionDTO(
-            "6d97a4fe-4dc5-4226-a57e-005f5d466dad",
+            "3b858c24-0acb-4355-ab7b-a7f5ff42b50d",
             1,
             "John Smith",
             "Passvolgnr: 001 10-05-2019 19:00",
@@ -80,7 +80,7 @@ class FakeBackendImpl : BackendApi {
             null,
             "8 May 2019",
             "Betaalautomaat",
-            BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(-4.12).setScale(2, BigDecimal.ROUND_HALF_DOWN),
             "Albert Heijn Amsterdam",
             "NLXXAMS125543IBAN"
         ),
@@ -92,7 +92,7 @@ class FakeBackendImpl : BackendApi {
             null,
             "7 May 2019",
             "Betaalautomaat",
-            BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(-6.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
             "Albert Heijn Amsterdam",
             "NLXXAMS12323IBAN"
         )
@@ -119,7 +119,7 @@ class FakeBackendImpl : BackendApi {
             null,
             "11 May 2019",
             "Betaalautomaat",
-            BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(-10.22).setScale(2, BigDecimal.ROUND_HALF_DOWN),
             "Albert Heijn Amsterdam",
             "NLXXAMS1236IBAN"
         )

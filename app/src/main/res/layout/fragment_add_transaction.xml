@@ -37,7 +37,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_amount" />
 
-    <androidx.appcompat.widget.AppCompatSpinner
+    <Spinner
         android:id="@+id/sp_target_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

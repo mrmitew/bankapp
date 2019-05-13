@@ -16,7 +16,7 @@ class TransactionsAdapter :
 
     class TransactionViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bindTo(item: Transaction) {
-            view.findViewById<TextView>(R.id.tv_target).text = item.targetName
+            view.findViewById<TextView>(R.id.tv_target).text = item.name
             view.findViewById<TextView>(R.id.tv_balance).text = item.amount.toPlainString()
             view.findViewById<TextView>(R.id.tv_description).text =
                 if (item.comment != null && item.comment.isNotEmpty()) item.comment else item.description
