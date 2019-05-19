@@ -91,6 +91,12 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     implementation "com.commonsware.cwac:saferoom.x:1.0.2"
 
+    def paging_version = "2.1.0"
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    implementation "androidx.paging:paging-common:$paging_version"
+    implementation "androidx.paging:paging-common-ktx:$paging_version"
+
     def koin_version = "2.0.0-GA"
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-androidx-scope:$koin_version"
