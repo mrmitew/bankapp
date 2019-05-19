@@ -2,7 +2,9 @@ package com.github.mrmitew.bankapp.features.transactions.repository.internal
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.distinctUntilChanged
-import androidx.lifecycle.map
+import androidx.paging.Config
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import com.github.mrmitew.bankapp.features.transactions.entity.toDomainModel
 import com.github.mrmitew.bankapp.features.transactions.entity.toEntity
 import com.github.mrmitew.bankapp.features.transactions.repository.LocalTransactionsRepository
@@ -15,9 +17,16 @@ import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 class LocalTransactionsRepositoryImpl(private val transactionDao: TransactionDao) :
     LocalTransactionsRepository {
 
-    override fun getTransactions(accountId: Int): LiveData<List<Transaction>> {
-        return transactionDao.getTransactions(accountId).distinctUntilChanged()
-            .map { transactionsEntity -> transactionsEntity.map { it.toDomainModel() } }
+    override fun getTransactions(accountId: Int): LiveData<PagedList<Transaction>> {
+        return transactionDao.getTransactions(accountId)
+            .map { it.toDomainModel() }
+            .toLiveData(
+                config = Config(
+                    pageSize = 50,
+                    prefetchDistance = 150,
+                    enablePlaceholders = true
+                )
+            ).distinctUntilChanged()
     }
 
     override suspend fun deleteTransactions(accountId: Int) {
