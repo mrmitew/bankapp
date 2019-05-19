@@ -1,6 +1,7 @@
 package com.github.mrmitew.bankapp.features.transactions.usecase
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.common.usecase.Cancellable
 import com.github.mrmitew.bankapp.features.common.usecase.UseCase
@@ -27,13 +28,13 @@ class RefreshAccountTransactionsUseCase(
     private val localTransactionsRepository: LocalTransactionsRepository,
     private val remoteTransactionsRepository: RemoteTransactionsRepository
 ) :
-    UseCase<Account, LiveData<List<Transaction>>>, Cancellable {
+    UseCase<Account, LiveData<PagedList<Transaction>>>, Cancellable {
     private val internalScope
         get() = // Normally, it should be .IO since we'll be doing disk operations,
             // but I haven't made mechanism to mock it in tests
             UseCaseContextScope(SupervisorJob() + Dispatchers.Main)
 
-    override suspend fun invoke(param: Account): LiveData<List<Transaction>> {
+    override suspend fun invoke(param: Account): LiveData<PagedList<Transaction>> {
         internalScope.launch {
             catchResult {
                 val transactions = remoteTransactionsRepository.getTransactions(param.id)
