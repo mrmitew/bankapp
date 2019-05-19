@@ -12,6 +12,7 @@ Architecture Components, used by the app:
 - ViewModel
 - LiveData
 - Room (+ SQLCipher)
+- Paging
 - Android KTX
 - LifeCycles
  
