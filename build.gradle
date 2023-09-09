@@ -6,4 +6,13 @@ plugins {
     id 'com.google.devtools.ksp' version '1.8.10-1.0.9' apply false
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.0' apply false
     id 'androidx.navigation.safeargs' version '2.5.1' apply false
+
+    // Security
+    id 'org.owasp.dependencycheck' version '8.1.2' apply false // FIXME: Any other version up to the current latest (8.4.0) breaks the build
+    id 'com.github.spotbugs' version '5.1.3' apply false
+}
+
+allprojects {
+    apply plugin: 'org.owasp.dependencycheck'
+    apply plugin: 'com.github.spotbugs'
 }

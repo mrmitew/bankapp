@@ -4,6 +4,7 @@ plugins {
     id 'com.google.devtools.ksp'
     id 'androidx.navigation.safeargs.kotlin'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'com.github.spotbugs'
 }
 
 android {
@@ -49,6 +50,25 @@ android {
     dataBinding {
         enabled = true
     }
+
+    spotbugs {
+        ignoreFailures = false
+        showStackTraces = false
+        showProgress = true
+//        effort = 'default'
+//        reportLevel = 'default'
+//        visitors = [ 'FindSqlInjection', 'SwitchFallthrough' ]
+//        omitVisitors = [ 'FindNonShortCircuit' ]
+        reportsDir = file("$buildDir/spotbugs")
+//        includeFilter = file("include.xml")
+//        excludeFilter = file("exclude.xml")
+//        baselineFile = file("baseline.xml")
+//        onlyAnalyze = [ 'com.foobar.MyClass', 'com.foobar.mypkg.*' ]
+//        maxHeapSize = '1g'
+//        extraArgs = [ '-nested:false' ]
+//        jvmArgs = [ '-Duser.language=ja' ]
+    }
+
 }
 
 dependencies {
@@ -103,6 +123,10 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-runtime-ktx:$navigation_version"
 
+    // Security
+    spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0'
+
+    // Testing
     testImplementation 'org.assertj:assertj-core:3.24.2'
     testImplementation 'io.mockk:mockk:1.13.5'
     testImplementation 'junit:junit:4.13.2'
