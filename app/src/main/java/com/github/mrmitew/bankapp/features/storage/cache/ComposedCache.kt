@@ -31,9 +31,7 @@ fun <Key : Any, Value : Any> ComposedCache<Key, Value>.hasLoop(): Boolean {
     cacheQueue.addAll(parents)
 
     while (cacheQueue.isNotEmpty()) {
-        val cache = cacheQueue.removeAt(0)
-
-        when (cache) {
+        when (val cache = cacheQueue.removeAt(0)) {
             is ComposedCache -> cacheQueue.addAll(cache.parents)
             else -> baseCaches.add(cache)
         }

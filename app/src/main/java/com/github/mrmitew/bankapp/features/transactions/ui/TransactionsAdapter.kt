@@ -4,14 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mrmitew.bankapp.R
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 
 class TransactionsAdapter :
-    PagedListAdapter<Transaction, TransactionsAdapter.TransactionViewHolder>(
+    PagingDataAdapter<Transaction, TransactionsAdapter.TransactionViewHolder>(
         Transaction.DIFF_CALLBACK
     ) {
 

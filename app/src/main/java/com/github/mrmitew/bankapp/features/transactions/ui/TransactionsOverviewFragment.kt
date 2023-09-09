@@ -9,12 +9,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mrmitew.bankapp.R
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -60,7 +62,7 @@ class SavingsAccountTransactionsOverviewFragment : TransactionsOverviewFragment(
  */
 open class TransactionsOverviewFragment : Fragment() {
     protected val args: TransactionsOverviewFragmentArgs by navArgs()
-    protected val viewModel: TransactionsViewModel by viewModel { parametersOf(args.account) }
+    private val viewModel: TransactionsViewModel by viewModel { parametersOf(args.account) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,8 +81,9 @@ open class TransactionsOverviewFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
         viewModel.transactionListStream.observe(viewLifecycleOwner, Observer {
-            println("Submitting (${it.size}): $it")
-            transactionsAdapter.submitList(it)
+            viewLifecycleOwner.lifecycleScope.launch {
+                transactionsAdapter.submitData(it)
+            }
         })
 
         viewModel.accountBalanceStream.observe(viewLifecycleOwner, Observer {

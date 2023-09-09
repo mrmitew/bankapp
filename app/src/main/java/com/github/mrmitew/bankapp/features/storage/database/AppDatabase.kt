@@ -10,7 +10,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.commonsware.cwac.saferoom.SafeHelperFactory
 import com.github.mrmitew.bankapp.features.accounts.entity.AccountEntity
 import com.github.mrmitew.bankapp.features.accounts.repository.internal.AccountDao
-import com.github.mrmitew.bankapp.features.storage.database.AppDatabase.Companion.DATABASE_VERSION
 import com.github.mrmitew.bankapp.features.transactions.converter.BigDecimalConverter
 import com.github.mrmitew.bankapp.features.transactions.entity.TransactionEntity
 import com.github.mrmitew.bankapp.features.transactions.repository.internal.TransactionDao
@@ -20,6 +19,9 @@ import com.github.mrmitew.bankapp.features.users.repository.internal.UserDao
 /**
  * Created by Stefan Mitev on 4-5-19.
  */
+
+private const val DATABASE_VERSION = 2
+private const val DATABASE_NAME = "appdatabase.db"
 
 /**
  * Our app's database.
@@ -44,8 +46,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun transactionDao(): TransactionDao
 
     companion object {
-        internal const val DATABASE_VERSION = 2
-        const val DATABASE_NAME = "appdatabase.db"
 
         // Dummy "migration". Basically just to satisfy room to not complain we don't handle migration.
         // Yes, hacky, but its just for dev purposes.
