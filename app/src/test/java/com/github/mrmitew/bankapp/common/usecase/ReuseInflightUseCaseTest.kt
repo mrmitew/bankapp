@@ -15,8 +15,8 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import kotlinx.coroutines.withContext
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import java.util.concurrent.atomic.AtomicInteger
@@ -58,7 +58,7 @@ class ReuseInflightUseCaseTest {
             val result = testUseCase(Unit)
 
             // then we return the value
-            assertEquals(42, result)
+            assertThat(result).isEqualTo(42)
         }
     }
 
@@ -88,7 +88,7 @@ class ReuseInflightUseCaseTest {
             delay(500)
 
             // Expect to have a single call of the underlying usecase
-            assertEquals(1, count.get())
+            assertThat(count.get()).isEqualTo(1)
         }
     }
 
@@ -126,7 +126,7 @@ class ReuseInflightUseCaseTest {
             delay(workTime + 100)
 
             // Expect to have two calls of the underlying usecase since we queried for different keys
-            assertEquals(2, count.get())
+            assertThat(count.get()).isEqualTo(2)
         }
     }
 
@@ -159,7 +159,7 @@ class ReuseInflightUseCaseTest {
                 delay(workTime * callTimes + 200)
 
                 // Expect to have a single call of the underlying usecase so far
-                assertEquals(1, count.get())
+                assertThat(count.get()).isEqualTo(1)
 
                 // Invoke the usecase again for couple of times
                 for (i in 1..callTimes) {
@@ -168,7 +168,7 @@ class ReuseInflightUseCaseTest {
             }.join()
 
             // Expect the usecase was called only twice
-            assertEquals(2, count.get())
+            assertThat(count.get()).isEqualTo(2)
         }
     }
 
