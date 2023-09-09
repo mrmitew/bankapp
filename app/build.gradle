@@ -5,6 +5,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'org.jetbrains.kotlin.plugin.serialization'
     id 'com.github.spotbugs'
+    id 'io.gitlab.arturbosch.detekt'
 }
 
 android {
@@ -69,6 +70,21 @@ android {
 //        jvmArgs = [ '-Duser.language=ja' ]
     }
 
+    detekt {
+        buildUponDefaultConfig = true // preconfigure defaults
+        // TODO
+//        allRules = false // activate all available (even unstable) rules.
+//        config.setFrom("$projectDir/config/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+//        baseline = file("$projectDir/config/baseline.xml") // a way of suppressing issues before introducing detekt
+        reports {
+            html.required.set(true) // observe findings in your browser with structure and code snippets
+            xml.required.set(true) // checkstyle like format mainly for integrations like Jenkins
+            txt.required.set(true) // similar to the console output, contains issue signature to manually edit baseline files
+            sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with GitHub Code Scanning
+            md.required.set(true) // simple Markdown format
+        }
+    }
+
 }
 
 dependencies {
@@ -125,6 +141,11 @@ dependencies {
 
     // Security
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0'
+
+    // Quality
+    detektPlugins 'io.gitlab.arturbosch.detekt:detekt-rules-libraries:1.23.1'
+    detektPlugins 'io.gitlab.arturbosch.detekt:detekt-rules-ruleauthors:1.23.1'
+    detektPlugins 'io.gitlab.arturbosch.detekt:detekt-formatting:1.23.1'
 
     // Testing
     testImplementation 'org.assertj:assertj-core:3.24.2'
