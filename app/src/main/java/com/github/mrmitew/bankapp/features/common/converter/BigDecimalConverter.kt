@@ -1,7 +1,10 @@
 package com.github.mrmitew.bankapp.features.common.converter
 
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.StringDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import java.math.BigDecimal
 
 /**
@@ -11,12 +14,13 @@ import java.math.BigDecimal
 /**
  * Used by Kotlin's [Serializable] to serialize [BigDecimal]
  */
+@OptIn(ExperimentalSerializationApi::class)
 @Serializer(forClass = BigDecimal::class)
 class BigDecimalSerializer : KSerializer<BigDecimal> {
-    override val descriptor: SerialDescriptor = StringDescriptor
+    override val descriptor = PrimitiveSerialDescriptor("java.math.BigDecimal", PrimitiveKind.DOUBLE)
 
-    override fun serialize(encoder: Encoder, obj: BigDecimal) {
-        encoder.encodeString(obj.toPlainString())
+    override fun serialize(encoder: Encoder, value: BigDecimal) {
+        encoder.encodeString(value.toPlainString())
     }
 
     override fun deserialize(decoder: Decoder): BigDecimal {

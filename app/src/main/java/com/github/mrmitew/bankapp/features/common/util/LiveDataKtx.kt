@@ -31,18 +31,18 @@ class SingleLiveData<T>(liveData: LiveData<T>) : MediatorLiveData<T>() {
 }
 
 
-fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
-    val distinctLiveData = MediatorLiveData<T>()
+fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T?> {
+    val distinctLiveData = MediatorLiveData<T?>()
     distinctLiveData.addSource(this, object : Observer<T> {
         private var initialized = false
         private var lastObj: T? = null
-        override fun onChanged(obj: T?) {
+        override fun onChanged(value: T) {
             if (!initialized) {
                 initialized = true
-                lastObj = obj
+                lastObj = value
                 distinctLiveData.postValue(lastObj)
-            } else if ((obj == null && lastObj != null) || obj != lastObj) {
-                lastObj = obj
+            } else if ((value == null && lastObj != null) || value != lastObj) {
+                lastObj = value
                 distinctLiveData.postValue(lastObj)
             }
         }

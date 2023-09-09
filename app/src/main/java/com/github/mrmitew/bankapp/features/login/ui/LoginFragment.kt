@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.mrmitew.bankapp.R
 import com.github.mrmitew.bankapp.features.common.util.onClick
 import com.github.mrmitew.bankapp.features.common.vo.fold

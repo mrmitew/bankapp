@@ -4,6 +4,7 @@ import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 
 /**
@@ -18,11 +19,12 @@ import kotlinx.coroutines.channels.actor
  * This happens because the actor's mailbox is backed by a [kotlinx.coroutines.channels.RendezvousChannel],
  * whose offer operation succeeds only when the receive is active.
  */
+@OptIn(ObsoleteCoroutinesApi::class)
 fun View.onClick(lifecycleOwner: LifecycleOwner, action: suspend (View) -> Unit) {
     val eventActor = lifecycleOwner.lifecycleScope.actor<View>(Dispatchers.Main) {
         for (event in channel) action(event)
     }
     setOnClickListener {
-        eventActor.offer(it)
+        eventActor.trySend(it)
     }
 }
