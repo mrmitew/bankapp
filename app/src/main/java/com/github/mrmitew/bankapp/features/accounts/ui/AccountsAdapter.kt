@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mrmitew.bankapp.R
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
-import java.util.*
+import java.util.Locale
 
 interface OnAccountClickListener {
     fun onAccountClick(account: Account)

@@ -2,7 +2,7 @@ package com.github.mrmitew.bankapp.features.storage.cache
 
 import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**

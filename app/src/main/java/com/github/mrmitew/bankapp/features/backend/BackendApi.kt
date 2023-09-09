@@ -1,7 +1,6 @@
 package com.github.mrmitew.bankapp.features.backend
 
 import com.github.mrmitew.bankapp.features.accounts.dto.AccountDTO
-import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.auth.vo.Token
 import com.github.mrmitew.bankapp.features.transactions.dto.TransactionDTO
 import com.github.mrmitew.bankapp.features.users.dto.UserDTO

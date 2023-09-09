@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.github.mrmitew.bankapp.R
-import com.github.mrmitew.bankapp.features.accounts.ui.OnAccountClickListener
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
-import java.util.*
+import java.util.Locale
 
 class AccountsSpinnerAdapter(private val accounts: List<Account>) : BaseAdapter() {
 

@@ -3,12 +3,13 @@ package com.github.mrmitew.bankapp.features.backend.internal
 import com.github.mrmitew.bankapp.features.accounts.dto.AccountDTO
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.auth.vo.Token
+import com.github.mrmitew.bankapp.features.backend.BackendApi
 import com.github.mrmitew.bankapp.features.transactions.dto.TransactionDTO
 import com.github.mrmitew.bankapp.features.users.dto.UserDTO
-import com.github.mrmitew.bankapp.features.backend.BackendApi
 import com.github.mrmitew.bankapp.features.users.vo.User
 import java.math.BigDecimal
-import java.util.*
+import java.util.Calendar
+import java.util.UUID
 
 /**
  * This is our backend. It is running on a remote machine. *wink*

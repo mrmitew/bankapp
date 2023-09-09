@@ -1,8 +1,10 @@
 package com.github.mrmitew.bankapp.features.accounts.entity
 
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
-import com.github.mrmitew.bankapp.features.transactions.converter.BigDecimalConverter
 import com.github.mrmitew.bankapp.features.users.entity.UserEntity
 import java.math.BigDecimal
 
