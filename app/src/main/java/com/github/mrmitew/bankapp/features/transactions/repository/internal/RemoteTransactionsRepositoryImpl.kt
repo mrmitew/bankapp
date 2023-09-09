@@ -1,12 +1,12 @@
 package com.github.mrmitew.bankapp.features.transactions.repository.internal
 
+import com.github.mrmitew.bankapp.features.auth.AuthService
 import com.github.mrmitew.bankapp.features.auth.di.APP_TOKEN
+import com.github.mrmitew.bankapp.features.backend.BackendApi
 import com.github.mrmitew.bankapp.features.transactions.dto.toDTO
 import com.github.mrmitew.bankapp.features.transactions.dto.toDomainModel
 import com.github.mrmitew.bankapp.features.transactions.repository.RemoteTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
-import com.github.mrmitew.bankapp.features.auth.AuthService
-import com.github.mrmitew.bankapp.features.backend.BackendApi
 
 /**
  * Implementation of a repository that uses a remote data source to work with

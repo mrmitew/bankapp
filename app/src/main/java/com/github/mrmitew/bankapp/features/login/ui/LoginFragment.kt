@@ -43,8 +43,7 @@ class LoginFragment : Fragment() {
     private suspend fun doLoginWith(pinCode: CharArray) {
         viewModel.login(pinCode).fold({
             findNavController().navigate(LoginFragmentDirections.actionAccountOverview())
-            Unit
-        }, { e ->
+        }) { e ->
             // The view model instead give us the error via stream or just return a more suitable data structure
             // that will represent the state of the ui
             val errorMessage =
@@ -52,7 +51,7 @@ class LoginFragment : Fragment() {
                 else getString(R.string.unknown_error)
 
             Toast.makeText(this@LoginFragment.context, errorMessage, Toast.LENGTH_SHORT).show()
-        })
+        }
     }
 
 }

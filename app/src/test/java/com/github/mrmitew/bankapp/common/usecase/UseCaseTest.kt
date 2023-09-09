@@ -2,7 +2,7 @@ package com.github.mrmitew.bankapp.common.usecase
 
 import com.github.mrmitew.bankapp.features.common.usecase.UseCase
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 /**
@@ -23,7 +23,7 @@ class UseCaseTest {
             val result = testUseCase(Unit)
 
             // Assert
-            assertEquals(42, result)
+            assertThat(result).isEqualTo(42)
         }
     }
 }

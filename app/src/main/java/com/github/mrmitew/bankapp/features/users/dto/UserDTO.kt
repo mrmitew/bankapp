@@ -1,7 +1,7 @@
 package com.github.mrmitew.bankapp.features.users.dto
 
 import com.github.mrmitew.bankapp.features.users.vo.User
-import java.util.*
+import java.util.Date
 
 /**
  * Created by Stefan Mitev on 11-5-19.

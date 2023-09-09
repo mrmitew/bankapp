@@ -1,7 +1,7 @@
 package com.github.mrmitew.bankapp.features.transactions.usecase
 
 import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
+import androidx.paging.PagingData
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.common.usecase.Cancellable
 import com.github.mrmitew.bankapp.features.common.usecase.UseCase
@@ -11,7 +11,10 @@ import com.github.mrmitew.bankapp.features.common.vo.onFailure
 import com.github.mrmitew.bankapp.features.transactions.repository.LocalTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.repository.RemoteTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 /**
  * A Use Case that will fetch transactions from local database and emit them
@@ -28,13 +31,13 @@ class RefreshAccountTransactionsUseCase(
     private val localTransactionsRepository: LocalTransactionsRepository,
     private val remoteTransactionsRepository: RemoteTransactionsRepository
 ) :
-    UseCase<Account, LiveData<PagedList<Transaction>>>, Cancellable {
+    UseCase<Account, LiveData<PagingData<Transaction>>>, Cancellable {
     private val internalScope
         get() = // Normally, it should be .IO since we'll be doing disk operations,
             // but I haven't made mechanism to mock it in tests
             UseCaseContextScope(SupervisorJob() + Dispatchers.Main)
 
-    override suspend fun invoke(param: Account): LiveData<PagedList<Transaction>> {
+    override suspend fun invoke(param: Account): LiveData<PagingData<Transaction>> {
         internalScope.launch {
             catchResult {
                 val transactions = remoteTransactionsRepository.getTransactions(param.id)

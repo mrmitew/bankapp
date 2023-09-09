@@ -1,8 +1,8 @@
 package com.github.mrmitew.bankapp.features.users.repository.internal
 
-import com.github.mrmitew.bankapp.features.users.vo.User
 import com.github.mrmitew.bankapp.features.users.entity.toEntity
 import com.github.mrmitew.bankapp.features.users.repository.LocalUsersRepository
+import com.github.mrmitew.bankapp.features.users.vo.User
 
 /**
  * Class that wraps a Room DAO and exposes application-wide (domain) objects.

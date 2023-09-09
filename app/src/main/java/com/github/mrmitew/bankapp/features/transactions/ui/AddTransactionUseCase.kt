@@ -10,7 +10,8 @@ import com.github.mrmitew.bankapp.features.common.vo.onSuccess
 import com.github.mrmitew.bankapp.features.transactions.repository.LocalTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.repository.RemoteTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
-import java.util.*
+import java.util.Calendar
+import java.util.UUID
 
 /**
  * Use case that will perform a transaction between two accounts.

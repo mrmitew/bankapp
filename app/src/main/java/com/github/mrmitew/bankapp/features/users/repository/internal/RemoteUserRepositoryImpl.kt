@@ -1,9 +1,9 @@
 package com.github.mrmitew.bankapp.features.users.repository.internal
 
-import com.github.mrmitew.bankapp.features.users.dto.toModel
 import com.github.mrmitew.bankapp.features.auth.AuthService
 import com.github.mrmitew.bankapp.features.auth.vo.Token
 import com.github.mrmitew.bankapp.features.backend.BackendApi
+import com.github.mrmitew.bankapp.features.users.dto.toModel
 import com.github.mrmitew.bankapp.features.users.repository.RemoteUserRepository
 import com.github.mrmitew.bankapp.features.users.vo.User
 

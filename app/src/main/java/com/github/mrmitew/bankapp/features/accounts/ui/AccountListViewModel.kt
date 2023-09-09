@@ -1,6 +1,11 @@
 package com.github.mrmitew.bankapp.features.accounts.ui
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.github.mrmitew.bankapp.features.accounts.usecase.FetchUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.accounts.usecase.RefreshUserAccountsUseCase
 import com.github.mrmitew.bankapp.features.accounts.vo.Account

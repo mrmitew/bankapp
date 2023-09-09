@@ -3,7 +3,7 @@ package com.github.mrmitew.bankapp.features.auth.di
 import com.github.mrmitew.bankapp.features.auth.AuthService
 import com.github.mrmitew.bankapp.features.auth.internal.AuthServiceImpl
 import org.koin.dsl.module
-import java.util.*
+import java.util.UUID
 
 /**
  * Created by Stefan Mitev on 12-5-19.

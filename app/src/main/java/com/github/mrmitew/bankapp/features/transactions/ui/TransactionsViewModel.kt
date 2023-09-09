@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
-import androidx.paging.PagedList
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.transactions.usecase.GetAccountBalanceUseCase
 import com.github.mrmitew.bankapp.features.transactions.usecase.RefreshAccountTransactionsUseCase
@@ -22,8 +24,8 @@ class TransactionsViewModel(
     // Create a coroutine live data (https://developer.android.com/topic/libraries/architecture/coroutines)
     // Query the business logic to get user bank accounts
     // And then map them to something that the UI can render
-    val transactionListStream: LiveData<PagedList<Transaction>> = liveData {
-        emitSource(refreshAccountTransactionsUseCase(account))
+    val transactionListStream: LiveData<PagingData<Transaction>> = liveData {
+        emitSource(refreshAccountTransactionsUseCase(account).cachedIn(viewModelScope))
     }
 
     val accountBalanceStream = liveData<String> {

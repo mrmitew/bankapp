@@ -3,12 +3,15 @@ package com.github.mrmitew.bankapp.features.transactions.repository.internal
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.distinctUntilChanged
 import androidx.paging.Config
-import androidx.paging.PagedList
-import androidx.paging.toLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.github.mrmitew.bankapp.features.transactions.entity.toDomainModel
 import com.github.mrmitew.bankapp.features.transactions.entity.toEntity
 import com.github.mrmitew.bankapp.features.transactions.repository.LocalTransactionsRepository
 import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
+import kotlinx.coroutines.Dispatchers
 
 /**
  * Implementation of a repository that uses a local data source to work with
@@ -17,16 +20,25 @@ import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
 class LocalTransactionsRepositoryImpl(private val transactionDao: TransactionDao) :
     LocalTransactionsRepository {
 
-    override fun getTransactions(accountId: Int): LiveData<PagedList<Transaction>> {
-        return transactionDao.getTransactions(accountId)
-            .map { it.toDomainModel() }
-            .toLiveData(
-                config = Config(
-                    pageSize = 50,
-                    prefetchDistance = 150,
-                    enablePlaceholders = true
-                )
-            ).distinctUntilChanged()
+    override fun getTransactions(accountId: Int): LiveData<PagingData<Transaction>> {
+        val config = Config(
+            pageSize = 50,
+            prefetchDistance = 150,
+            enablePlaceholders = true
+        )
+        return Pager<Int, Transaction>(
+            PagingConfig(
+                config.pageSize,
+                config.prefetchDistance,
+                config.enablePlaceholders,
+                config.initialLoadSizeHint,
+                config.maxSize
+            ),
+            null,
+            transactionDao.getTransactions(accountId)
+                .map { it.toDomainModel() }
+                .asPagingSourceFactory(Dispatchers.IO)
+        ).liveData.distinctUntilChanged()
     }
 
     override suspend fun deleteTransactions(accountId: Int) {

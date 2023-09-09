@@ -1,7 +1,11 @@
 package com.github.mrmitew.bankapp.features.accounts.ui
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -11,11 +15,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.mrmitew.bankapp.R
 import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import com.github.mrmitew.bankapp.features.common.vo.catchResult
-import com.github.mrmitew.bankapp.features.common.vo.getOrNull
 import com.github.mrmitew.bankapp.features.common.vo.onFailure
 import com.github.mrmitew.bankapp.features.common.vo.onSuccess
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.IllegalArgumentException
 
 class AccountListFragment : Fragment(), OnAccountClickListener {
     private val viewModel: AccountListViewModel by viewModel()

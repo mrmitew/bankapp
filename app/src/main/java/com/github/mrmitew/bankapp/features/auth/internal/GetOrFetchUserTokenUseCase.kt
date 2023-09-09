@@ -1,7 +1,9 @@
 package com.github.mrmitew.bankapp.features.auth.internal
 
 import com.github.mrmitew.bankapp.features.auth.vo.Token
-import com.github.mrmitew.bankapp.features.common.usecase.*
+import com.github.mrmitew.bankapp.features.common.usecase.ReuseInflightUseCase
+import com.github.mrmitew.bankapp.features.common.usecase.UseCase
+import com.github.mrmitew.bankapp.features.common.usecase.reuseInflight
 
 /**
  * Use case whose purpose is to get or fetch user token, based on token's availability

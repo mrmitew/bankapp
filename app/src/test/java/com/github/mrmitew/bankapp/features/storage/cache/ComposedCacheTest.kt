@@ -1,8 +1,8 @@
 package com.github.mrmitew.bankapp.features.storage.cache
 
-import com.nhaarman.mockitokotlin2.mock
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 /**
@@ -33,7 +33,7 @@ class ComposedCacheTest {
         val cache = emptyMemoryCache.compose(diskCache)
 
         runBlocking {
-            assertEquals(42, cache.get(TEST_KEY))
+            assertThat(cache.get(TEST_KEY)).isEqualTo(42)
         }
     }
 
@@ -62,7 +62,7 @@ class ComposedCacheTest {
             .compose(network)
 
         runBlocking {
-            assertEquals(42, cache.get(TEST_KEY))
+            assertThat(cache.get(TEST_KEY)).isEqualTo(42)
         }
     }
 
@@ -85,15 +85,15 @@ class ComposedCacheTest {
         val cache = emptyMemoryCache.compose(diskCache)
 
         runBlocking {
-            assertEquals(24, cache.get(TEST_KEY))
+            assertThat(cache.get(TEST_KEY)).isEqualTo(24)
         }
     }
 
     @Test(expected = IllegalArgumentException::class)
     fun `should throw exception upon circular dependency`() {
         // Given two caches
-        val cache1 = mock<Cache<String, Int>>()
-        val cache2 = mock<Cache<String, Int>>()
+        val cache1 = mockk<Cache<String, Int>>()
+        val cache2 = mockk<Cache<String, Int>>()
 
         // When one cache is composed with itself at some point
         cache1.compose(cache2).compose(cache1)
@@ -104,7 +104,7 @@ class ComposedCacheTest {
     @Test(expected = IllegalArgumentException::class)
     fun `should throw exception when cache composes itself`() {
         // Given two caches
-        val cache1 = mock<Cache<String, Int>>()
+        val cache1 = mockk<Cache<String, Int>>()
 
         // When one cache is composed with itself at some point
         cache1.compose(cache1)
