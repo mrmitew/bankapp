@@ -47,6 +47,7 @@ class SavingsAccountTransactionsOverviewFragment : TransactionsOverviewFragment(
         }
 
         depositButton.setOnClickListener {
+            @Suppress("CommentWrapping")
             findNavController().navigate(
                 SavingsAccountTransactionsOverviewFragmentDirections.addTransaction(/*isDeposit*/true, args.account)
             )
@@ -64,7 +65,8 @@ open class TransactionsOverviewFragment : Fragment() {
     private val viewModel: TransactionsViewModel by viewModel { parametersOf(args.account) }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_transactions_overview, container, false)
@@ -79,15 +81,21 @@ open class TransactionsOverviewFragment : Fragment() {
         recyclerView.adapter = transactionsAdapter
         recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
-        viewModel.transactionListStream.observe(viewLifecycleOwner, Observer {
-            viewLifecycleOwner.lifecycleScope.launch {
-                transactionsAdapter.submitData(it)
+        viewModel.transactionListStream.observe(
+            viewLifecycleOwner,
+            Observer {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    transactionsAdapter.submitData(it)
+                }
             }
-        })
+        )
 
-        viewModel.accountBalanceStream.observe(viewLifecycleOwner, Observer {
-            view.findViewById<TextView>(R.id.tv_balance).text = it
-        })
+        viewModel.accountBalanceStream.observe(
+            viewLifecycleOwner,
+            Observer {
+                view.findViewById<TextView>(R.id.tv_balance).text = it
+            }
+        )
 
         return view
     }

@@ -47,8 +47,11 @@ class LoginFragment : Fragment() {
             // The view model instead give us the error via stream or just return a more suitable data structure
             // that will represent the state of the ui
             val errorMessage =
-                if (e is WrongPasswordException) getString(R.string.wrong_password)
-                else getString(R.string.unknown_error)
+                if (e is WrongPasswordException) {
+                    getString(R.string.wrong_password)
+                } else {
+                    getString(R.string.unknown_error)
+                }
 
             Toast.makeText(this@LoginFragment.context, errorMessage, Toast.LENGTH_SHORT).show()
         }

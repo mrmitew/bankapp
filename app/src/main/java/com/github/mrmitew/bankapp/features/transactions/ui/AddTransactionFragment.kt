@@ -36,8 +36,11 @@ class AddTransactionFragment : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.fragment_add_transaction, container, false)
 
-        val fromToLabel = if (!args.isDeposit)
-            getString(R.string.to) else getString(R.string.from)
+        val fromToLabel = if (!args.isDeposit) {
+            getString(R.string.to)
+        } else {
+            getString(R.string.from)
+        }
 
         val message = view.findViewById<TextView>(R.id.et_message)
         val amount = view.findViewById<TextView>(R.id.et_amount)

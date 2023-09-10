@@ -21,6 +21,7 @@ import org.junit.Before
 import org.junit.Test
 import java.util.concurrent.atomic.AtomicInteger
 
+@Suppress("ForbiddenComment")
 /**
  * Created by Stefan Mitev on 16-4-19.
  *
@@ -80,7 +81,7 @@ class ReuseInflightUseCaseTest {
         runBlocking {
             // Use the same key multiple times sequentially
             GlobalScope.launch {
-                for (i in 1..5) {
+                repeat((1..5).count()) {
                     testUseCase(Unit)
                 }
             }
@@ -110,13 +111,13 @@ class ReuseInflightUseCaseTest {
         testScope.runBlockingTest {
             // When we get the same key multiple times in parallel
             testScope.launch {
-                for (i in 1..5) {
+                repeat((1..5).count()) {
                     testUseCase("key1")
                 }
             }
 
             testScope.launch {
-                for (i in 1..5) {
+                repeat((1..5).count()) {
                     testUseCase("key2")
                 }
             }
@@ -149,7 +150,7 @@ class ReuseInflightUseCaseTest {
         // TODO: Migrate to runBlockingTest{} that supports time advancing
         runBlocking {
             GlobalScope.launch {
-                for (i in 1..callTimes) {
+                repeat((1..callTimes).count()) {
                     testUseCase(Unit)
                 }
             }.join()
@@ -162,7 +163,7 @@ class ReuseInflightUseCaseTest {
                 assertThat(count.get()).isEqualTo(1)
 
                 // Invoke the usecase again for couple of times
-                for (i in 1..callTimes) {
+                repeat((1..callTimes).count()) {
                     testUseCase(Unit)
                 }
             }.join()
