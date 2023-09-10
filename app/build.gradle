@@ -4,10 +4,6 @@ plugins {
     id 'com.google.devtools.ksp'
     id 'androidx.navigation.safeargs.kotlin'
     id 'org.jetbrains.kotlin.plugin.serialization'
-    id 'com.github.spotbugs'
-    id 'io.gitlab.arturbosch.detekt'
-    id 'checkstyle'
-    id 'se.bjurr.violations.violations-gradle-plugin'
 }
 
 android {
@@ -62,7 +58,7 @@ android {
 //        reportLevel = 'default'
 //        visitors = [ 'FindSqlInjection', 'SwitchFallthrough' ]
 //        omitVisitors = [ 'FindNonShortCircuit' ]
-        reportsDir = file("$buildDir/spotbugs")
+        reportsDir = file("$buildDir/reports/spotbugs")
 //        includeFilter = file("include.xml")
         excludeFilter = file("../config/quality/spotbugs-excludes.xml")
 //        baselineFile = file("baseline.xml")

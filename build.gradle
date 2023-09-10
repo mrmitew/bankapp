@@ -20,7 +20,10 @@ plugins {
 }
 
 allprojects {
+    // Security
     apply plugin: 'org.owasp.dependencycheck'
+
+    // Quality
     apply plugin: 'com.github.spotbugs'
     apply plugin: 'checkstyle'
     apply plugin: 'se.bjurr.violations.violations-gradle-plugin'
@@ -29,8 +32,6 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'org.owasp.dependencycheck'
-
     dependencyCheck {
         outputDirectory = "$buildDir/reports/dependency-check"
         format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.ALL.toString()
