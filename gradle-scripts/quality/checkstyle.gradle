@@ -1,0 +1,41 @@
+tasks.withType(Checkstyle) {
+    reports {
+        xml.required = false
+        html.required = true
+        html.stylesheet resources.text.fromFile('../../config/quality/checkstyle-custom.xsl')
+    }
+}
+
+ext {
+    addCheckStyleTaskForAndroidVariants = this.&addCheckStyleTaskForAndroidVariants
+}
+
+def addCheckStyleTaskForAndroidVariants(project) {
+    if (project.android.hasProperty('libraryVariants')) {
+        project.android.libraryVariants.all { variant ->
+            addCheckStyleTask(project, variant)
+        }
+    }
+    if (project.android.hasProperty('applicationVariants')) {
+        project.android.applicationVariants.all { variant ->
+            addCheckStyleTask(project, variant)
+        }
+    }
+}
+
+def addCheckStyleTask(project, variant) {
+    def checkstyleTask = project.tasks.maybeCreate("checkstyle${variant.name.capitalize()}", Checkstyle)
+    checkstyleTask.configFile file("../../config/quality/checkstyle-suppressions.xml")
+    checkstyleTask.source variant.javaCompile.source
+    checkstyleTask.include '**/*.java'
+    checkstyleTask.exclude '**/gen/**', '**/BuildConfig.java', '**/R.java', '**/DataBindingInfo.java'
+    checkstyleTask.ignoreFailures false
+    checkstyleTask.showViolations true
+    checkstyleTask.classpath = project.files()
+
+    def baseCheckTask = project.tasks.getByName("check") // FIXME? check${variant.name.capitalize()}
+    if (baseCheckTask != null) {
+        baseCheckTask.dependsOn(checkstyleTask);
+        baseCheckTask.shouldRunAfter(checkstyleTask);
+    }
+}

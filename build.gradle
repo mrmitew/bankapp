@@ -15,17 +15,118 @@ plugins {
     id 'com.github.spotbugs' version '5.1.3' apply false // https://github.com/spotbugs/spotbugs-gradle-plugin/tree/master
     id 'pmd' // https://docs.gradle.org/current/userguide/pmd_plugin.html
     id 'io.gitlab.arturbosch.detekt' version '1.23.1' apply false // https://github.com/detekt/detekt
+    id 'checkstyle' // https://docs.gradle.org/current/userguide/checkstyle_plugin.html
+    id 'se.bjurr.violations.violations-gradle-plugin' version '1.52.6' apply false
 }
 
 allprojects {
     apply plugin: 'org.owasp.dependencycheck'
     apply plugin: 'com.github.spotbugs'
+    apply plugin: 'checkstyle'
+    apply plugin: 'se.bjurr.violations.violations-gradle-plugin'
+    apply plugin: 'io.gitlab.arturbosch.detekt'
+    apply plugin: 'pmd'
 }
 
-pmd {
-    consoleOutput = true
-    toolVersion = "6.21.0"
-    rulesMinimumPriority = 5
-    ruleSets = ["category/java/errorprone.xml", "category/java/bestpractices.xml"]
-    threads = 4
+subprojects {
+    apply plugin: 'org.owasp.dependencycheck'
+
+    dependencyCheck {
+        outputDirectory = "$buildDir/reports/dependency-check"
+        format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.ALL.toString()
+    }
+}
+
+apply from: "gradle-scripts/quality/pmd.gradle"
+apply from: "gradle-scripts/quality/checkstyle.gradle"
+
+task violations(type: se.bjurr.violations.gradle.plugin.ViolationsTask) {
+    //
+    // Optional config
+    //
+    maxReporterColumnWidth = 0 // 0 means "no limit"
+    maxRuleColumnWidth = 60
+    maxSeverityColumnWidth = 0
+    maxLineColumnWidth = 0
+    maxMessageColumnWidth = 70
+//    codeClimateFile = file('gl-code-quality-report.json') // Will create a CodeClimate JSON report.
+//    violationsFile = file('violations-file.json') // Will create a normalized JSON report.
+
+    //
+    // Global configuration, remove if you dont want to report violations for
+    // the entire repo.
+    //
+    minSeverity = 'INFO' // INFO, WARN or ERROR
+    detailLevel = 'VERBOSE' // PER_FILE_COMPACT, COMPACT or VERBOSE
+    maxViolations = 99999999 // Will fail the build if total number of found violations is higher
+    printViolations = true // Will print violations found in diff
+
+    //
+    // Diff configuration, remove if you dont want to report violations for
+    // files changed between specific revisions.
+    //
+    // diff-properties can be supplied with something like:
+    //
+    // ./gradlew violations -PdiffFrom=e4de20e -PdiffTo=HEAD
+    //
+    // And in Travis, you could add:
+    //
+    //  script:
+    //   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./gradlew check -PdiffFrom=$TRAVIS_PULL_REQUEST_BRANCH -PdiffTo=$TRAVIS_BRANCH ; fi'
+    //
+    diffFrom = project.properties.diffFrom // Can be empty (ignored), Git-commit or any Git-reference
+    diffTo = project.properties.diffTo // Same as above
+    diffMinSeverity = 'INFO' // INFO, WARN or ERROR
+    diffDetailLevel = 'VERBOSE' // PER_FILE_COMPACT, COMPACT or VERBOSE
+    diffMaxViolations = 99 // Will fail the build if number of violations, in the diff within from/to, is higher
+    diffPrintViolations = true // Will print violations found in diff
+    gitRepo = file('.') // Where to look for Git
+
+    //
+    // This is mandatory regardless of if you want to report violations between
+    // revisions or the entire repo.
+    //
+    // Many more formats available, see: https://github.com/tomasbjerre/violations-lib
+    violations = [
+            ["CHECKSTYLE", projectDir.path, ".*/detekt/.*\\.xml\$", "Detekt"],
+            ["FINDBUGS", projectDir.path, ".*/findbugs/.*\\.xml\$", "Findbugs"],
+            ["CHECKSTYLE", projectDir.path, ".*/checkstyle/.*\\.xml\$", "Checkstyle"],
+            ["ANDROIDLINT", projectDir.path, ".*/lint/.*\\.xml\$", "Lint"],
+            ["SARIF", projectDir.path, ".*/dependency-check/.*\\.sarif\$", "Dependency Check"],
+    ]
+}
+
+ext {
+    addViolationsTaskToAndroidVariants = this.&addViolationsTaskToAndroidVariants
+}
+
+def addViolationsTaskToAndroidVariants(project) {
+    if (project.android.hasProperty('libraryVariants')) {
+        project.android.libraryVariants.all { variant ->
+            addViolationsTask(project)
+        }
+    }
+    if (project.android.hasProperty('applicationVariants')) {
+        project.android.applicationVariants.all { variant ->
+            addViolationsTask(project)
+        }
+    }
+}
+
+def addViolationsTask(project) {
+    def baseCheckTask = project.tasks.getByName("check") // FIXME? check${variant.name.capitalize()}
+    if (baseCheckTask != null) {
+        baseCheckTask.finalizedBy violations
+    }
+}
+
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            addCheckStyleTaskForAndroidVariants(project)
+        }
+        if (project.hasProperty('android')) {
+            addViolationsTaskToAndroidVariants(project)
+        }
+    }
 }
