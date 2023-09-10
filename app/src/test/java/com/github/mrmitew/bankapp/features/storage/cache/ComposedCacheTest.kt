@@ -18,16 +18,16 @@ class ComposedCacheTest {
     fun `should return value from second cache`() {
         val emptyMemoryCache = object : Cache<String, Int> {
             override suspend fun get(key: String): Int? = null
-            override suspend fun set(key: String, value: Int) {}
-            override suspend fun evict(key: String) {}
-            override suspend fun evictAll() {}
+            override suspend fun set(key: String, value: Int) = Unit
+            override suspend fun evict(key: String) = Unit
+            override suspend fun evictAll() = Unit
         }
 
         val diskCache = object : Cache<String, Int> {
             override suspend fun get(key: String): Int? = 42
-            override suspend fun set(key: String, value: Int) {}
-            override suspend fun evict(key: String) {}
-            override suspend fun evictAll() {}
+            override suspend fun set(key: String, value: Int) = Unit
+            override suspend fun evict(key: String) = Unit
+            override suspend fun evictAll() = Unit
         }
 
         val cache = emptyMemoryCache.compose(diskCache)
@@ -41,16 +41,16 @@ class ComposedCacheTest {
     fun `should return value from last cache`() {
         val emptyMemoryCache = object : Cache<String, Int> {
             override suspend fun get(key: String): Int? = null
-            override suspend fun set(key: String, value: Int) {}
-            override suspend fun evict(key: String) {}
-            override suspend fun evictAll() {}
+            override suspend fun set(key: String, value: Int) = Unit
+            override suspend fun evict(key: String) = Unit
+            override suspend fun evictAll() = Unit
         }
 
         val diskCache = object : Cache<String, Int> {
             override suspend fun get(key: String): Int? = null
-            override suspend fun set(key: String, value: Int) {}
-            override suspend fun evict(key: String) {}
-            override suspend fun evictAll() {}
+            override suspend fun set(key: String, value: Int) = Unit
+            override suspend fun evict(key: String) = Unit
+            override suspend fun evictAll() = Unit
         }
 
         val network = object : Fetcher<String, Int> {
@@ -70,16 +70,16 @@ class ComposedCacheTest {
     fun `should return value from first cache`() {
         val emptyMemoryCache = object : Cache<String, Int> {
             override suspend fun get(key: String): Int? = 24
-            override suspend fun set(key: String, value: Int) {}
-            override suspend fun evict(key: String) {}
-            override suspend fun evictAll() {}
+            override suspend fun set(key: String, value: Int) = Unit
+            override suspend fun evict(key: String) = Unit
+            override suspend fun evictAll() = Unit
         }
 
         val diskCache = object : Cache<String, Int> {
             override suspend fun get(key: String): Int? = 42
-            override suspend fun set(key: String, value: Int) {}
-            override suspend fun evict(key: String) {}
-            override suspend fun evictAll() {}
+            override suspend fun set(key: String, value: Int) = Unit
+            override suspend fun evict(key: String) = Unit
+            override suspend fun evictAll() = Unit
         }
 
         val cache = emptyMemoryCache.compose(diskCache)

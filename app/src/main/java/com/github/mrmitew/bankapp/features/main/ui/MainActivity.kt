@@ -10,7 +10,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.github.mrmitew.bankapp.R
 import com.google.android.material.navigation.NavigationView
 
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

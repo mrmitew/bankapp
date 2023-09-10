@@ -36,11 +36,13 @@ class AccountListViewModel(
         // Query the business logic to get user bank accounts
         // And then map them to something that the UI can render
         accountItemListStream = liveData {
-            emitSource(fetchUserAccountsUseCase()!!.map {
-                it.toUiModel().also {
-                    emitInitialLoadingCompleted()
+            emitSource(
+                fetchUserAccountsUseCase()!!.map {
+                    it.toUiModel().also {
+                        emitInitialLoadingCompleted()
+                    }
                 }
-            })
+            )
         }
     }
 

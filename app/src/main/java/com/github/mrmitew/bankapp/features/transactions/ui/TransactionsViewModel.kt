@@ -39,4 +39,3 @@ class TransactionsViewModel(
         refreshAccountTransactionsUseCase.cancel()
     }
 }
-

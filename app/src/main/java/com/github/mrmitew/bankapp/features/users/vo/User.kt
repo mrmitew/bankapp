@@ -8,5 +8,3 @@ package com.github.mrmitew.bankapp.features.users.vo
  * User model that is used across the app
  */
 data class User(val id: Int = 0, val firstName: String, val lastName: String)
-
-

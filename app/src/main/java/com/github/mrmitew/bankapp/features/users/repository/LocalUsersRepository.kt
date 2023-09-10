@@ -16,4 +16,3 @@ interface LocalUsersRepository {
     suspend fun login(user: User)
     suspend fun deleteUserSettings()
 }
-

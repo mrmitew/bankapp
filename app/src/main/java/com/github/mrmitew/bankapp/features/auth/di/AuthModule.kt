@@ -18,6 +18,7 @@ import java.util.UUID
 // dynamic analysis.
 // Don't judge for the hardcoded pin, please! :)
 val USER_PIN = charArrayOf('0', '0', '0', '0')
+
 // Some app secret that we shouldn't normally keep in the app and definitely not hard coded in the code :)
 val APP_TOKEN = UUID.randomUUID().toString()
 

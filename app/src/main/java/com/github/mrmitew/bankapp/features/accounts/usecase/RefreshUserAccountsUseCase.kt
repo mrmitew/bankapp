@@ -26,6 +26,7 @@ class RefreshUserAccountsUseCase(
                 // Store to disk
                 // TODO: We should make a diff and remove the accounts that have been deleted on the server
                 // This of course won't happen in our example since everything is deterministic.
+                @Suppress("ForbiddenComment")
                 localAccountsRepository.storeAccounts(user, accounts)
             } else {
                 localAccountsRepository.deleteAccounts(user)

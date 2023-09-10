@@ -13,7 +13,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 // TODO: Split each feature in a separate gradle module
-
+@Suppress("ForbiddenComment")
 object DependencyInjection {
     fun with(applicationContext: Context) {
         startKoin {

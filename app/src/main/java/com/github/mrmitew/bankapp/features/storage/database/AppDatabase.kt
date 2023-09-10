@@ -50,8 +50,7 @@ abstract class AppDatabase : RoomDatabase() {
         // Dummy "migration". Basically just to satisfy room to not complain we don't handle migration.
         // Yes, hacky, but its just for dev purposes.
         private val MIGRATION_OLD_NEW = object : Migration(DATABASE_VERSION - 1, DATABASE_VERSION) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-            }
+            override fun migrate(database: SupportSQLiteDatabase) = Unit
         }
 
         @Volatile

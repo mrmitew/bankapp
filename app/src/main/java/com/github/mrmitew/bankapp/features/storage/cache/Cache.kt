@@ -14,4 +14,3 @@ interface Cache<Key : Any, Value : Any> {
     suspend fun evict(key: Key)
     suspend fun evictAll()
 }
-

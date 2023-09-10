@@ -29,7 +29,6 @@ class RemoteTransactionsRepositoryImpl(
         backendApi.fetchTransactions(authService.getUserToken(APP_TOKEN).accessToken, accountId)
             .map { it.toDomainModel() }
 
-
     override suspend fun addTransaction(transaction: Transaction) {
         backendApi.addTransaction(authService.getUserToken(APP_TOKEN).accessToken, transaction.toDTO())
     }

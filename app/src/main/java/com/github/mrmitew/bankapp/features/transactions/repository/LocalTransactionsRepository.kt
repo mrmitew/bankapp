@@ -8,7 +8,7 @@ import com.github.mrmitew.bankapp.features.transactions.vo.Transaction
  * Repository that works with local data source.
  * It can be mocked or faked in tests or debug builds.
  */
-interface LocalTransactionsRepository  {
+interface LocalTransactionsRepository {
     fun getTransactions(accountId: Int): LiveData<PagingData<Transaction>>
     suspend fun addTransaction(transaction: Transaction)
     suspend fun deleteTransactions(accountId: Int)

@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions")
+
 package com.github.mrmitew.bankapp.features.common.vo
 
 /**
@@ -99,6 +101,7 @@ fun <T> Result<T>.throwOnFailure() {
     if (this is Result.Failure) throw throwable
 }
 
+@Suppress("TooGenericExceptionCaught")
 inline fun <R> catchResult(block: () -> R): Result<R> {
     return try {
         Result.Success(block())
@@ -119,7 +122,6 @@ inline fun <T> Result<T>.recoverCatching(transform: (exception: Throwable) -> T)
         null -> this
         else -> catchResult { transform(exception) }
     }
-
 }
 
 fun <R> R.toSuccess(): Result<R> {

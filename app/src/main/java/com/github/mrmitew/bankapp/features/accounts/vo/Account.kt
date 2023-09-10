@@ -10,6 +10,7 @@ import java.math.BigDecimal
  * dependency when we use this class in unit tests.
  */
 @Serializable
+@Suppress("ForbiddenComment")
 data class Account(
     val id: Int,
     val name: String,
@@ -19,7 +20,7 @@ data class Account(
     val currency: String,
     @Serializable(with = BigDecimalSerializer::class)
     val balance: BigDecimal
-): java.io.Serializable {
+) : java.io.Serializable {
     companion object {
         // TODO We can have a sealed class. SavingsAccount and PaymentAccount
         const val TYPE_PAYMENT = "payment"

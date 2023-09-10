@@ -13,6 +13,7 @@ import com.github.mrmitew.bankapp.features.users.repository.RemoteUserRepository
  */
 internal class TokenCacheFacade(private val remoteUserRepository: RemoteUserRepository) {
     // TODO: To implement using [android.util.LruCache]
+    @Suppress("ForbiddenComment")
     private val memoryCache = object : Cache<String, Token> {
         private val internalMap = HashMap<String, Token>()
 

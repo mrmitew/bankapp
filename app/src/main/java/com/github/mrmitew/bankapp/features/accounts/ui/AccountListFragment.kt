@@ -1,6 +1,7 @@
 package com.github.mrmitew.bankapp.features.accounts.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -23,16 +24,20 @@ class AccountListFragment : Fragment(), OnAccountClickListener {
     private val viewModel: AccountListViewModel by viewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_accounts, container, false)
         val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.vg_swipeToRefresh)
 
-        viewModel.loadingStateStream.observe(viewLifecycleOwner, Observer {
-            // Keep the loading if we haven't completely finished fetching data
-            swipeRefreshLayout.isRefreshing = it.isRefreshing || it.isInitialLoading
-        })
+        viewModel.loadingStateStream.observe(
+            viewLifecycleOwner,
+            Observer {
+                // Keep the loading if we haven't completely finished fetching data
+                swipeRefreshLayout.isRefreshing = it.isRefreshing || it.isInitialLoading
+            }
+        )
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rv_accounts)
         val accountsAdapter = AccountsAdapter()
@@ -45,10 +50,13 @@ class AccountListFragment : Fragment(), OnAccountClickListener {
             viewModel.refreshAccounts()
         }
 
-        viewModel.getAccountItemList().observe(viewLifecycleOwner, Observer {
-            println("Received $it")
-            accountsAdapter.submitList(it)
-        })
+        viewModel.getAccountItemList().observe(
+            viewLifecycleOwner,
+            Observer {
+                println("Received $it")
+                accountsAdapter.submitList(it)
+            }
+        )
 
         setHasOptionsMenu(true)
 
@@ -60,18 +68,19 @@ class AccountListFragment : Fragment(), OnAccountClickListener {
             when (account.type) {
                 Account.TYPE_PAYMENT -> AccountListFragmentDirections.actionTransactionsOverview(account)
                 Account.TYPE_SAVINGS -> AccountListFragmentDirections.actionSavingsAccountTransactionsOverview(account)
-                else -> throw IllegalArgumentException()
+                else -> throw IllegalArgumentException("Unsupported account type")
             }
         }
             .onFailure {
-                // TODO: Log
-                it.printStackTrace()
+                Log.e(AccountListFragment::class.java.simpleName, it.message, it)
             }
             .onSuccess {
                 findNavController().navigate(it)
             }
     }
 
+    // FIXME
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.account_menu, menu)
         menu.findItem(R.id.refresh).setOnMenuItemClickListener {

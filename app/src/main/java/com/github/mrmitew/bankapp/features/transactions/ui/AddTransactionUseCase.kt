@@ -77,7 +77,6 @@ class AddTransactionUseCase(
                 }.getOrThrow()
             }.getOrThrow()
 
-
             // Update local data source with what our backend tells us
 
             localAccountsRepository.updateAccountBalance(

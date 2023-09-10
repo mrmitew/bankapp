@@ -10,7 +10,8 @@ import com.github.mrmitew.bankapp.features.users.vo.User
 /**
  * All calls to our (fake) backend are done here. The [backend] can be a Retrofit instance.
  */
-class RemoteUserRepositoryImpl(private val backend: BackendApi) : RemoteUserRepository,
+class RemoteUserRepositoryImpl(private val backend: BackendApi) :
+    RemoteUserRepository,
     AuthService {
     override suspend fun getUserToken(appToken: String): Token = backend.fetchUserToken(appToken)
     override suspend fun getPerson(token: String): User = backend.fetchPerson(token).toModel()

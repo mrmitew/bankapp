@@ -1,6 +1,5 @@
 package com.github.mrmitew.bankapp.features.transactions.ui
 
-
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +18,6 @@ import com.github.mrmitew.bankapp.features.accounts.vo.Account
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-
 
 /**
  * Transactions overview for Savings accounts
@@ -42,6 +40,7 @@ class SavingsAccountTransactionsOverviewFragment : TransactionsOverviewFragment(
         depositButton.text = getString(R.string.deposit)
 
         withdrawButton.setOnClickListener {
+            @Suppress("CommentWrapping")
             findNavController().navigate(
                 SavingsAccountTransactionsOverviewFragmentDirections.addTransaction(/*isDeposit*/false, args.account)
             )
@@ -93,4 +92,3 @@ open class TransactionsOverviewFragment : Fragment() {
         return view
     }
 }
-

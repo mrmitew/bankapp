@@ -46,6 +46,7 @@ class ReuseInflightUseCase<I : Any, O : Any>(private val useCase: UseCase<I, O>)
             // Store the result to be re-used by others
             cache[param] = deferred
 
+            @Suppress("ForbiddenComment")
             // TODO: Use internal, smaller scope + job that can be cancelled
             // We don't use supervisor/coroutine-Scope on purpose. They'll suspend the current
             // execution of invoke(), while we want that to happen in parallel.

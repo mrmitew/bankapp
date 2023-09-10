@@ -19,7 +19,8 @@ import java.math.BigDecimal
             entity = UserEntity::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("userId")
-        )]
+        )
+    ]
 )
 data class AccountEntity(
     val userId: Int,

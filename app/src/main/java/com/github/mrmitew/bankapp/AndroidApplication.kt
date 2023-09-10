@@ -12,4 +12,3 @@ class AndroidApplication : Application() {
         DependencyInjection.with(this)
     }
 }
-

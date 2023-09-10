@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package com.github.mrmitew.bankapp.features.backend.internal
 
 import com.github.mrmitew.bankapp.features.accounts.dto.AccountDTO
@@ -8,6 +10,7 @@ import com.github.mrmitew.bankapp.features.transactions.dto.TransactionDTO
 import com.github.mrmitew.bankapp.features.users.dto.UserDTO
 import com.github.mrmitew.bankapp.features.users.vo.User
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.Calendar
 import java.util.UUID
 
@@ -18,6 +21,7 @@ class FakeBackendImpl : BackendApi {
     private var currentUserToken: Token? = null
 
     // FIXME: Account balance doesn't really match the transactions.. let's say we don't keep old transactions :)
+    @Suppress("ForbiddenComment")
     private val accounts = mutableListOf(
         AccountDTO(1, "Stefan Mitev", "NLXXGIMB123IBAN", Account.TYPE_PAYMENT, "EUR", BigDecimal(1_992)),
         AccountDTO(2, "Stefan Mitev", "NLXXJFAKE123IBAN", Account.TYPE_PAYMENT, "EUR", BigDecimal(6000)),
@@ -33,7 +37,7 @@ class FakeBackendImpl : BackendApi {
             "For the bowling that one time",
             "10 May 2019",
             "Internetbankieren",
-            BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(20).setScale(2, RoundingMode.HALF_DOWN),
             "Stefan Mitev",
             "NLXXJUMBO123IBAN"
         ),
@@ -45,7 +49,7 @@ class FakeBackendImpl : BackendApi {
             null,
             "9 May 2019",
             "Betaalautomat",
-            BigDecimal(-20).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(-20).setScale(2, RoundingMode.HALF_DOWN),
             "Bowling place",
             "NLXXAMS12334IBAN"
         ),
@@ -57,7 +61,7 @@ class FakeBackendImpl : BackendApi {
             null,
             "8 May 2019",
             "Internetbankieren",
-            BigDecimal(100).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(100).setScale(2, RoundingMode.HALF_DOWN),
             "Stefan Mitev",
             "NLXXAMS123IBAN"
         ),
@@ -69,7 +73,7 @@ class FakeBackendImpl : BackendApi {
             null,
             "8 May 2019",
             "Betaalautomaat",
-            BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(-23.72).setScale(2, RoundingMode.HALF_DOWN),
             "Jumbo Utrecht",
             "NLXXJUMBO126343IBAN"
         ),
@@ -81,7 +85,7 @@ class FakeBackendImpl : BackendApi {
             null,
             "8 May 2019",
             "Betaalautomaat",
-            BigDecimal(-4.12).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(-4.12).setScale(2, RoundingMode.HALF_DOWN),
             "Albert Heijn Amsterdam",
             "NLXXAMS125543IBAN"
         ),
@@ -93,7 +97,7 @@ class FakeBackendImpl : BackendApi {
             null,
             "7 May 2019",
             "Betaalautomaat",
-            BigDecimal(-6.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(-6.72).setScale(2, RoundingMode.HALF_DOWN),
             "Albert Heijn Amsterdam",
             "NLXXAMS12323IBAN"
         )
@@ -108,7 +112,7 @@ class FakeBackendImpl : BackendApi {
             null,
             "11 May 2019",
             "Betaalautomaat",
-            BigDecimal(-23.72).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(-23.72).setScale(2, RoundingMode.HALF_DOWN),
             "Jumbo Utrecht",
             "NLXXJUMBO1213IBAN"
         ),
@@ -120,7 +124,7 @@ class FakeBackendImpl : BackendApi {
             null,
             "11 May 2019",
             "Betaalautomaat",
-            BigDecimal(-10.22).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(-10.22).setScale(2, RoundingMode.HALF_DOWN),
             "Albert Heijn Amsterdam",
             "NLXXAMS1236IBAN"
         )
@@ -135,7 +139,7 @@ class FakeBackendImpl : BackendApi {
             null,
             "12 May 2019",
             "Betaalautomaat",
-            BigDecimal(-20.15).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(-20.15).setScale(2, RoundingMode.HALF_DOWN),
             "Jumbo Utrecht",
             "NLXXJUMBO12345IBAN"
         ),
@@ -147,7 +151,7 @@ class FakeBackendImpl : BackendApi {
             null,
             "12 May 2019",
             "Betaalautomaat",
-            BigDecimal(-20.00).setScale(2, BigDecimal.ROUND_HALF_DOWN),
+            BigDecimal(-20.00).setScale(2, RoundingMode.HALF_DOWN),
             "Kinepolis Utrecht",
             "NLXXAMS1243IBAN"
         )
@@ -184,7 +188,7 @@ class FakeBackendImpl : BackendApi {
             1 -> transactionsAccount1
             2 -> transactionsAccount2
             3 -> transactionsAccount3
-            else -> throw IllegalArgumentException()
+            else -> throw IllegalArgumentException("Unexpected accountId $accountId")
         }
     }
 
@@ -201,7 +205,7 @@ class FakeBackendImpl : BackendApi {
             3 -> transactionsAccount3.add(0, transaction).also {
                 accounts[2] = accounts[2].copy(balance = accounts[2].balance.add(transaction.amount))
             }
-            else -> throw IllegalArgumentException()
+            else -> throw IllegalArgumentException("Unexpected accountId ${transaction.accountId}")
         }
     }
 
@@ -210,7 +214,7 @@ class FakeBackendImpl : BackendApi {
             1 -> accounts[0] = accounts[0].copy(balance = newBalance)
             2 -> accounts[1] = accounts[1].copy(balance = newBalance)
             3 -> accounts[2] = accounts[2].copy(balance = newBalance)
-            else -> throw IllegalArgumentException()
+            else -> throw IllegalArgumentException("Unexpected accountId $accountId")
         }
     }
 
@@ -219,7 +223,7 @@ class FakeBackendImpl : BackendApi {
             1 -> accounts[0].balance
             2 -> accounts[1].balance
             3 -> accounts[2].balance
-            else -> throw IllegalArgumentException()
+            else -> throw IllegalArgumentException("Unexpected accountId $accountId")
         }
     }
 }
