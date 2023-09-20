@@ -3,7 +3,8 @@ plugins {
     id 'com.android.application' version '7.4.2' apply false
     id 'com.android.library' version '7.4.2' apply false
     id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
-    id 'com.google.devtools.ksp' version '1.8.10-1.0.9' apply false
+
+    // Code generation
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.0' apply false
     id 'androidx.navigation.safeargs' version '2.5.1' apply false
 
@@ -17,6 +18,10 @@ plugins {
     id 'io.gitlab.arturbosch.detekt' version '1.23.1' apply false // https://github.com/detekt/detekt
     id 'checkstyle' // https://docs.gradle.org/current/userguide/checkstyle_plugin.html
     id 'se.bjurr.violations.violations-gradle-plugin' version '1.52.6' apply false // https://github.com/tomasbjerre/violations-gradle-plugin/
+
+    // Tools
+    id 'io.github.jmatsu.license-list' version '0.8.1' apply false // https://github.com/jmatsu/license-list-plugin
+    id 'com.google.devtools.ksp' version '1.8.10-1.0.9' apply false
 }
 
 allprojects {

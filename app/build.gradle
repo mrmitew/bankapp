@@ -4,6 +4,7 @@ plugins {
     id 'com.google.devtools.ksp'
     id 'androidx.navigation.safeargs.kotlin'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'io.github.jmatsu.license-list'
 }
 
 android {
@@ -83,6 +84,66 @@ android {
         }
     }
 
+    /**
+     * The basic management cycle is the below:
+     *
+     * 1. Run ./gradlew validate<Variant>LicenseList
+     * 2. Run merge<Variant>LicenseList to reflect the current artifacts if failed.
+     * 3. Run ./gradlew inspect<Variant>LicenseList
+     * 4. Modify artifact-definition.yml based on the inspection report above.
+     * - You may want to modify .artifactignore to exclude several artifacts.
+     * - If so, please go to Step2 after updating .artifactignore to reflect the ignore configurations.
+     * 5. And also, modify license-catalog.yml as well.
+     * 6. Go back to Step1 until no issue is found.
+     */
+    licenseList {
+        defaultVariant = "release"
+
+        // The filter pattern used for ignore feature (regex|glob). regex is default.
+        ignoreFormat = "regex"
+
+        variants {
+            // you can declare the configuration for each variants
+            create("release") {
+                // A directory that contains artifact-definition.yml, license-catalog.yml and .artifactignore
+                baseDir = file("../licenses/")
+
+                // options for the management file
+                assembly {
+                    // management file format (json|yaml)
+                    format = "yaml"
+
+                    // the style of the managed content (structured|flatten)
+                    style = "structured"
+
+                    // whether or not artifacts are grouped by scopes like `implementation`
+                    groupByScopes = true
+
+                    // Rarely used. See Tips/Custom configurations
+                    // optional
+//                    additionalScopes += setOf("customImplConfiguration")
+
+                    // Rarely used. See Tips/WearApp
+                    // optional
+//                    targetConfigurations += setOf("wearApp")
+                }
+
+                // options for the report file html|json
+                visualization {
+                    format = "html" // html by default
+
+                    // the embedded template will be used by default
+//                    htmlTemplateDir = file("</where/plugin/find/for/html-template>")
+
+                    // To support free maker's breaking changes. rarely used.
+//                    freeMakerVersion = "<version string>"
+
+                    // `<variant>/assets` is the default location
+//                    outputDir = file("</where/plugin/generate/file/to>")
+                }
+            }
+        }
+    }
 }
 
 dependencies {
